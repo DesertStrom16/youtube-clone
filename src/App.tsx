@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { MantineProvider } from "@mantine/core";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
+import Home from "./components/Home";
+import SearchResults from "./components/SearchResults";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <MantineProvider withGlobalStyles withNormalizeCSS>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/search-results" element={<SearchResults />} />
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </MantineProvider>
+    </Provider>
   );
 }
 
