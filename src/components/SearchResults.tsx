@@ -1,6 +1,5 @@
 import {useAppDispatch, useAppSelector} from '../app/hooks';
-import {setControllers, setLoading} from '../store/data/dataSlice';
-// import {fetchControllers} from '../helper/API';
+import {setVideos, setLoading} from '../store/data/dataSlice';
 
 type Props = {};
 

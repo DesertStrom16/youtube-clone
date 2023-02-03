@@ -1,31 +1,23 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import Controller from '../../models/controller';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import Video from "../../models/video";
+import { testData } from "../../utils/dummyData";
 
 type DataState = {
-  controllers: Controller[];
+  videos: Video[];
   loading: boolean;
 };
 
-const testData: Controller = {
-  marketUrl: 'http://url.com/',
-  currentStatus: 'running',
-  intendedStatus: 'none',
-  name: 'P250 Valence',
-  tolerance: 0.000123,
-  uid: '123456789',
-};
-
 const initialState: DataState = {
-  controllers: [testData],
+  videos: testData,
   loading: false,
 };
 
 export const dataSlice = createSlice({
-  name: 'data',
+  name: "data",
   initialState,
   reducers: {
-    setControllers: (state, action: PayloadAction<Controller[]>) => {
-      state.controllers = action.payload;
+    setVideos: (state, action: PayloadAction<Video[]>) => {
+      state.videos = action.payload;
       state.loading = false;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
@@ -34,6 +26,6 @@ export const dataSlice = createSlice({
   },
 });
 
-export const {setControllers, setLoading} = dataSlice.actions;
+export const { setVideos, setLoading } = dataSlice.actions;
 
 export default dataSlice.reducer;
