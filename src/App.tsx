@@ -1,6 +1,6 @@
 import "./App.css";
 import { MantineProvider } from "@mantine/core";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import Home from "./components/Home";

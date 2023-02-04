@@ -1,10 +1,21 @@
-import { Box, Button, Flex, Title, Drawer } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Flex,
+  Title,
+  Drawer,
+  Anchor,
+  Text,
+  ScrollArea,
+} from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setVideos, setLoading } from "../store/data/dataSlice";
 import { fetchVideos } from "../utils/API";
-import { IconMenu2 } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
-import { useMediaQuery, useViewportSize } from "@mantine/hooks";
+import { useMediaQuery } from "@mantine/hooks";
+import { IconHome, IconVideo } from "@tabler/icons-react";
+import Navbar from "./Navbar";
+import DrawerItem from "./DrawerItem";
 
 export default function Home(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -13,14 +24,13 @@ export default function Home(): JSX.Element {
   const [isOpen, setIsOpen] = useState(true);
   const [isDrawer, setIsDrawer] = useState(false);
 
-  const { width } = useViewportSize();
   const matches = useMediaQuery("(max-width: 1200px)");
 
   useEffect(() => {
-    if (width > 1200) {
+    if (!matches) {
       setIsDrawer(false);
     }
-  }, [width]);
+  }, [matches]);
 
   const fetchVideosHandler = async () => {
     dispatch(setLoading(true));
@@ -35,31 +45,6 @@ export default function Home(): JSX.Element {
       dispatch(setLoading(false));
     }
   };
-
-  const menuClickHandler = () => {
-    if (matches) {
-      setIsDrawer(!isDrawer);
-    } else {
-      setIsOpen(!isOpen);
-    }
-  };
-
-  const menuButtonStyles = () => ({
-    root: {
-      border: 0,
-      paddingLeft: 0,
-      paddingRight: 0,
-      width: 40,
-      height: 40,
-      borderRadius: 20,
-      marginRight: 14,
-
-      "&:hover": {
-        border: 0,
-        backgroundColor: "rgba(255,255,255,.1)",
-      },
-    },
-  });
 
   return (
     <Flex bg="#0f0f0f" mih="100vh" direction="column">
@@ -78,24 +63,56 @@ export default function Home(): JSX.Element {
         </Drawer>
       )}
 
-      <Flex bg="blue" w="100%" h="56px" px="16px" align="center">
-        <Button styles={menuButtonStyles} onClick={menuClickHandler}>
-          <IconMenu2 size={24} />
-        </Button>
-        <Title size="h3" color="#FFFFFF" lh="normal">
-          YT-Clone
-        </Title>
-      </Flex>
+      <Navbar
+        setIsDrawer={setIsDrawer}
+        setIsOpen={setIsOpen}
+        isDrawer={isDrawer}
+        isOpen={isOpen}
+        matches={matches}
+      />
 
       <Flex>
         <Flex
           miw={{ base: "0px", sm: "72px", lg: isOpen ? "240px" : "72px" }}
           w={{ base: "0px" }}
-          h="500px"
+          h="700px"
           bg="blue"
-        ></Flex>
+        >
+          <ScrollArea
+            style={{ height: "100%", width: "100%" }}
+            scrollHideDelay={0}
+            offsetScrollbars={true}
+            styles={() => ({
+              scrollbar: {
+                "&, &:hover": {
+                  background: "transparent",
+                },
+                "&:hover > .mantine-ScrollArea-thumb": {
+                  background: "#717171",
+                },
+              },
+              thumb: {
+                background: "#717171",
+              },
+            })}
+          >
+            <Flex w="100%" h="1200px" direction="column">
+              <Flex
+                w="100%"
+                direction="column"
+                p="12px"
+                sx={{
+                  borderBottom: "1px solid rgba(255,255,255,.2)",
+                }}
+              >
+                <DrawerItem text="Home" activeUrl='/' icon={<IconHome size={24} />} />
+                <DrawerItem text="Shorts" activeUrl='/search-results' icon={<IconVideo size={24} />} />
+              </Flex>
+            </Flex>
+          </ScrollArea>
+        </Flex>
 
-        <Flex w="100%" h="500px" bg="green"></Flex>
+        <Flex w="100%" h="700px" bg="green"></Flex>
       </Flex>
     </Flex>
   );
