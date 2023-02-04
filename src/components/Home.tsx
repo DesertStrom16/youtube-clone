@@ -4,7 +4,6 @@ import {
   Flex,
   Title,
   Drawer,
-  Anchor,
   Text,
   ScrollArea,
 } from "@mantine/core";
@@ -73,15 +72,16 @@ export default function Home(): JSX.Element {
 
       <Flex>
         <Flex
-          miw={{ base: "0px", sm: "72px", lg: isOpen ? "240px" : "72px" }}
-          w={{ base: "0px" }}
+          // miw={{ base: "0px", sm: "72px", lg: isOpen ? "240px" : "72px" }}
+          // w={{ base: "0px" }}
           h="700px"
           bg="blue"
         >
           <ScrollArea
             style={{ height: "100%", width: "100%" }}
             scrollHideDelay={0}
-            offsetScrollbars={true}
+            offsetScrollbars={isOpen ? true : false}
+            type={isOpen ? 'hover' : 'never'}
             styles={() => ({
               scrollbar: {
                 "&, &:hover": {
@@ -96,7 +96,13 @@ export default function Home(): JSX.Element {
               },
             })}
           >
-            <Flex w="100%" h="1200px" direction="column">
+            <Flex
+              miw={{ base: "0px", sm: "72px", lg: isOpen ? "228px" : "72px" }}
+              w={{ base: "0px" }}
+              // Temporary!
+              h={isOpen ? "1200px" : undefined}
+              direction="column"
+            >
               <Flex
                 w="100%"
                 direction="column"
@@ -105,8 +111,12 @@ export default function Home(): JSX.Element {
                   borderBottom: "1px solid rgba(255,255,255,.2)",
                 }}
               >
-                <DrawerItem text="Home" activeUrl='/' icon={<IconHome size={24} />} />
-                <DrawerItem text="Shorts" activeUrl='/search-results' icon={<IconVideo size={24} />} />
+                <DrawerItem text="Home" url="/" icon={<IconHome size={24} />} />
+                <DrawerItem
+                  text="Shorts"
+                  url="/search-results"
+                  icon={<IconVideo size={24} />}
+                />
               </Flex>
             </Flex>
           </ScrollArea>
