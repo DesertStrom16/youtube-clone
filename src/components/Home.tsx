@@ -4,11 +4,11 @@ import { setVideos, setLoading } from "../store/data/dataSlice";
 import { fetchVideos } from "../utils/API";
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconHome, IconVideo } from "@tabler/icons-react";
 import Navbar from "./Navbar";
-import DrawerItem from "./DrawerItem";
 import Drawer from "./Drawer";
 import MiniDrawer from "./MiniDrawer";
+
+// type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
 export default function Home(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -40,36 +40,25 @@ export default function Home(): JSX.Element {
       dispatch(setLoading(false));
     }
   };
-  console.log(isOpen)
-  return (
-    <Flex bg="#0f0f0f" mih="100vh" direction="column">
-      <Navbar
-        setIsDrawer={setIsDrawer}
-        setIsSmall={setIsSmall}
-        setIsOpen={setIsOpen}
-        isDrawer={isDrawer}
-        isOpen={isOpen}
-        matches={matches}
-      />
 
-      <Flex sx={{position: 'relative'}}>
-        <Drawer isOpen={isOpen} isDrawer={isDrawer} isSmall={isSmall} />
-        <Flex w="100%" h="700px" bg="green"></Flex>
+  const menuClickHandler = () => {
+    if (!matches) {
+      setIsDrawer(!isDrawer);
+      setIsSmall(true);
+    } else {
+      setIsOpen(!isOpen);
+    }
+  };
+
+  return (
+    <Flex bg="#0f0f0f" mih="100vh" direction="column" pos="relative">
+      <Navbar menuClickHandler={menuClickHandler} />
+
+      <Flex>
+        <MiniDrawer isOpen={isOpen} />
+        <Drawer menuClickHandler={menuClickHandler} isOpen={isOpen} isDrawer={isDrawer} isSmall={isSmall} />
+        <Flex pl={{base: 0, lg: isOpen ? 240 : 0}} w="100%" h="700px" bg="green"><Flex w='100%' bg='pink'></Flex></Flex>
       </Flex>
     </Flex>
   );
 }
-
-// {!matches && (
-//   <Drawer
-//     opened={isDrawer}
-//     onClose={() => {
-//       setIsDrawer(false);
-//     }}
-//     transitionDuration={isDrawer ? 300 : !matches ? 300 : 0}
-//     title="Menu Drawer"
-//     size={240}
-//   >
-//     {/* Drawer content */}
-//   </Drawer>
-// )}

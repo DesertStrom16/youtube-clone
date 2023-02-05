@@ -4,34 +4,48 @@ import { setVideos, setLoading } from "../store/data/dataSlice";
 import { fetchVideos } from "../utils/API";
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconHome, IconVideo } from "@tabler/icons-react";
-import Navbar from "./Navbar";
+import { IconFile, IconHome, IconVideo } from "@tabler/icons-react";
 import DrawerItem from "./DrawerItem";
+import ItemWrapper from "./ItemWrapper";
+import NavbarLeft from "./NavbarLeft";
 
 type Props = {
   isOpen: boolean;
   isDrawer: boolean;
   isSmall: boolean;
+  menuClickHandler: () => void;
 };
 
-export default function Drawer({ isOpen, isDrawer, isSmall }: Props): JSX.Element {
+export default function Drawer({
+  isOpen,
+  isDrawer,
+  isSmall,
+  menuClickHandler,
+}: Props): JSX.Element {
   const matches = useMediaQuery("(min-width: 1200px)");
 
   return (
     <Flex
-      h="700px"
-      bg="blue"
+      h="100%"
+      bg="yellow"
       pos="absolute"
       top={0}
       bottom={0}
       left={0}
+      direction="column"
       sx={{
         transitionDuration: matches ? "0ms" : isSmall ? "200ms" : "0ms",
-        transform: isDrawer || (isOpen && matches)
-          ? "translate3d(0,0,0)"
-          : "translate3d(-100%,0,0)",
+        transform:
+          isDrawer || (isOpen && matches)
+            ? "translate3d(0,0,0)"
+            : "translate3d(-100%,0,0)",
       }}
     >
+      <NavbarLeft
+        bg="red"
+        display={{base: 'flex', lg: 'none'}}
+        menuClickHandler={menuClickHandler}
+      />
       <ScrollArea
         style={{ height: "100%", width: "100%" }}
         scrollHideDelay={0}
@@ -52,23 +66,23 @@ export default function Drawer({ isOpen, isDrawer, isSmall }: Props): JSX.Elemen
       >
         <Flex
           w="228px"
-          // 1200px Temporary!
+          // FIXME: 1200px Temporary!
           h="1200px"
           direction="column"
         >
-          <Flex
-            w="100%"
-            direction="column"
-            p="12px"
-            sx={{ borderBottom: "1px solid rgba(255,255,255,.2)" }}
-          >
+          <ItemWrapper>
             <DrawerItem text="Home" url="/" icon={<IconHome size={24} />} />
             <DrawerItem
               text="Shorts"
               url="/search-results"
               icon={<IconVideo size={24} />}
             />
-          </Flex>
+            <DrawerItem
+              text="Subscriptions"
+              url="/subscriptions"
+              icon={<IconFile size={24} />}
+            />
+          </ItemWrapper>
         </Flex>
       </ScrollArea>
     </Flex>
