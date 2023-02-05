@@ -5,6 +5,7 @@ type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
 type Props = {
   setIsDrawer: SetState;
+  setIsSmall: SetState;
   setIsOpen: SetState;
   isDrawer: boolean;
   isOpen: boolean;
@@ -12,10 +13,11 @@ type Props = {
 };
 
 export default function Navbar(props: Props): JSX.Element {
-  const { setIsDrawer, setIsOpen, isDrawer, isOpen, matches } = props;
+  const { setIsDrawer, setIsOpen, setIsSmall, isDrawer, isOpen, matches } = props;
   const menuClickHandler = () => {
-    if (matches) {
+    if (!matches) {
       setIsDrawer(!isDrawer);
+      setIsSmall(true);
     } else {
       setIsOpen(!isOpen);
     }

@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Title,
-  Drawer,
-  Text,
-  ScrollArea,
-} from "@mantine/core";
+import { Box, Button, Flex, Title, Text, ScrollArea } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setVideos, setLoading } from "../store/data/dataSlice";
 import { fetchVideos } from "../utils/API";
@@ -15,6 +7,8 @@ import { useMediaQuery } from "@mantine/hooks";
 import { IconHome, IconVideo } from "@tabler/icons-react";
 import Navbar from "./Navbar";
 import DrawerItem from "./DrawerItem";
+import Drawer from "./Drawer";
+import MiniDrawer from "./MiniDrawer";
 
 export default function Home(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -22,12 +16,14 @@ export default function Home(): JSX.Element {
   const loading = useAppSelector((state) => state.data.loading);
   const [isOpen, setIsOpen] = useState(true);
   const [isDrawer, setIsDrawer] = useState(false);
+  const [isSmall, setIsSmall] = useState(false);
 
-  const matches = useMediaQuery("(max-width: 1200px)");
+  const matches = useMediaQuery("(min-width: 1200px)");
 
   useEffect(() => {
-    if (!matches) {
+    if (matches) {
       setIsDrawer(false);
+      setIsSmall(false);
     }
   }, [matches]);
 
@@ -44,86 +40,36 @@ export default function Home(): JSX.Element {
       dispatch(setLoading(false));
     }
   };
-
+  console.log(isOpen)
   return (
     <Flex bg="#0f0f0f" mih="100vh" direction="column">
-      {matches && (
-        <Drawer
-          opened={isDrawer}
-          onClose={() => {
-            setIsDrawer(false);
-          }}
-          transitionDuration={isDrawer ? 300 : matches ? 300 : 0}
-          title="Register"
-          padding="xl"
-          size="xl"
-        >
-          {/* Drawer content */}
-        </Drawer>
-      )}
-
       <Navbar
         setIsDrawer={setIsDrawer}
+        setIsSmall={setIsSmall}
         setIsOpen={setIsOpen}
         isDrawer={isDrawer}
         isOpen={isOpen}
         matches={matches}
       />
 
-      <Flex>
-        <Flex
-          // miw={{ base: "0px", sm: "72px", lg: isOpen ? "240px" : "72px" }}
-          // w={{ base: "0px" }}
-          h="700px"
-          bg="blue"
-        >
-          <ScrollArea
-            style={{ height: "100%", width: "100%" }}
-            scrollHideDelay={0}
-            offsetScrollbars={isOpen ? true : false}
-            type={isOpen ? 'hover' : 'never'}
-            styles={() => ({
-              scrollbar: {
-                "&, &:hover": {
-                  background: "transparent",
-                },
-                "&:hover > .mantine-ScrollArea-thumb": {
-                  background: "#717171",
-                },
-              },
-              thumb: {
-                background: "#717171",
-              },
-            })}
-          >
-            <Flex
-              miw={{ base: "0px", sm: "72px", lg: isOpen ? "228px" : "72px" }}
-              w={{ base: "0px" }}
-              // Temporary!
-              h={isOpen ? "1200px" : undefined}
-              direction="column"
-            >
-              <Flex
-                w="100%"
-                direction="column"
-                p="12px"
-                sx={{
-                  borderBottom: "1px solid rgba(255,255,255,.2)",
-                }}
-              >
-                <DrawerItem text="Home" url="/" icon={<IconHome size={24} />} />
-                <DrawerItem
-                  text="Shorts"
-                  url="/search-results"
-                  icon={<IconVideo size={24} />}
-                />
-              </Flex>
-            </Flex>
-          </ScrollArea>
-        </Flex>
-
+      <Flex sx={{position: 'relative'}}>
+        <Drawer isOpen={isOpen} isDrawer={isDrawer} isSmall={isSmall} />
         <Flex w="100%" h="700px" bg="green"></Flex>
       </Flex>
     </Flex>
   );
 }
+
+// {!matches && (
+//   <Drawer
+//     opened={isDrawer}
+//     onClose={() => {
+//       setIsDrawer(false);
+//     }}
+//     transitionDuration={isDrawer ? 300 : !matches ? 300 : 0}
+//     title="Menu Drawer"
+//     size={240}
+//   >
+//     {/* Drawer content */}
+//   </Drawer>
+// )}

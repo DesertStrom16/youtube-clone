@@ -10,8 +10,7 @@ type Props = {
   icon: JSX.Element;
 };
 
-// Unsure on :active styling, may revert back to mantine
-export default function DrawerItem({
+export default function MiniDrawerItem({
   text,
   icon,
   url,
@@ -19,10 +18,7 @@ export default function DrawerItem({
   let match = useMatch(url);
   return (
     <Box
-      h="40px"
       sx={{
-        /* Active Link */
-        backgroundColor: match ? "rgba(255,255,255,.1)" : "transparent",
         borderRadius: "10px",
       }}
     >
@@ -51,14 +47,30 @@ export default function DrawerItem({
         <Flex
           w="100%"
           h="100%"
-          px="12px"
-          direction="row"
-          justify="flex-start"
+          px='0px'
+          pt='16px'
+          pb='14px'
+          direction='column'
+          justify='center'
           align="center"
           bg="transparent"
         >
-          {icon}
-          <Text fz={14} fw={600} ml={24} color="#FFFFFF">
+          <Flex
+            sx={{
+              "& > svg": {
+                fill: match ? "#FFFFFF" : "transparent",
+              },
+            }}
+          >
+            {icon}
+          </Flex>
+
+          <Text
+            fz={10}
+            fw={400}
+            mt={6}
+            color="#FFFFFF"
+          >
             {text}
           </Text>
         </Flex>
