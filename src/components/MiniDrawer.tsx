@@ -9,7 +9,7 @@ type Props = {
 export default function MiniDrawer({ isOpen }: Props): JSX.Element {
   return (
     <Box
-      h="700px"
+      h="100%"
       bg="blue"
       display={{ base: "none", sm: "flex", lg: isOpen ? "none" : "flex" }}
     >

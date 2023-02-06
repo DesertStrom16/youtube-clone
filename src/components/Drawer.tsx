@@ -1,9 +1,4 @@
-import { Box, Button, Flex, Title, Text, ScrollArea } from "@mantine/core";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { setVideos, setLoading } from "../store/data/dataSlice";
-import { fetchVideos } from "../utils/API";
-import { useState, useEffect } from "react";
-import { useMediaQuery } from "@mantine/hooks";
+import { Box, Flex, ScrollArea } from "@mantine/core";
 import { IconFile, IconHome, IconVideo } from "@tabler/icons-react";
 import DrawerItem from "./DrawerItem";
 import ItemWrapper from "./ItemWrapper";
@@ -22,8 +17,6 @@ export default function Drawer({
   isSmall,
   menuClickHandler,
 }: Props): JSX.Element {
-  const matches = useMediaQuery("(min-width: 1200px)");
-
   return (
     <Flex>
       <Box
@@ -34,6 +27,7 @@ export default function Drawer({
         bg="rgba(0,0,0,0.5)"
         w="100%"
         h="100%"
+        onClick={menuClickHandler}
         sx={{
           visibility: isDrawer ? "visible" : "hidden",
           opacity: isDrawer ? 1 : 0,

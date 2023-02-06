@@ -51,13 +51,25 @@ export default function Home(): JSX.Element {
   };
 
   return (
-    <Flex bg="#0f0f0f" mih="100vh" direction="column" pos="relative">
+    <Flex bg="#0f0f0f" mih="100vh" h="100vh" direction="column" pos="relative">
       <Navbar menuClickHandler={menuClickHandler} />
 
-      <Flex>
+      <Flex h="100%">
         <MiniDrawer isOpen={isOpen} />
-        <Drawer menuClickHandler={menuClickHandler} isOpen={isOpen} isDrawer={isDrawer} isSmall={isSmall} />
-        <Flex pl={{base: 0, lg: isOpen ? 240 : 0}} w="100%" h="700px" bg="green"><Flex w='100%' bg='pink'></Flex></Flex>
+        <Drawer
+          menuClickHandler={menuClickHandler}
+          isOpen={isOpen}
+          isDrawer={isDrawer}
+          isSmall={isSmall}
+        />
+        <Flex
+          pl={{ base: 0, lg: isOpen ? 240 : 0 }}
+          w="100%"
+          h="100%"
+          bg="green"
+        >
+         
+        </Flex>
       </Flex>
     </Flex>
   );
