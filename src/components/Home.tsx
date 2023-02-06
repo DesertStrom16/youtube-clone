@@ -7,6 +7,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import Navbar from "./Navbar";
 import Drawer from "./Drawer";
 import MiniDrawer from "./MiniDrawer";
+import GridRow from "./GridRow";
 
 // type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -64,11 +65,12 @@ export default function Home(): JSX.Element {
         />
         <Flex
           pl={{ base: 0, lg: isOpen ? 240 : 0 }}
+          pt={24}
           w="100%"
           h="100%"
           bg="green"
         >
-         
+         <GridRow />
         </Flex>
       </Flex>
     </Flex>
