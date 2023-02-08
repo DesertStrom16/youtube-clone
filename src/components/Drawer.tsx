@@ -29,11 +29,12 @@ export default function Drawer({
         h="100%"
         onClick={menuClickHandler}
         sx={{
+          zIndex: 1,
           visibility: isDrawer ? "visible" : "hidden",
           opacity: isDrawer ? 1 : 0,
           transitionDuration: isSmall ? "200ms" : "0ms",
 
-          "@media (min-width: 1200px)": {
+          "@media (min-width: 1300px)": {
             visibility: "hidden",
             opacity: 0,
             transitionDuration: "0ms",
@@ -49,10 +50,11 @@ export default function Drawer({
         left={0}
         direction="column"
         sx={{
+          zIndex: 1,
           transitionDuration: isSmall ? "200ms" : "0ms",
           transform: isDrawer ? "translate3d(0,0,0)" : "translate3d(-100%,0,0)",
 
-          "@media (min-width: 1200px)": {
+          "@media (min-width: 1300px)": {
             transitionDuration: "0ms",
             transform: isOpen ? "translate3d(0,0,0)" : "translate3d(-100%,0,0)",
           },

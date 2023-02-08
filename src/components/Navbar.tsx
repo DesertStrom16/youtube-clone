@@ -17,7 +17,7 @@ export default function Navbar(props: Props): JSX.Element {
       pr="16px"
       sx={{
         zIndex: 0,
-        "@media (min-width: 1200px)": {
+        "@media (min-width: 1300px)": {
           zIndex: 99,
         },
       }}

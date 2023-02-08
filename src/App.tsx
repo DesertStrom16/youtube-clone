@@ -10,7 +10,15 @@ import NotFound from "./components/NotFound";
 function App() {
   return (
     <Provider store={store}>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
+      <MantineProvider withGlobalStyles withNormalizeCSS theme={{
+        breakpoints: {
+          xs: 576,
+          sm: 792,
+          md: 992,
+          lg: 1300,
+          xl: 1400,
+        },
+      }}>
         <BrowserRouter>
           <Routes>
             <Route path="/search-results" element={<SearchResults />} />
