@@ -12,10 +12,10 @@ export default function Navbar(props: Props): JSX.Element {
   return (
     <Flex
       bg="blue"
-      w="100%"
+      w="calc(100% - 12px)"
       h="56px"
       pr="16px"
-      pos='fixed'
+      pos="fixed"
       top={0}
       left={0}
       right={0}

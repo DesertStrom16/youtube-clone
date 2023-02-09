@@ -44,7 +44,7 @@ export default function Drawer({
       <Flex
         h="100%"
         bg="yellow"
-        pos="absolute"
+        pos="fixed"
         top={0}
         bottom={0}
         left={0}
