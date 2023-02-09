@@ -52,14 +52,8 @@ export default function Home(): JSX.Element {
   };
 
   return (
-    <Flex
-      bg="#0f0f0f"
-      mih="100vh"
-      h="100vh"
-      maw="100vw"
-      direction="column"
-      pos="relative"
-    >
+    <Flex bg="#0f0f0f" mih="100vh" h="100vh" maw="100vw">
+      <Flex w="100%" h="100%" direction="column" pos="relative">
       <Navbar menuClickHandler={menuClickHandler} />
 
       <Flex h="100%">
@@ -71,30 +65,35 @@ export default function Home(): JSX.Element {
           isSmall={isSmall}
         />
         <Flex
-          pl={{ base: 0, lg: isOpen ? 240 : 0 }}
           pt={24}
+          mt={56}
+          ml={{ base: 0, sm: 72, lg: isOpen ? 240 : 72 }}
           w="100%"
           h="100%"
-          bg="green"
+          bg="pink"
           justify="center"
-          sx={{
-            overflow: "visible",
-
-            "@media (max-width: 600px)": {
-              overflow: "hidden",
-            },
-          }}
+          sx={
+            {
+              overflowX: "visible",
+              // overflowY: "scroll",
+              
+              "@media (max-width: 600px)": {
+                overflowX: "clip",
+              },
+            }
+          }
         >
           <Flex
             bg="red"
             w="100%"
+            h="fit-content"
             wrap="wrap"
-            // Removes side margins to fit more on small screens
             sx={{
               maxWidth: "calc(320px + 16px)",
               justifyContent: "center",
 
               "@media (max-width: 600px)": {
+                // Removes side margins to fit more on small screens
                 margin: "0 -8px",
                 width: "calc(100% + 16px)",
               },
@@ -116,8 +115,11 @@ export default function Home(): JSX.Element {
               })`]: {
                 maxWidth: "calc((360px + 16px) * 4)",
               },
-              [`@media (min-width: ${isOpen ? "1868px" : "1800px"})`]: {
+              [`@media (min-width: ${isOpen ? "1968px" : "1800px"})`]: {
                 maxWidth: "calc((360px + 16px) * 5)",
+              },
+              [`@media (min-width: ${isOpen ? "2303px" : "2135px"})`]: {
+                maxWidth: "calc((360px + 16px) * 6)",
               },
             }}
           >
@@ -130,6 +132,6 @@ export default function Home(): JSX.Element {
           </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </Flex></Flex>
   );
 }

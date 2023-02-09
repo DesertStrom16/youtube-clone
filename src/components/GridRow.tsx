@@ -36,7 +36,10 @@ export default function GridRow({ isOpen }: Props): JSX.Element {
         // So 1800px + (240 - 72);
         // That'll dictate 4 vs 5 items without a ton of logic
         [`@media (min-width: ${isOpen ? "1968px" : "1800px"})`]: {
-          width: "calc((100% / 5) - 16px)",
+          width: "calc(20% - 16px)",
+        },
+        [`@media (min-width: ${isOpen ? "2303px" : "2135px"})`]: {
+          width: "calc((100% / 6) - 16px)",
         },
       }}
       mb={40}

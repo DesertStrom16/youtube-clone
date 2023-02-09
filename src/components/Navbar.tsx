@@ -15,10 +15,15 @@ export default function Navbar(props: Props): JSX.Element {
       w="100%"
       h="56px"
       pr="16px"
+      pos='fixed'
+      top={0}
+      left={0}
+      right={0}
+      bottom={0}
       sx={{
-        zIndex: 0,
+        zIndex: 2000,
         "@media (min-width: 1300px)": {
-          zIndex: 99,
+          zIndex: 2099,
         },
       }}
     >
