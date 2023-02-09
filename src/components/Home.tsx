@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Title, Text, ScrollArea } from "@mantine/core";
+import { Box, Button, Flex } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setVideos, setLoading } from "../store/data/dataSlice";
 import { fetchVideos } from "../utils/API";
@@ -7,7 +7,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import Navbar from "./Navbar";
 import Drawer from "./Drawer";
 import MiniDrawer from "./MiniDrawer";
-import GridRow from "./GridRow";
+import GridItem from "./GridItem";
 
 // type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -127,7 +127,7 @@ export default function Home(): JSX.Element {
               1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
               20,
             ].map(() => (
-              <GridRow isOpen={isOpen} />
+              <GridItem isOpen={isOpen} />
             ))}
           </Flex>
         </Flex>

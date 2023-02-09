@@ -1,7 +1,7 @@
-import { Box, Button, Flex, Text } from "@mantine/core";
+import { Box, Button, Flex, Text, UnstyledButton } from "@mantine/core";
 import IconWrapper from "./IconWrapper";
 import NavButton from "./NavButton";
-import "./GridRow.css";
+import "./GridItem.css";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -10,11 +10,12 @@ type Props = {
 };
 
 // Unsure on :active styling, may revert back to mantine
-export default function GridRow({ isOpen }: Props): JSX.Element {
+export default function GridItem({ isOpen }: Props): JSX.Element {
   return (
     <Flex
       h="fit-content"
       w="calc(100% - 16px)"
+      direction="column"
       maw={320}
       sx={{
         "@media (min-width: 512px)": {
@@ -56,6 +57,51 @@ export default function GridRow({ isOpen }: Props): JSX.Element {
           bg="orange"
         ></Flex>
       </div>
+      <Flex
+        direction="row"
+        sx={{
+          margin: "0px 12px",
+          cursor: "pointer",
+          "@media (min-width: 392px)": {
+            margin: 0,
+          },
+        }}
+      >
+        <UnstyledButton
+          component="a"
+          href={""}
+          h={36}
+          mt={12}
+          mr={12}
+          display="inline-block"
+          sx={{ cursor: "pointer" }}
+        >
+          <Box
+            bg="rgba(0,0,0,0.1)"
+            w={36}
+            h={36}
+            sx={{ overflow: "hidden", borderRadius: "50%" }}
+          ></Box>
+        </UnstyledButton>
+        <Text
+          sx={{
+            fontFamily: "Roboto, Arial, sans-serif",
+            fontSize: 14,
+            lineHeight: "2rem",
+            maxHeight: "4rem",
+
+            "@media (min-width: 1464px)": {
+              fontSize: 16,
+              lineHeight: "2.2rem",
+              maxHeight: "4.4rem",
+            },
+          }}
+          lineClamp={2}
+          fw={500}
+        >
+          Test Title Here and It Happens To Overflow like this
+        </Text>
+      </Flex>
     </Flex>
   );
 }
