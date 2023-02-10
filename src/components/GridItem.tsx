@@ -2,15 +2,25 @@ import { Box, Button, Flex, Text, UnstyledButton } from "@mantine/core";
 import IconWrapper from "./IconWrapper";
 import NavButton from "./NavButton";
 import "./GridItem.css";
+import Video from "../models/video";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
-type Props = {
+type Props = Video & {
   isOpen: boolean;
 };
 
 // Unsure on :active styling, may revert back to mantine
-export default function GridItem({ isOpen }: Props): JSX.Element {
+export default function GridItem({
+  isOpen,
+  title,
+  avatarUrl,
+  channel,
+  thumbnailUrl,
+  uploadDate,
+  videoUrl,
+  viewCount,
+}: Props): JSX.Element {
   return (
     <Flex
       h="fit-content"
@@ -32,7 +42,6 @@ export default function GridItem({ isOpen }: Props): JSX.Element {
         },
         // Sidebar opening in page after 1300px
         // Makes counting # of items in row hard without js
-        // Maybe have a query for 1800px if the drawer is closed
         // If drawer is open then its 1800px + (Drawer - MiniDrawer)
         // So 1800px + (240 - 72);
         // That'll dictate 4 vs 5 items without a ton of logic
@@ -47,7 +56,8 @@ export default function GridItem({ isOpen }: Props): JSX.Element {
       mx={8}
     >
       <div className="image-wrapper">
-        <Flex
+        <Box
+          component="a"
           w="100%"
           h="100%"
           pos="absolute"
@@ -55,7 +65,22 @@ export default function GridItem({ isOpen }: Props): JSX.Element {
           bottom={0}
           left={0}
           bg="orange"
-        ></Flex>
+          href=''
+          sx={{cursor: 'pointer'}}
+        >
+          <img
+            src={thumbnailUrl}
+            width="100%"
+            height="100%"
+            style={{
+              background: "transparent",
+              objectFit: "cover",
+              display: "inline-block",
+              minWidth: "1px",
+              minHeight: "1px",
+            }}
+          />
+        </Box>
       </div>
       <Flex
         direction="row"
@@ -66,11 +91,13 @@ export default function GridItem({ isOpen }: Props): JSX.Element {
             margin: 0,
           },
         }}
+        // Redirect here
+        onClick={() => {}}
       >
-        <UnstyledButton
+        <Box
+          h={36}
           component="a"
           href={""}
-          h={36}
           mt={12}
           mr={12}
           display="inline-block"
@@ -81,26 +108,57 @@ export default function GridItem({ isOpen }: Props): JSX.Element {
             w={36}
             h={36}
             sx={{ overflow: "hidden", borderRadius: "50%" }}
-          ></Box>
-        </UnstyledButton>
-        <Text
-          sx={{
-            fontFamily: "Roboto, Arial, sans-serif",
-            fontSize: 14,
-            lineHeight: "2rem",
-            maxHeight: "4rem",
+          >
+            <img src={avatarUrl} width={36} style={{ overflow: "clip" }} />
+          </Box>
+        </Box>
 
-            "@media (min-width: 1464px)": {
-              fontSize: 16,
-              lineHeight: "2.2rem",
-              maxHeight: "4.4rem",
-            },
-          }}
-          lineClamp={2}
-          fw={500}
-        >
-          Test Title Here and It Happens To Overflow like this
-        </Text>
+        <Flex direction="column" pr={24}>
+          <Text
+            mt={12}
+            mb={4}
+            sx={{
+              fontFamily: "Roboto, Arial, sans-serif",
+              fontSize: 14,
+              lineHeight: "20px",
+              maxHeight: "40px",
+
+              "@media (min-width: 1464px)": {
+                fontSize: 16,
+                lineHeight: "22px",
+                maxHeight: "44px",
+              },
+            }}
+            lineClamp={2}
+            fw={500}
+          >
+            {title}
+          </Text>
+          <Text
+            component="a"
+            href=""
+            fw={400}
+            lh="20px"
+            sx={{ wordBreak: "break-word", fontSize: 14, whiteSpace: "pre" }}
+            color="#606060"
+          >
+            {channel}
+          </Text>
+          <Flex mah="40px">
+            <Text color="#606060" lh="20px" size={14} fw={400}>
+              {viewCount}
+            </Text>
+            <Text
+              className="dateWrapper"
+              color="#606060"
+              lh="20px"
+              size={14}
+              fw={400}
+            >
+              {uploadDate}
+            </Text>
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   );
