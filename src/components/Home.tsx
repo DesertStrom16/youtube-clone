@@ -44,11 +44,9 @@ export default function Home({ isOpen }: Props): JSX.Element {
 
   return (
     <Flex
-      pt={24}
-      mt={56}
-      ml={{ base: 0, sm: 72, lg: isOpen ? 240 : 72 }}
       w="100%"
       h="fit-content"
+      mt={24}
       bg="pink"
       justify="center"
       sx={{

@@ -9,6 +9,7 @@ import NotFound from "./components/NotFound";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import AppBar from "./components/AppBar";
+import VideoScreen from "./components/VideoScreen";
 
 function App() {
   const [isOpen, setIsOpen] = useState(true);
@@ -57,6 +58,7 @@ function App() {
           >
             <Routes>
               <Route path="/search-results" element={<SearchResults />} />
+              <Route path="/watch/:id" element={<VideoScreen />} />
               <Route path="/" element={<Home isOpen={isOpen} />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

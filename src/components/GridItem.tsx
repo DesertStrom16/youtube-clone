@@ -18,7 +18,7 @@ export default function GridItem({
   channel,
   thumbnailUrl,
   uploadDate,
-  videoUrl,
+  videoId,
   viewCount,
 }: Props): JSX.Element {
   return (
@@ -65,7 +65,7 @@ export default function GridItem({
           bottom={0}
           left={0}
           bg="orange"
-          href=''
+          href={`/watch/${videoId}`}
           sx={{cursor: 'pointer'}}
         >
           <img

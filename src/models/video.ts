@@ -3,7 +3,7 @@ class Video {
   channel: string;
   viewCount: string;
   uploadDate: string;
-  videoUrl: string;
+  videoId: string;
   thumbnailUrl: string;
   avatarUrl: string;
   channelUrl: string;
@@ -13,7 +13,7 @@ class Video {
     channel: string,
     viewCount: string,
     uploadDate: string,
-    videoUrl: string,
+    videoId: string,
     thumbnailUrl: string,
     avatarUrl: string,
     channelUrl: string
@@ -22,7 +22,7 @@ class Video {
     this.channel = channel;
     this.viewCount = viewCount;
     this.uploadDate = uploadDate;
-    this.videoUrl = videoUrl;
+    this.videoId = videoId;
     this.thumbnailUrl = thumbnailUrl;
     this.avatarUrl = avatarUrl;
     this.channelUrl = channelUrl;

@@ -1,4 +1,5 @@
 import { Box, Button, Flex, Title, ScrollArea } from "@mantine/core";
+import { useMatch } from "react-router-dom";
 import MiniDrawer from "./MiniDrawer";
 import Drawer from "./Drawer";
 import Navbar from "./Navbar";
@@ -17,6 +18,8 @@ export default function AppBar({
   isSmall,
   isDrawer,
 }: Props): JSX.Element {
+  let match = useMatch("/watch/:slug");
+
   return (
     <ScrollArea
       style={{ height: "100%", width: "100%" }}
@@ -61,7 +64,7 @@ export default function AppBar({
           <Navbar menuClickHandler={menuClickHandler} />
 
           <Flex h="100%">
-            <MiniDrawer isOpen={isOpen} />
+            <MiniDrawer isOpen={isOpen} isDisplayed={!match} />
             <Drawer
               menuClickHandler={menuClickHandler}
               isOpen={isOpen}
@@ -69,7 +72,15 @@ export default function AppBar({
               isSmall={isSmall}
             />
 
-            {children}
+            <Flex
+              mt={56}
+              ml={match ? 0 : { base: 0, sm: 72, lg: isOpen ? 240 : 72 }}
+              w="100%"
+              h="fit-content"
+              bg="green"
+            >
+              {children}
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
