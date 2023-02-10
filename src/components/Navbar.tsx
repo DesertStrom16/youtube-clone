@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Title, Drawer } from "@mantine/core";
 import { IconMenu2 } from "@tabler/icons-react";
+import { useMatch } from "react-router-dom";
 import NavbarLeft from "./NavbarLeft";
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
 
 export default function Navbar(props: Props): JSX.Element {
   const { menuClickHandler } = props;
+  let match = useMatch("/watch/:slug");
 
   return (
     <Flex
@@ -22,9 +24,11 @@ export default function Navbar(props: Props): JSX.Element {
       bottom={0}
       sx={{
         zIndex: 2000,
-        "@media (min-width: 1300px)": {
-          zIndex: 2099,
-        },
+        "@media (min-width: 1300px)": match
+          ? {}
+          : {
+              zIndex: 2099,
+            },
       }}
     >
       <NavbarLeft bg="orange" menuClickHandler={menuClickHandler} />

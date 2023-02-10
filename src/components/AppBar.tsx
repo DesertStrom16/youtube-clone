@@ -4,21 +4,38 @@ import MiniDrawer from "./MiniDrawer";
 import Drawer from "./Drawer";
 import Navbar from "./Navbar";
 
+type SetState = React.Dispatch<React.SetStateAction<boolean>>;
+
 type Props = React.PropsWithChildren & {
   isOpen: boolean;
   isSmall: boolean;
   isDrawer: boolean;
-  menuClickHandler: () => void;
+  matches: boolean;
+  setIsDrawer: SetState;
+  setIsSmall: SetState;
+  setIsOpen: SetState;
 };
 
 export default function AppBar({
   children,
-  menuClickHandler,
   isOpen,
   isSmall,
   isDrawer,
+  matches,
+  setIsDrawer,
+  setIsSmall,
+  setIsOpen,
 }: Props): JSX.Element {
   let match = useMatch("/watch/:slug");
+
+  const menuClickHandler = () => {
+    if (!matches || match) {
+      setIsDrawer(!isDrawer);
+      setIsSmall(true);
+    } else {
+      setIsOpen(!isOpen);
+    }
+  };
 
   return (
     <ScrollArea
@@ -53,7 +70,10 @@ export default function AppBar({
         mih="100vh"
         h="100vh"
         maw="100vw"
-        pos={{ base: isDrawer ? "fixed" : "relative", lg: "relative" }}
+        pos={{
+          base: isDrawer ? "fixed" : "relative",
+          lg: isDrawer && match ? "fixed" : "relative",
+        }}
         pr={12}
         top={0}
         left={0}
@@ -67,9 +87,9 @@ export default function AppBar({
             <MiniDrawer isOpen={isOpen} isDisplayed={!match} />
             <Drawer
               menuClickHandler={menuClickHandler}
-              isOpen={isOpen}
+              isOpen={match ? false : isOpen}
               isDrawer={isDrawer}
-              isSmall={isSmall}
+              isSmall={match ? true : isSmall}
             />
 
             <Flex

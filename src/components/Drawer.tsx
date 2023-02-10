@@ -1,5 +1,6 @@
 import { Box, Flex, ScrollArea } from "@mantine/core";
 import { IconFile, IconHome, IconVideo } from "@tabler/icons-react";
+import { useMatch } from "react-router-dom";
 import DrawerItem from "./DrawerItem";
 import ItemWrapper from "./ItemWrapper";
 import NavbarLeft from "./NavbarLeft";
@@ -17,6 +18,8 @@ export default function Drawer({
   isSmall,
   menuClickHandler,
 }: Props): JSX.Element {
+  let match = useMatch("/watch/:slug");
+
   return (
     <Flex>
       <Box
@@ -34,11 +37,13 @@ export default function Drawer({
           opacity: isDrawer ? 1 : 0,
           transitionDuration: isSmall ? "200ms" : "0ms",
 
-          "@media (min-width: 1300px)": {
-            visibility: "hidden",
-            opacity: 0,
-            transitionDuration: "0ms",
-          },
+          "@media (min-width: 1300px)": match
+            ? {}
+            : {
+                visibility: "hidden",
+                opacity: 0,
+                transitionDuration: "0ms",
+              },
         }}
       ></Box>
       <Flex
@@ -54,7 +59,7 @@ export default function Drawer({
           transitionDuration: isSmall ? "200ms" : "0ms",
           transform: isDrawer ? "translate3d(0,0,0)" : "translate3d(-100%,0,0)",
 
-          "@media (min-width: 1300px)": {
+          "@media (min-width: 1300px)": match ? {} : {
             transitionDuration: "0ms",
             transform: isOpen ? "translate3d(0,0,0)" : "translate3d(-100%,0,0)",
           },
@@ -63,7 +68,7 @@ export default function Drawer({
         <Box mih="56px">
           <NavbarLeft
             bg="red"
-            display={{ base: "flex", lg: "none" }}
+            display={{ base: "flex", lg: match ? 'flex' : "none" }}
             menuClickHandler={menuClickHandler}
           />
         </Box>

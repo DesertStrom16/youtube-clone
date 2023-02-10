@@ -25,15 +25,6 @@ function App() {
     }
   }, [matches]);
 
-  const menuClickHandler = () => {
-    if (!matches) {
-      setIsDrawer(!isDrawer);
-      setIsSmall(true);
-    } else {
-      setIsOpen(!isOpen);
-    }
-  };
-
   return (
     <Provider store={store}>
       <MantineProvider
@@ -51,10 +42,13 @@ function App() {
       >
         <BrowserRouter>
           <AppBar
-            menuClickHandler={menuClickHandler}
             isOpen={isOpen}
             isDrawer={isDrawer}
             isSmall={isSmall}
+            matches={matches}
+            setIsOpen={setIsOpen}
+            setIsDrawer={setIsDrawer}
+            setIsSmall={setIsSmall}
           >
             <Routes>
               <Route path="/search-results" element={<SearchResults />} />
