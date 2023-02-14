@@ -6,7 +6,7 @@ class Video {
   videoId: string;
   thumbnailUrl: string;
   avatarUrl: string;
-  channelUrl: string;
+  length: string;
 
   constructor(
     title: string,
@@ -16,7 +16,7 @@ class Video {
     videoId: string,
     thumbnailUrl: string,
     avatarUrl: string,
-    channelUrl: string
+    length: string
   ) {
     this.title = title;
     this.channel = channel;
@@ -25,7 +25,7 @@ class Video {
     this.videoId = videoId;
     this.thumbnailUrl = thumbnailUrl;
     this.avatarUrl = avatarUrl;
-    this.channelUrl = channelUrl;
+    this.length = length;
   }
 }
 

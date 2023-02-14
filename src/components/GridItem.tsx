@@ -20,6 +20,7 @@ export default function GridItem({
   uploadDate,
   videoId,
   viewCount,
+  length,
 }: Props): JSX.Element {
   return (
     <Flex

@@ -8,6 +8,10 @@ import Navbar from "./Navbar";
 import Drawer from "./Drawer";
 import MiniDrawer from "./MiniDrawer";
 import GridItem from "./GridItem";
+import {
+  useGetSearchAutocompleteQuery,
+  useGetSearchQuery,
+} from "../services/search";
 
 // type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -19,6 +23,16 @@ export default function Home({ isOpen }: Props): JSX.Element {
   const dispatch = useAppDispatch();
   const videos = useAppSelector((state) => state.data.videos);
   const loading = useAppSelector((state) => state.data.loading);
+  // const {
+  //   data: autoSearchData,
+  //   isFetching,
+  //   isLoading,
+  // } = useGetSearchAutocompleteQuery("racecar");
+  const { data: searchData } = useGetSearchQuery("racecar");
+
+  if (searchData) {
+    console.log(searchData);
+  }
 
   useEffect(() => {
     fetchVideosHandler();
@@ -29,7 +43,7 @@ export default function Home({ isOpen }: Props): JSX.Element {
 
     try {
       let videos = await fetchVideos();
-      console.log("DONE");
+
       if (videos) {
         dispatch(setVideos(videos));
       }
@@ -37,10 +51,6 @@ export default function Home({ isOpen }: Props): JSX.Element {
       dispatch(setLoading(false));
     }
   };
-
-  const dummyArray = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  ];
 
   return (
     <Flex
@@ -99,7 +109,9 @@ export default function Home({ isOpen }: Props): JSX.Element {
         {loading ? (
           <Text>Loading...</Text>
         ) : (
-          videos.map((video) => <GridItem isOpen={isOpen} {...video} />)
+          videos.map((video) => (
+            <GridItem key={`${video.videoId}`} isOpen={isOpen} {...video} />
+          ))
         )}
       </Flex>
     </Flex>
