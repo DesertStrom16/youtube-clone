@@ -1,0 +1,31 @@
+.thumbnail-wrapper {
+  position: relative;
+  margin-right: 16px;
+  max-width: 360px;
+  min-width: 240px;
+  height: fit-content;
+  display: flex;
+  flex: 1;
+}
+
+.thumbnail-wrapper:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 56.25%;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.view-count-upload-date {
+  display: inline-block;
+  line-height: 18px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #606060;
+}
+
+.view-count-upload-date.with-dot:before {
+  content: "•";
+  margin: 0 4px;
+}

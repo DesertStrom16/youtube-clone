@@ -51,7 +51,7 @@ function App() {
             setIsSmall={setIsSmall}
           >
             <Routes>
-              <Route path="/search-results" element={<SearchResults />} />
+              <Route path="/search/:id" element={<SearchResults />} />
               <Route path="/watch/:id" element={<VideoScreen />} />
               <Route path="/" element={<Home isOpen={isOpen} />} />
               <Route path="*" element={<NotFound />} />

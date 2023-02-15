@@ -2,6 +2,7 @@ import { Box, Button, Flex, Title, Drawer } from "@mantine/core";
 import { IconMenu2 } from "@tabler/icons-react";
 import { useMatch } from "react-router-dom";
 import NavbarLeft from "./NavbarLeft";
+import SearchBar from "./SearchBar";
 
 type Props = {
   menuClickHandler: () => void;
@@ -13,11 +14,13 @@ export default function Navbar(props: Props): JSX.Element {
 
   return (
     <Flex
-      bg="blue"
+      bg="#fff"
+      // bg="blue"
       w="calc(100% - 12px)"
       h="56px"
       pr="16px"
       pos="fixed"
+      align='center'
       top={0}
       left={0}
       right={0}
@@ -32,6 +35,8 @@ export default function Navbar(props: Props): JSX.Element {
       }}
     >
       <NavbarLeft bg="orange" menuClickHandler={menuClickHandler} />
+
+      <SearchBar />
     </Flex>
   );
 }

@@ -28,11 +28,11 @@ export default function Home({ isOpen }: Props): JSX.Element {
   //   isFetching,
   //   isLoading,
   // } = useGetSearchAutocompleteQuery("racecar");
-  const { data: searchData } = useGetSearchQuery("racecar");
+  // const { data: searchData } = useGetSearchQuery("racecar");
 
-  if (searchData) {
-    console.log(searchData);
-  }
+  // if (searchData) {
+  //   console.log(searchData);
+  // }
 
   useEffect(() => {
     fetchVideosHandler();
@@ -109,8 +109,8 @@ export default function Home({ isOpen }: Props): JSX.Element {
         {loading ? (
           <Text>Loading...</Text>
         ) : (
-          videos.map((video) => (
-            <GridItem key={`${video.videoId}`} isOpen={isOpen} {...video} />
+          videos.map((video, index) => (
+            <GridItem key={`${video.videoId}${index}`} isOpen={isOpen} {...video} />
           ))
         )}
       </Flex>
