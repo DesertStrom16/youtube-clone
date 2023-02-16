@@ -8,8 +8,8 @@ export default function VideoScreen({}: Props): JSX.Element {
   const { id } = useParams();
 
   return (
-    <Flex ml={24} pt={24} pr={24} w='100%'>
-      <Flex pos="relative" miw={320} pt="56.25%" w='100%'>
+    <Flex ml={24} pt={24} pr={24} w="100%">
+      <Flex pos="relative" miw={320} pt="56.25%" w="100%">
         <ReactPlayer
           width="100%"
           height="100%"

@@ -1,8 +1,10 @@
 import { Box, Button, Flex, Title, ScrollArea } from "@mantine/core";
-import { useMatch } from "react-router-dom";
+import { useMatch, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import MiniDrawer from "./MiniDrawer";
 import Drawer from "./Drawer";
 import Navbar from "./Navbar";
+import { useRef, useState } from "react";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -14,6 +16,7 @@ type Props = React.PropsWithChildren & {
   setIsDrawer: SetState;
   setIsSmall: SetState;
   setIsOpen: SetState;
+  socketRef: React.MutableRefObject<any>;
 };
 
 export default function AppBar({
@@ -25,8 +28,13 @@ export default function AppBar({
   setIsDrawer,
   setIsSmall,
   setIsOpen,
+  socketRef,
 }: Props): JSX.Element {
+  const query = useAppSelector((state) => state.data.query);
   let match = useMatch("/watch/:slug");
+  let searchMatch = useMatch("/search/:slug");
+  const [loading, setLoading] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const menuClickHandler = () => {
     if (!matches || match) {
@@ -37,12 +45,26 @@ export default function AppBar({
     }
   };
 
+  const handleScroll = ({ x, y }: { x: number; y: number }) => {
+    let divHeight = wrapperRef.current?.getBoundingClientRect().height;
+
+    // 51: 56px for navbar minus a 10px buffer
+    if (!loading && divHeight && divHeight - window.innerHeight + 46 < y) {
+      // if (paginate request already fetching is false)
+      console.log("FIRE PAGINATE REQUEST", query);
+      // Need to lift this to redux and set false on recieving socket.
+      setLoading(true);
+      socketRef.current?.emit("getPaginateSearch");
+    }
+  };
+
   return (
     <ScrollArea
       style={{ height: "100%", width: "100%" }}
       bg="#0f0f0f"
       scrollHideDelay={0}
       type="always"
+      onScrollPositionChange={searchMatch ? handleScroll : undefined}
       styles={() => ({
         scrollbar: {
           "&, &:hover": {
@@ -98,6 +120,7 @@ export default function AppBar({
               w="100%"
               h="fit-content"
               bg="green"
+              ref={wrapperRef}
             >
               {children}
             </Flex>

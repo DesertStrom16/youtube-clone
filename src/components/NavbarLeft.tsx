@@ -1,12 +1,12 @@
 import { Box, Button, Flex, Title, Drawer, FlexProps } from "@mantine/core";
 import { IconMenu2 } from "@tabler/icons-react";
 
-type Props = FlexProps  & {
+type Props = FlexProps & {
   menuClickHandler: () => void;
 };
 
 export default function NavbarLeft(props: Props): JSX.Element {
-  const { menuClickHandler, display = 'flex', ...flexProps } = props;
+  const { menuClickHandler, display = "flex", ...flexProps } = props;
 
   const menuButtonStyles = () => ({
     root: {
@@ -26,13 +26,29 @@ export default function NavbarLeft(props: Props): JSX.Element {
   });
 
   return (
-    <Box {...flexProps} display={display} mih="56px" sx={{alignItems: 'center'}}>
+    <Box
+      {...flexProps}
+      display={display}
+      mih="56px"
+      sx={{ alignItems: "center" }}
+    >
       <Button ml="16px" styles={menuButtonStyles} onClick={menuClickHandler}>
         <IconMenu2 size={24} />
       </Button>
-      <Title size="h3" color="#FFFFFF" lh="normal">
-        YT-Clone
-      </Title>
+      <Flex
+        w={120}
+        align="center"
+        justify="center"
+        sx={{
+          "@media (min-width: 876px)": {
+            paddingRight: 9
+          },
+        }}
+      >
+        <Title size="h3" color="#FFFFFF" lh="normal">
+          YT-Clone
+        </Title>
+      </Flex>
     </Box>
   );
 }

@@ -21,6 +21,7 @@ export default function Navbar(props: Props): JSX.Element {
       pr="16px"
       pos="fixed"
       align='center'
+      justify='space-between'
       top={0}
       left={0}
       right={0}
@@ -37,6 +38,7 @@ export default function Navbar(props: Props): JSX.Element {
       <NavbarLeft bg="orange" menuClickHandler={menuClickHandler} />
 
       <SearchBar />
+      <Flex miw={225}></Flex>
     </Flex>
   );
 }
