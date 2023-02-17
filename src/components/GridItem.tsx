@@ -3,6 +3,7 @@ import IconWrapper from "./IconWrapper";
 import NavButton from "./NavButton";
 import "./GridItem.css";
 import Video from "../models/video";
+import { Link } from "react-router-dom";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -58,7 +59,7 @@ export default function GridItem({
     >
       <div className="image-wrapper">
         <Box
-          component="a"
+          component={Link}
           w="100%"
           h="100%"
           pos="absolute"
@@ -66,7 +67,7 @@ export default function GridItem({
           bottom={0}
           left={0}
           bg="orange"
-          href={`/watch/${videoId}`}
+          to={`/watch/${videoId}`}
           sx={{cursor: 'pointer'}}
         >
           <img

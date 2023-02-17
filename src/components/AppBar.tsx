@@ -5,6 +5,7 @@ import MiniDrawer from "./MiniDrawer";
 import Drawer from "./Drawer";
 import Navbar from "./Navbar";
 import { useRef, useState } from "react";
+import { setSearchPaginateLoading } from "../store/data/dataSlice";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -30,10 +31,16 @@ export default function AppBar({
   setIsOpen,
   socketRef,
 }: Props): JSX.Element {
+  const dispatch = useAppDispatch();
   const query = useAppSelector((state) => state.data.query);
+  const searchPaginateData = useAppSelector(
+    (state) => state.data.searchPaginateData
+  );
+  const searchPaginateLoading = useAppSelector(
+    (state) => state.data.searchPaginateLoading
+  );
   let match = useMatch("/watch/:slug");
   let searchMatch = useMatch("/search/:slug");
-  const [loading, setLoading] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const menuClickHandler = () => {
@@ -49,12 +56,20 @@ export default function AppBar({
     let divHeight = wrapperRef.current?.getBoundingClientRect().height;
 
     // 51: 56px for navbar minus a 10px buffer
-    if (!loading && divHeight && divHeight - window.innerHeight + 46 < y) {
-      // if (paginate request already fetching is false)
+    if (
+      !searchPaginateLoading && y > 0 &&
+      divHeight &&
+      divHeight - window.innerHeight + 46 < y
+    ) {
       console.log("FIRE PAGINATE REQUEST", query);
-      // Need to lift this to redux and set false on recieving socket.
-      setLoading(true);
-      socketRef.current?.emit("getPaginateSearch");
+      dispatch(setSearchPaginateLoading(true));
+      // Emit socket event
+      if (searchPaginateData.length > 0) {
+        // continuePaginateSearch
+        socketRef.current?.emit("continuePaginateSearch", query);
+      } else {
+        socketRef.current?.emit("getPaginateSearch", query);
+      }
     }
   };
 
