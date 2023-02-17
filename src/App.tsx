@@ -29,8 +29,8 @@ function App() {
 
   const matches = useMediaQuery("(min-width: 1300px)");
 
-
   useEffect(() => {
+    let ignore = false;
     socket.open();
 
     socket.once("connect", () => {
@@ -41,11 +41,16 @@ function App() {
     socket.on("paginateSearchReponse", (data: Video[]) => {
       console.log(data);
       console.log("HEYHEY");
-      dispatch(setSearchPaginateData(data));
+      if (!ignore) {
+        dispatch(setSearchPaginateData(data));
+      } else {
+        console.log("IVE BEEN IGNORED")
+      }
     });
 
     return () => {
       socket.disconnect();
+      ignore = true;
     };
   }, []);
 
