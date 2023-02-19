@@ -5,7 +5,7 @@ import MiniDrawer from "./MiniDrawer";
 import Drawer from "./Drawer";
 import Navbar from "./Navbar";
 import { useRef, useState } from "react";
-import { setSearchPaginateLoading } from "../store/data/dataSlice";
+import { setPrepareSearchPaginate, setSearchPaginateLoading } from "../store/data/dataSlice";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -39,6 +39,9 @@ export default function AppBar({
   const searchPaginateLoading = useAppSelector(
     (state) => state.data.searchPaginateLoading
   );
+  const searchPaginatePrepare = useAppSelector(
+    (state) => state.data.searchPaginatePrepare
+  );
   let match = useMatch("/watch/:slug");
   let searchMatch = useMatch("/search/:slug");
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -55,14 +58,28 @@ export default function AppBar({
   const handleScroll = ({ x, y }: { x: number; y: number }) => {
     let divHeight = wrapperRef.current?.getBoundingClientRect().height;
 
-    // 51: 56px for navbar minus a 10px buffer
+    // At 50% page scrolled, start puppeteer page
     if (
-      !searchPaginateLoading && y > 0 &&
+      !searchPaginatePrepare && searchPaginateData.length === 0 &&
+      !searchPaginateLoading &&
+      y > 0 &&
+      divHeight &&
+      (divHeight - window.innerHeight + 46) / 2 < y
+    ) {
+      dispatch(setPrepareSearchPaginate(true));
+      socketRef.current?.emit("preparePaginateSearch", query);
+    }
+
+    // 46: 56px for navbar minus a 10px buffer
+    if (
+      !searchPaginateLoading &&
+      y > 0 &&
       divHeight &&
       divHeight - window.innerHeight + 46 < y
     ) {
       console.log("FIRE PAGINATE REQUEST", query);
       dispatch(setSearchPaginateLoading(true));
+
       // Emit socket event
       if (searchPaginateData.length > 0) {
         // continuePaginateSearch

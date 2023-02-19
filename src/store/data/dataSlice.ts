@@ -9,6 +9,7 @@ type DataState = {
   query: string;
   searchPaginateData: Video[][];
   searchPaginateLoading: boolean;
+  searchPaginatePrepare: boolean;
 };
 
 const initialState: DataState = {
@@ -17,6 +18,7 @@ const initialState: DataState = {
   query: "",
   searchPaginateData: [],
   searchPaginateLoading: false,
+  searchPaginatePrepare: false,
 };
 
 export const dataSlice = createSlice({
@@ -37,6 +39,9 @@ export const dataSlice = createSlice({
       state.searchPaginateData = [...state.searchPaginateData, action.payload];
       state.searchPaginateLoading = false;
     },
+    setPrepareSearchPaginate: (state, action: PayloadAction<boolean>) => {
+      state.searchPaginatePrepare = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -44,12 +49,18 @@ export const dataSlice = createSlice({
       (state, action) => {
         state.query = action.meta.arg.originalArgs;
         state.searchPaginateData = [];
+        state.searchPaginatePrepare = false;
       }
     );
   },
 });
 
-export const { setVideos, setLoading, setSearchPaginateLoading, setSearchPaginateData } =
-  dataSlice.actions;
+export const {
+  setVideos,
+  setLoading,
+  setSearchPaginateLoading,
+  setSearchPaginateData,
+  setPrepareSearchPaginate,
+} = dataSlice.actions;
 
 export default dataSlice.reducer;

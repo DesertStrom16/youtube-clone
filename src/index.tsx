@@ -13,22 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-      <MantineProvider
-      withGlobalStyles
-      withNormalizeCSS
-      theme={{
-        breakpoints: {
-          xs: 576,
-          sm: 792,
-          md: 992,
-          lg: 1300,
-          xl: 1400,
-        },
-      }}
-    >
-        <App /> </MantineProvider>
-      </BrowserRouter>
+      <App />
     </Provider>
   </React.StrictMode>
 );

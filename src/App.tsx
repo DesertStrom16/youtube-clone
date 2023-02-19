@@ -1,6 +1,6 @@
 import "./App.css";
 import { MantineProvider } from "@mantine/core";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Home from "./components/Home";
 import SearchResults from "./components/SearchResults";
 import NotFound from "./components/NotFound";
@@ -19,6 +19,7 @@ import { useAppDispatch } from "./app/hooks";
 // Continuation data, includes token. Could be used for paginate request.
 // Instead of web scrape.
 
+
 function App() {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(true);
@@ -30,27 +31,16 @@ function App() {
   const matches = useMediaQuery("(min-width: 1300px)");
 
   useEffect(() => {
-    let ignore = false;
     socket.open();
 
-    socket.once("connect", () => {
-      console.log("Connected to Server");
-      //   socket.emit('active', userRedux.uid);
-    });
+    socket.on("connect", connectHandler);
 
-    socket.on("paginateSearchReponse", (data: Video[]) => {
-      console.log(data);
-      console.log("HEYHEY");
-      if (!ignore) {
-        dispatch(setSearchPaginateData(data));
-      } else {
-        console.log("IVE BEEN IGNORED")
-      }
-    });
+    socket.on("paginateSearchReponse", paginateHandler);
 
     return () => {
+      socket.off("connect", connectHandler);
+      socket.off("paginateSearchReponse", paginateHandler);
       socket.disconnect();
-      ignore = true;
     };
   }, []);
 
@@ -61,27 +51,56 @@ function App() {
     }
   }, [matches]);
 
+  const connectHandler = () => {
+    console.log("Connected to Server");
+    //   socket.emit('active', userRedux.uid);
+  };
+
+  const paginateHandler = (data: Video[]) => {
+    console.log(data);
+    console.log("HEYHEY");
+    console.log(socket.id)
+
+    dispatch(setSearchPaginateData(data));
+  };
+
   return (
-    <AppBar
-      isOpen={isOpen}
-      isDrawer={isDrawer}
-      isSmall={isSmall}
-      matches={matches}
-      setIsOpen={setIsOpen}
-      setIsDrawer={setIsDrawer}
-      setIsSmall={setIsSmall}
-      socketRef={socketRef}
-    >
-      <Routes>
-        <Route
-          path="/search/:id"
-          element={<SearchResults socketRef={socketRef} />}
-        />
-        <Route path="/watch/:id" element={<VideoScreen />} />
-        <Route path="/" element={<Home isOpen={isOpen} />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </AppBar>
+    <BrowserRouter>
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{
+          breakpoints: {
+            xs: 576,
+            sm: 792,
+            md: 992,
+            lg: 1300,
+            xl: 1400,
+          },
+        }}
+      >
+        <AppBar
+          isOpen={isOpen}
+          isDrawer={isDrawer}
+          isSmall={isSmall}
+          matches={matches}
+          setIsOpen={setIsOpen}
+          setIsDrawer={setIsDrawer}
+          setIsSmall={setIsSmall}
+          socketRef={socketRef}
+        >
+          <Routes>
+            <Route
+              path="/search/:id"
+              element={<SearchResults socketRef={socketRef} />}
+            />
+            <Route path="/watch/:id" element={<VideoScreen />} />
+            <Route path="/" element={<Home isOpen={isOpen} />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AppBar>
+      </MantineProvider>
+    </BrowserRouter>
   );
 }
 
