@@ -9,11 +9,10 @@ import { useMediaQuery } from "@mantine/hooks";
 import AppBar from "./components/AppBar";
 import VideoScreen from "./components/VideoScreen";
 import SocketHandler from "./components/SocketHandler";
-import { io } from "socket.io-client";
-import { serverUrl } from "./utils/env";
 import { setSearchPaginateData } from "./store/data/dataSlice";
 import Video from "./models/video";
 import { useAppDispatch } from "./app/hooks";
+import { socket } from "./socket";
 
 // onResponseReceivedCommands[0].appendContinuationItemsAction.continuationItems[1].continuationItemRenderer.continuationEndpoint.continuationCommand
 // Continuation data, includes token. Could be used for paginate request.
@@ -25,7 +24,6 @@ function App() {
   const [isOpen, setIsOpen] = useState(true);
   const [isDrawer, setIsDrawer] = useState(false);
   const [isSmall, setIsSmall] = useState(false);
-  const socket = io(`${serverUrl}`, { autoConnect: false });
   const socketRef = useRef(socket);
 
   const matches = useMediaQuery("(min-width: 1300px)");

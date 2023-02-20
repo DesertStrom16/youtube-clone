@@ -68,6 +68,7 @@ export default function AppBar({
     ) {
       dispatch(setPrepareSearchPaginate(true));
       socketRef.current?.emit("preparePaginateSearch", query);
+      socketRef.current?.emit("startTest");
     }
 
     // 46: 56px for navbar minus a 10px buffer
