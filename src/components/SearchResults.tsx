@@ -24,6 +24,12 @@ export default function SearchResults({ socketRef }: Props): JSX.Element {
     //@ts-expect-error
   } = useGetSearchQuery(id, { skipToken: !id });
 
+  useEffect(() => {
+return () => {
+  socketRef.current?.emit("closePaginateSearch");
+}
+  }, [])
+
   const loading = isLoading || isFetching;
 
   const initialData =
@@ -43,19 +49,19 @@ export default function SearchResults({ socketRef }: Props): JSX.Element {
     );
 
   return (
-    <Flex py={16} px={24} direction="column">
+    <Flex py={16} px={24}>
       {loading ? (
         <Text>LOADING</Text>
       ) : isError ? (
         <Text>ERROR</Text>
       ) : (
-        <>
+        <Flex maw={1096} direction="column">
           {initialData}
           {followOnData}
           <Flex h={50} w="100%" justify="center" align="center">
             {paginateLoading ? <Loader /> : null}
           </Flex>
-        </>
+        </Flex>
       )}
     </Flex>
   );
