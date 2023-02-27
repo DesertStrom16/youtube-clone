@@ -25,33 +25,35 @@ export default function SearchResults({ socketRef }: Props): JSX.Element {
   } = useGetSearchQuery(id, { skipToken: !id });
 
   useEffect(() => {
-return () => {
-  socketRef.current?.emit("closePaginateSearch");
-}
-  }, [])
+    return () => {
+      socketRef.current?.emit("closePaginateSearch");
+    };
+  }, []);
 
   const loading = isLoading || isFetching;
 
   const initialData =
     searchData &&
     searchData.length > 0 &&
-    searchData.map((item, index) => (
+    searchData[0].map((item, index) => (
       <SearchResultItem key={`${item.videoId}${index}`} {...item} />
     ));
 
   const followOnData =
-    paginateData &&
-    paginateData.length > 0 &&
-    paginateData.map((item) =>
-      item.map((item, index) => (
-        <SearchResultItem key={`${item.videoId}${index}`} {...item} />
-      ))
+    searchData &&
+    searchData.length > 1 &&
+    searchData.map((item, index) =>
+      index === 0
+        ? null
+        : item.map((item, index) => (
+            <SearchResultItem key={`${item.videoId}${index}`} {...item} />
+          ))
     );
 
   return (
-    <Flex py={16} px={24}>
+    <Flex py={16} px={24} justify="center">
       {loading ? (
-        <Text>LOADING</Text>
+        <Loader />
       ) : isError ? (
         <Text>ERROR</Text>
       ) : (

@@ -30,14 +30,7 @@ function App() {
 
   useEffect(() => {
     socket.open();
-
-    socket.on("connect", connectHandler);
-
-    socket.on("paginateSearchReponse", paginateHandler);
-
     return () => {
-      socket.off("connect", connectHandler);
-      socket.off("paginateSearchReponse", paginateHandler);
       socket.disconnect();
     };
   }, []);
@@ -48,19 +41,6 @@ function App() {
       setIsSmall(false);
     }
   }, [matches]);
-
-  const connectHandler = () => {
-    console.log("Connected to Server");
-    //   socket.emit('active', userRedux.uid);
-  };
-
-  const paginateHandler = (data: Video[]) => {
-    console.log(data);
-    console.log("HEYHEY");
-    console.log(socket.id)
-
-    dispatch(setSearchPaginateData(data));
-  };
 
   return (
     <BrowserRouter>

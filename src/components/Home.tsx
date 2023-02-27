@@ -4,9 +4,9 @@ import { setVideos, setLoading } from "../store/data/dataSlice";
 import { fetchVideos } from "../utils/API";
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "@mantine/hooks";
-import Navbar from "./Navbar";
-import Drawer from "./Drawer";
-import MiniDrawer from "./MiniDrawer";
+import Navbar from "./navbar/Navbar";
+import Drawer from "./drawer/Drawer";
+import MiniDrawer from "./drawer/MiniDrawer";
 import GridItem from "./GridItem";
 import {
   useGetSearchAutocompleteQuery,

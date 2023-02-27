@@ -1,11 +1,12 @@
 import { Box, Button, Flex, Title, ScrollArea } from "@mantine/core";
 import { useMatch, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import MiniDrawer from "./MiniDrawer";
-import Drawer from "./Drawer";
-import Navbar from "./Navbar";
+import MiniDrawer from "./drawer/MiniDrawer";
+import Drawer from "./drawer/Drawer";
+import Navbar from "./navbar/Navbar";
 import { useRef, useState } from "react";
-import { setPrepareSearchPaginate, setSearchPaginateLoading } from "../store/data/dataSlice";
+import { setSearchPaginateLoading } from "../store/data/dataSlice";
+import { useGetSearchQuery } from "../services/search";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -31,17 +32,20 @@ export default function AppBar({
   setIsOpen,
   socketRef,
 }: Props): JSX.Element {
+  const query = window.location.pathname
+    .replace("/search/", "")
+    .replace("/", "");
   const dispatch = useAppDispatch();
-  const query = useAppSelector((state) => state.data.query);
-  const searchPaginateData = useAppSelector(
-    (state) => state.data.searchPaginateData
-  );
+  const [iteration, setIteration] = useState(0);
+
   const searchPaginateLoading = useAppSelector(
     (state) => state.data.searchPaginateLoading
   );
-  const searchPaginatePrepare = useAppSelector(
-    (state) => state.data.searchPaginatePrepare
-  );
+
+  const { data: paginateData } = useGetSearchQuery(query, {
+    skip: query === "",
+  });
+
   let match = useMatch("/watch/:slug");
   let searchMatch = useMatch("/search/:slug");
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -58,19 +62,6 @@ export default function AppBar({
   const handleScroll = ({ x, y }: { x: number; y: number }) => {
     let divHeight = wrapperRef.current?.getBoundingClientRect().height;
 
-    // At 50% page scrolled, start puppeteer page
-    if (
-      !searchPaginatePrepare && searchPaginateData.length === 0 &&
-      !searchPaginateLoading &&
-      y > 0 &&
-      divHeight &&
-      (divHeight - window.innerHeight + 46) / 2 < y
-    ) {
-      dispatch(setPrepareSearchPaginate(true));
-      socketRef.current?.emit("preparePaginateSearch", query);
-      socketRef.current?.emit("startTest");
-    }
-
     // 46: 56px for navbar minus a 10px buffer
     if (
       !searchPaginateLoading &&
@@ -79,14 +70,20 @@ export default function AppBar({
       divHeight - window.innerHeight + 46 < y
     ) {
       console.log("FIRE PAGINATE REQUEST", query);
+      console.log(paginateData?.length);
       dispatch(setSearchPaginateLoading(true));
 
       // Emit socket event
-      if (searchPaginateData.length > 0) {
+      if (paginateData && paginateData.length > 1) {
         // continuePaginateSearch
-        socketRef.current?.emit("continuePaginateSearch", query);
+        socketRef.current?.emit("continuePaginateSearch", {
+          query: query,
+          iteration: iteration,
+        });
+        setIteration((iterate) => iterate + 1);
       } else {
         socketRef.current?.emit("getPaginateSearch", query);
+        setIteration(0);
       }
     }
   };
@@ -154,6 +151,7 @@ export default function AppBar({
               h="fit-content"
               bg="green"
               ref={wrapperRef}
+              justify="center"
             >
               {children}
             </Flex>

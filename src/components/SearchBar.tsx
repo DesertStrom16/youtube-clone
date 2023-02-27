@@ -4,43 +4,53 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IconX } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { useGetSearchAutocompleteQuery } from "../services/search";
+import {
+  useGetSearchAutocompleteQuery,
+  useGetSearchQuery,
+} from "../services/search";
 import { setVideos, setLoading } from "../store/data/dataSlice";
 // import "./SearchResults.css";
 
 type Props = {};
 
 export default function SearchBar(props: Props): JSX.Element {
+  let location = window.location.pathname
+    .replace("/search/", "")
+    .replace("/", "");
   let navigate = useNavigate();
   const ref = useRef<HTMLInputElement>(null);
-  const query = useAppSelector((state) => state.data.query);
-  const [autoValue, setAutoValue] = useState(query);
+  const [autoValue, setAutoValue] = useState(location);
   const [autoValueDebounced] = useDebouncedValue(autoValue, 200);
   const isAutoEmpty = autoValue.trim() === "";
 
   useEffect(() => {
-    if (query.trim() !== "") {
-      setAutoValue(query);
+    if (location !== "" && location !== autoValue) {
+      setAutoValue(location);
     }
-  }, [query]);
+  }, [location]);
 
-  const {
-    data: autoData,
-    isLoading,
-    isFetching,
-    isError,
-  } = useGetSearchAutocompleteQuery(autoValueDebounced, {
+  const { refetch: refetch } = useGetSearchQuery(
+    location,
+    {
+      skip: location === "",
+    }
+  );
+
+  const { data: autoData } = useGetSearchAutocompleteQuery(autoValueDebounced, {
     skip: autoValueDebounced.trim() === "",
   });
 
   //   breakpoint for full width search bar: 656px
 
-  const loading = isLoading || isFetching;
-
   const searchSubmitHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       ref.current?.blur();
-      navigate(`/search/${autoValue}`);
+      console.log(autoValue.trim());
+      if (location.trim() === autoValue.trim()) {
+        refetch();
+      } else {
+        navigate(`/search/${autoValue}`);
+      }
     }
   };
 

@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Text, UnstyledButton } from "@mantine/core";
 import IconWrapper from "./IconWrapper";
-import NavButton from "./NavButton";
+import NavButton from "./navbar/NavButton";
 import "./GridItem.css";
 import Video from "../models/video";
 import { Link } from "react-router-dom";

@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Socket } from "socket.io-client";
 import Video from "../models/video";
 import { socket } from "../socket";
+import { setSearchPaginateLoading } from "../store/data/dataSlice";
 import { searchBarUrl, serverUrl } from "../utils/env";
 // import type { Search } from './types'
 
@@ -15,18 +16,20 @@ export const searchApi = createApi({
       transformResponse: (response: { data: string[] }, meta, arg) =>
         response.data,
     }),
-    getSearch: build.query<Video[], string>({
+    getSearch: build.query<Video[][], string>({
       query: (name) => serverUrl + "main/fetchSearch?q=" + name,
+      transformResponse: (response: Video[]) => [response],
       async onCacheEntryAdded(
         arg,
-        { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+        { dispatch, updateCachedData, cacheDataLoaded, cacheEntryRemoved }
       ) {
-        const listener = (res: any) => {
-          console.log(res, "HERERER");
+        const listener = (data: Video[]) => {
+          console.log(data, "HERERER");
 
-          // updateCachedData((draft) => {
-          //   draft.push(data)
-          // })
+          updateCachedData((draft) => {
+            draft.push(data);
+          });
+          dispatch(setSearchPaginateLoading(false))
         };
         try {
           // wait for the initial query to resolve before proceeding
@@ -36,7 +39,7 @@ export const searchApi = createApi({
           // if it is a message and for the appropriate channel,
           // update our query result with the received message
 
-          socket.on("streamingTest", listener);
+          socket.on("paginateSearchReponse", listener);
         } catch {
           // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
           // in which case `cacheDataLoaded` will throw
@@ -44,7 +47,7 @@ export const searchApi = createApi({
         // cacheEntryRemoved will resolve when the cache subscription is no longer active
         await cacheEntryRemoved;
         // perform cleanup steps once the `cacheEntryRemoved` promise resolves
-        socket.off("streamingTest", listener);
+        socket.off("paginateSearchReponse", listener);
       },
     }),
   }),

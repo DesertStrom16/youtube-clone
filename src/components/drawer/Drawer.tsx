@@ -2,8 +2,8 @@ import { Box, Flex, ScrollArea } from "@mantine/core";
 import { IconFile, IconHome, IconVideo } from "@tabler/icons-react";
 import { useMatch } from "react-router-dom";
 import DrawerItem from "./DrawerItem";
-import ItemWrapper from "./ItemWrapper";
-import NavbarLeft from "./NavbarLeft";
+import ItemWrapper from "../ItemWrapper";
+import NavbarLeft from "../navbar/NavbarLeft";
 
 type Props = {
   isOpen: boolean;
