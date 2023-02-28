@@ -1,22 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Video from "../../models/video";
-import { searchApi } from "../../services/search";
+// import { searchApi } from "../../services/search";
 import { testData } from "../../utils/dummyData";
 
 type DataState = {
   videos: Video[];
   loading: boolean;
-  query: string;
-  searchPaginateData: Video[][];
   searchPaginateLoading: boolean;
+  searchPaginateError: boolean;
 };
 
 const initialState: DataState = {
   videos: testData,
   loading: false,
-  query: "",
-  searchPaginateData: [],
   searchPaginateLoading: false,
+  searchPaginateError: false,
 };
 
 export const dataSlice = createSlice({
@@ -33,18 +31,13 @@ export const dataSlice = createSlice({
     setSearchPaginateLoading: (state, action: PayloadAction<boolean>) => {
       state.searchPaginateLoading = action.payload;
     },
-    setSearchPaginateData: (state, action: PayloadAction<Video[]>) => {
-      state.searchPaginateData = [...state.searchPaginateData, action.payload];
-      state.searchPaginateLoading = false;
+    setSearchPaginateError: (state, action: PayloadAction<boolean>) => {
+      state.searchPaginateError = action.payload;
     },
   },
 });
 
-export const {
-  setVideos,
-  setLoading,
-  setSearchPaginateLoading,
-  setSearchPaginateData,
-} = dataSlice.actions;
+export const { setVideos, setLoading, setSearchPaginateLoading, setSearchPaginateError } =
+  dataSlice.actions;
 
 export default dataSlice.reducer;

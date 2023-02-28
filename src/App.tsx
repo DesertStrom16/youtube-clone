@@ -8,8 +8,6 @@ import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import AppBar from "./components/AppBar";
 import VideoScreen from "./components/VideoScreen";
-import SocketHandler from "./components/SocketHandler";
-import { setSearchPaginateData } from "./store/data/dataSlice";
 import Video from "./models/video";
 import { useAppDispatch } from "./app/hooks";
 import { socket } from "./socket";

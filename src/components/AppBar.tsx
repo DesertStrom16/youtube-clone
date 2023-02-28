@@ -41,8 +41,11 @@ export default function AppBar({
   const searchPaginateLoading = useAppSelector(
     (state) => state.data.searchPaginateLoading
   );
+  const searchPaginateError = useAppSelector(
+    (state) => state.data.searchPaginateError
+  );
 
-  const { data: paginateData } = useGetSearchQuery(query, {
+  const { data: searchData } = useGetSearchQuery(query, {
     skip: query === "",
   });
 
@@ -65,25 +68,32 @@ export default function AppBar({
     // 46: 56px for navbar minus a 10px buffer
     if (
       !searchPaginateLoading &&
+      !searchPaginateError &&
       y > 0 &&
       divHeight &&
       divHeight - window.innerHeight + 46 < y
     ) {
       console.log("FIRE PAGINATE REQUEST", query);
-      console.log(paginateData?.length);
       dispatch(setSearchPaginateLoading(true));
 
       // Emit socket event
-      if (paginateData && paginateData.length > 1) {
-        // continuePaginateSearch
-        socketRef.current?.emit("continuePaginateSearch", {
-          query: query,
-          iteration: iteration,
+      if (searchData && searchData.content && searchData.content.length > 0) {
+        const { token } = searchData.content[searchData.content.length - 1];
+        const { client, key } = searchData;
+
+        // Send DivHeight in Paginate request?
+        // If server-side socket doesn't fire error,
+        // and returns with content, loading is false and error is false.
+        // AKA all controls on paginate firing on scroll are lifted.
+        // If a UI bug occurs and videos don't render...
+        // It'll be sending a paginate request on every scroll event. So a lot.
+
+        // Paginate infinite scroll
+        socketRef.current?.emit("getPaginateSearch", {
+          client: client,
+          token: token,
+          key: key,
         });
-        setIteration((iterate) => iterate + 1);
-      } else {
-        socketRef.current?.emit("getPaginateSearch", query);
-        setIteration(0);
       }
     }
   };

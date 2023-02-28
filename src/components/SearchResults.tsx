@@ -11,7 +11,6 @@ type Props = { socketRef: React.MutableRefObject<any> };
 
 export default function SearchResults({ socketRef }: Props): JSX.Element {
   const { id } = useParams();
-  const paginateData = useAppSelector((state) => state.data.searchPaginateData);
   const paginateLoading = useAppSelector(
     (state) => state.data.searchPaginateLoading
   );
@@ -22,30 +21,32 @@ export default function SearchResults({ socketRef }: Props): JSX.Element {
     isFetching,
     isError,
     //@ts-expect-error
-  } = useGetSearchQuery(id, { skipToken: !id });
-
-  useEffect(() => {
-    return () => {
-      socketRef.current?.emit("closePaginateSearch");
-    };
-  }, []);
+  } = useGetSearchQuery(id, {
+    skipToken: !id,
+    // selectFromResult: ({ data }) => ({}),
+  });
 
   const loading = isLoading || isFetching;
 
+  console.log(searchData);
+
   const initialData =
     searchData &&
-    searchData.length > 0 &&
-    searchData[0].map((item, index) => (
+    searchData.content &&
+    searchData.content.length > 0 &&
+    searchData.content[0].content?.length > 0 &&
+    searchData.content[0].content.map((item, index) => (
       <SearchResultItem key={`${item.videoId}${index}`} {...item} />
     ));
 
   const followOnData =
-    searchData &&
-    searchData.length > 1 &&
-    searchData.map((item, index) =>
+  searchData &&
+  searchData.content &&
+  searchData.content.length > 1 &&
+    searchData.content?.map((item, index) =>
       index === 0
         ? null
-        : item.map((item, index) => (
+        : item.content?.map((item, index) => (
             <SearchResultItem key={`${item.videoId}${index}`} {...item} />
           ))
     );
