@@ -6,9 +6,7 @@ import Drawer from "./drawer/Drawer";
 import Navbar from "./navbar/Navbar";
 import { useEffect, useRef, useState } from "react";
 import { setSearchPaginateLoading } from "../store/data/dataSlice";
-import {
-  useGetSearchQuery,
-} from "../services/search";
+import { useGetSearchQuery } from "../services/search";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -34,9 +32,8 @@ export default function AppBar({
   setIsOpen,
   socketRef,
 }: Props): JSX.Element {
-  const query = window.location.pathname
-    .replace("/search/", "")
-    .replace("/", "");
+  const searchMatch = useMatch("/search/:slug");
+  let query = searchMatch?.pathname.replace("/search/", "").replace("/", "");
   const dispatch = useAppDispatch();
 
   const searchPaginateLoading = useAppSelector(
@@ -46,12 +43,12 @@ export default function AppBar({
     (state) => state.data.searchPaginateError
   );
 
+  //@ts-expect-error
   const { data: searchData } = useGetSearchQuery(query, {
-    skip: query === "",
+    skip: !query || query === "",
   });
 
   let match = useMatch("/watch/:slug");
-  let searchMatch = useMatch("/search/:slug");
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const menuClickHandler = () => {

@@ -44,17 +44,18 @@ export default function SearchResultWrapper({
   const divHeight = isContinuationLoading || !data ? 100 : undefined;
 
   return (
-    <Flex h={divHeight} mah={divHeight} mih={divHeight} direction="column">
+    <Flex h={divHeight} mah={divHeight} mih={divHeight} justify={divHeight ? 'center' : undefined} direction="column">
       {isContinuationLoading ? (
-        <Loader />
+        <Loader sx={{alignSelf: 'center'}} />
       ) : isError ? (
-        <Text>Error</Text>
+        // Add Refetch Button
+        <Text sx={{alignSelf: 'center'}}>Error</Text>
       ) : data && data.content.length > 0 ? (
         data?.content.map((item, index) => (
           <SearchResultItem key={`${item.videoId}${index}`} {...item} />
         ))
       ) : (
-        <Button children="Load More" onClick={loadMoreHandler} />
+        <Button w='20%' sx={{alignSelf: 'center',}} children="Load More" onClick={loadMoreHandler} />
       )}
     </Flex>
   );

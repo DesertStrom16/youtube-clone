@@ -1,6 +1,6 @@
 import { Box, Flex, Loader, Text } from "@mantine/core";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useMatch, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { useGetSearchQuery } from "../services/search";
 import { setVideos, setLoading } from "../store/data/dataSlice";
@@ -11,10 +11,14 @@ import SearchResultWrapper from "./SearchResultWrapper";
 type Props = { socketRef: React.MutableRefObject<any> };
 
 export default function SearchResults({ socketRef }: Props): JSX.Element {
-  const { id } = useParams();
   const paginateLoading = useAppSelector(
     (state) => state.data.searchPaginateLoading
   );
+
+    const searchMatch = useMatch("/search/:slug");
+    let location = searchMatch?.pathname
+    .replace("/search/", "")
+    .replace("/", "");
 
   const {
     data: searchData,
@@ -22,8 +26,8 @@ export default function SearchResults({ socketRef }: Props): JSX.Element {
     isFetching,
     isError,
     //@ts-expect-error
-  } = useGetSearchQuery(id, {
-    skipToken: !id,
+  } = useGetSearchQuery(location, {
+    skip: !location,
     // selectFromResult: ({ data }) => ({}),
   });
 
@@ -64,9 +68,6 @@ export default function SearchResults({ socketRef }: Props): JSX.Element {
         <Flex maw={1096} direction="column">
           {initialData}
           {followOnData}
-          <Flex h={50} w="100%" justify="center" align="center">
-            {paginateLoading ? <Loader /> : null}
-          </Flex>
         </Flex>
       )}
     </Flex>

@@ -1,7 +1,7 @@
 import { Autocomplete, AutocompleteItem, Box, Flex, Text } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import { IconX } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
@@ -14,27 +14,25 @@ import { setVideos, setLoading } from "../store/data/dataSlice";
 type Props = {};
 
 export default function SearchBar(props: Props): JSX.Element {
-  let location = window.location.pathname
-    .replace("/search/", "")
-    .replace("/", "");
+  const searchMatch = useMatch("/search/:slug");
+  let location = searchMatch?.pathname.replace("/search/", "").replace("/", "");
+  const slug = searchMatch?.params.slug;
   let navigate = useNavigate();
   const ref = useRef<HTMLInputElement>(null);
-  const [autoValue, setAutoValue] = useState(location);
+  const [autoValue, setAutoValue] = useState(location || "");
   const [autoValueDebounced] = useDebouncedValue(autoValue, 200);
   const isAutoEmpty = autoValue.trim() === "";
 
   useEffect(() => {
-    if (location !== "" && location !== autoValue) {
-      setAutoValue(location);
+    if (slug && slug !== "" && slug !== autoValue) {
+      setAutoValue(slug);
     }
   }, [location]);
 
-  const { refetch: refetch } = useGetSearchQuery(
-    location,
-    {
-      skip: location === "",
-    }
-  );
+  //@ts-expect-error
+  const { refetch: refetch } = useGetSearchQuery(location, {
+    skip: !location || location === "",
+  });
 
   const { data: autoData } = useGetSearchAutocompleteQuery(autoValueDebounced, {
     skip: autoValueDebounced.trim() === "",
@@ -45,11 +43,14 @@ export default function SearchBar(props: Props): JSX.Element {
   const searchSubmitHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       ref.current?.blur();
-      console.log(autoValue.trim());
-      if (location.trim() === autoValue.trim()) {
+      console.log(autoValue.trim(), "HERE");
+      console.log(encodeURI(autoValue).trim(), "HERE");
+      console.log(location?.trim(), "HERE");
+      if ((location?.trim()) === encodeURI(autoValue).trim()) {
+        console.log("REFETCHING");
         refetch();
       } else {
-        navigate(`/search/${autoValue}`);
+        navigate(`/search/${encodeURI(autoValue)}`);
       }
     }
   };

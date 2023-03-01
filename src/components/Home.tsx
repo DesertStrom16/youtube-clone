@@ -8,10 +8,6 @@ import Navbar from "./navbar/Navbar";
 import Drawer from "./drawer/Drawer";
 import MiniDrawer from "./drawer/MiniDrawer";
 import GridItem from "./GridItem";
-import {
-  useGetSearchAutocompleteQuery,
-  useGetSearchQuery,
-} from "../services/search";
 
 // type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -23,16 +19,6 @@ export default function Home({ isOpen }: Props): JSX.Element {
   const dispatch = useAppDispatch();
   const videos = useAppSelector((state) => state.data.videos);
   const loading = useAppSelector((state) => state.data.loading);
-  // const {
-  //   data: autoSearchData,
-  //   isFetching,
-  //   isLoading,
-  // } = useGetSearchAutocompleteQuery("racecar");
-  // const { data: searchData } = useGetSearchQuery("racecar");
-
-  // if (searchData) {
-  //   console.log(searchData);
-  // }
 
   useEffect(() => {
     fetchVideosHandler();
