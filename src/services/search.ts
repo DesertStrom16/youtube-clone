@@ -1,78 +1,67 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { Socket } from "socket.io-client";
 import Video from "../models/video";
-import { socket } from "../socket";
 import {
   setSearchPaginateError,
   setSearchPaginateLoading,
 } from "../store/data/dataSlice";
-import { searchBarUrl, serverUrl } from "../utils/env";
-// import type { Search } from './types'
+import { serverUrl } from "../utils/env";
+import type {
+  GetSearch,
+  GetSearchType,
+  GetSearchTypeResponse,
+} from "../types/search";
 
-type GetSearch = {
-  token: string;
-  content: Video[];
-};
-
-type GetSearchType = {
+type SearchContinuation = {
   client: any;
+  token: string;
   key: string;
-  content: GetSearch[];
+  query: string;
 };
 
 export const searchApi = createApi({
   reducerPath: "searchApi",
-  baseQuery: fetchBaseQuery({ baseUrl: searchBarUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: serverUrl }),
   tagTypes: ["Search"],
   endpoints: (build) => ({
     getSearchAutocomplete: build.query<string[], string>({
-      query: (name) => serverUrl + "main/fetchAutoSearch?q=" + name,
+      query: (name) => "main/fetchAutoSearch?q=" + name,
       transformResponse: (response: { data: string[] }, meta, arg) =>
         response.data,
     }),
     getSearch: build.query<GetSearchType, string>({
-      query: (name) => serverUrl + "main/fetchSearch?q=" + name,
-      // transformResponse: (response: GetSearch) => [response],
-      async onCacheEntryAdded(
-        arg,
-        { dispatch, updateCachedData, cacheDataLoaded, cacheEntryRemoved }
-      ) {
-        const listener = (data: GetSearch) => {
-          console.log(data, "Paginate Socket Response");
-
-          if (data.token && data.content && data.content.length > 0) {
-            updateCachedData((draft) => {
-              draft.content.push(data);
-            });
-          } else {
-            dispatch(setSearchPaginateError(true));
-          }
-
-          dispatch(setSearchPaginateLoading(false));
-        };
-
-        const listenerError = (error: string) => {
-          console.log("Paginate Socket Error", error);
-
-          dispatch(setSearchPaginateLoading(false));
-          dispatch(setSearchPaginateError(true));
-        };
-
+      query: (name) => "main/fetchSearch?q=" + name,
+      transformResponse: (response: GetSearchTypeResponse) => {
+        console.log("FIRING TRANSFORM NOW");
+        return { ...response, tokens: [response.content[0].token] };
+      },
+    }),
+    getSearchContinuation: build.query<GetSearch, SearchContinuation>({
+      query: (body) => ({
+        url: `main/postSearchContinuation`,
+        method: "POST",
+        body: body,
+      }),
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
         try {
-          await cacheDataLoaded;
+          const { data: continuationItem } = await queryFulfilled;
 
-          socket.on("paginateSearchReponse", listener);
-          socket.on("paginateSearchError", listenerError);
-        } catch {
-          // no-op
-        }
-        await cacheEntryRemoved;
-        // perform cleanup steps once the `cacheEntryRemoved` promise resolves
-        socket.off("paginateSearchReponse", listener);
-        socket.off("paginateSearchError", listenerError);
+          const patchResult = dispatch(
+            searchApi.util.updateQueryData(
+              "getSearch",
+              continuationItem.query,
+              (draft) => {
+                draft.tokens.push(continuationItem.token);
+              }
+            )
+          );
+        } catch {}
       },
     }),
   }),
 });
 
-export const { useGetSearchAutocompleteQuery, useGetSearchQuery } = searchApi;
+export const {
+  useGetSearchAutocompleteQuery,
+  useGetSearchQuery,
+  useGetSearchContinuationQuery,
+} = searchApi;

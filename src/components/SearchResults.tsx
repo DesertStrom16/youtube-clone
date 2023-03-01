@@ -6,6 +6,7 @@ import { useGetSearchQuery } from "../services/search";
 import { setVideos, setLoading } from "../store/data/dataSlice";
 import SearchResultItem from "./SearchResultItem";
 import "./SearchResults.css";
+import SearchResultWrapper from "./SearchResultWrapper";
 
 type Props = { socketRef: React.MutableRefObject<any> };
 
@@ -40,16 +41,18 @@ export default function SearchResults({ socketRef }: Props): JSX.Element {
     ));
 
   const followOnData =
-  searchData &&
-  searchData.content &&
-  searchData.content.length > 1 &&
-    searchData.content?.map((item, index) =>
-      index === 0
-        ? null
-        : item.content?.map((item, index) => (
-            <SearchResultItem key={`${item.videoId}${index}`} {...item} />
-          ))
-    );
+    searchData &&
+    searchData.tokens.length > 0 &&
+    searchData.tokens.map((item, index) => (
+      <SearchResultWrapper
+        index={index}
+        length={searchData.tokens.length - 1}
+        token={item}
+        client={searchData.client}
+        requestKey={searchData.key}
+        id={searchData.query}
+      />
+    ));
 
   return (
     <Flex py={16} px={24} justify="center">

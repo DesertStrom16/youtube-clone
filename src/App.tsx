@@ -10,28 +10,19 @@ import AppBar from "./components/AppBar";
 import VideoScreen from "./components/VideoScreen";
 import Video from "./models/video";
 import { useAppDispatch } from "./app/hooks";
-import { socket } from "./socket";
 
-// onResponseReceivedCommands[0].appendContinuationItemsAction.continuationItems[1].continuationItemRenderer.continuationEndpoint.continuationCommand
-// Continuation data, includes token. Could be used for paginate request.
-// Instead of web scrape.
-
+// FINAL CHECKS:
+// - Changed nav links from "a" to "Link", need to double check styles.
 
 function App() {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(true);
   const [isDrawer, setIsDrawer] = useState(false);
   const [isSmall, setIsSmall] = useState(false);
-  const socketRef = useRef(socket);
+  const socketRef = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const matches = useMediaQuery("(min-width: 1300px)");
-
-  useEffect(() => {
-    socket.open();
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
 
   useEffect(() => {
     if (matches) {

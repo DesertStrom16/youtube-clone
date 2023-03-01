@@ -1,4 +1,5 @@
 import { UnstyledButton } from "@mantine/core";
+import { Link } from "react-router-dom";
 
 type Props = React.PropsWithChildren & {
   url: string;
@@ -7,8 +8,8 @@ type Props = React.PropsWithChildren & {
 export default function NavButton({ children, url }: Props): JSX.Element {
   return (
     <UnstyledButton
-      component="a"
-      href={url}
+      component={Link}
+      to={url}
       w="100%"
       h="100%"
       display="block"

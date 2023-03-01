@@ -4,9 +4,11 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import MiniDrawer from "./drawer/MiniDrawer";
 import Drawer from "./drawer/Drawer";
 import Navbar from "./navbar/Navbar";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { setSearchPaginateLoading } from "../store/data/dataSlice";
-import { useGetSearchQuery } from "../services/search";
+import {
+  useGetSearchQuery,
+} from "../services/search";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -36,7 +38,6 @@ export default function AppBar({
     .replace("/search/", "")
     .replace("/", "");
   const dispatch = useAppDispatch();
-  const [iteration, setIteration] = useState(0);
 
   const searchPaginateLoading = useAppSelector(
     (state) => state.data.searchPaginateLoading
@@ -62,11 +63,12 @@ export default function AppBar({
     }
   };
 
-  const handleScroll = ({ x, y }: { x: number; y: number }) => {
+  const handleScrollSearch = ({ x, y }: { x: number; y: number }) => {
     let divHeight = wrapperRef.current?.getBoundingClientRect().height;
 
     // 46: 56px for navbar minus a 10px buffer
     if (
+      searchData &&
       !searchPaginateLoading &&
       !searchPaginateError &&
       y > 0 &&
@@ -74,27 +76,27 @@ export default function AppBar({
       divHeight - window.innerHeight + 46 < y
     ) {
       console.log("FIRE PAGINATE REQUEST", query);
-      dispatch(setSearchPaginateLoading(true));
 
-      // Emit socket event
-      if (searchData && searchData.content && searchData.content.length > 0) {
-        const { token } = searchData.content[searchData.content.length - 1];
-        const { client, key } = searchData;
+      // getContinuation({
+      //   client: searchData.client,
+      //   key: searchData.key,
+      //   token: searchData.tokens[0],
+      // });
 
-        // Send DivHeight in Paginate request?
-        // If server-side socket doesn't fire error,
-        // and returns with content, loading is false and error is false.
-        // AKA all controls on paginate firing on scroll are lifted.
-        // If a UI bug occurs and videos don't render...
-        // It'll be sending a paginate request on every scroll event. So a lot.
+      // dispatch(setSearchPaginateLoading(true));
 
-        // Paginate infinite scroll
-        socketRef.current?.emit("getPaginateSearch", {
-          client: client,
-          token: token,
-          key: key,
-        });
-      }
+      // // Emit socket event
+      // if (searchData && searchData.content && searchData.content.length > 0) {
+      //   const { token } = searchData.content[searchData.content.length - 1];
+      //   const { client, key } = searchData;
+
+      //   // Paginate infinite scroll
+      //   socketRef.current?.emit("getPaginateSearch", {
+      //     client: client,
+      //     token: token,
+      //     key: key,
+      //   });
+      // }
     }
   };
 
@@ -104,7 +106,7 @@ export default function AppBar({
       bg="#0f0f0f"
       scrollHideDelay={0}
       type="always"
-      onScrollPositionChange={searchMatch ? handleScroll : undefined}
+      onScrollPositionChange={searchMatch ? handleScrollSearch : undefined}
       styles={() => ({
         scrollbar: {
           "&, &:hover": {

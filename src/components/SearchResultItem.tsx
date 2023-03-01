@@ -1,4 +1,5 @@
 import { Box, Button, Flex, Text } from "@mantine/core";
+import { Link } from "react-router-dom";
 import Video from "../models/video";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
@@ -6,7 +7,7 @@ type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 type Props = Video & {};
 
 // Unsure on :active styling, may revert back to mantine
-export default function SearchResult({
+export default function SearchResultItem({
   videoId,
   thumbnailUrl,
   title,
@@ -17,7 +18,7 @@ export default function SearchResult({
     <Flex mt={16} direction="row">
       <div className="thumbnail-wrapper">
         <Box
-          component="a"
+          component={Link}
           w="100%"
           h="100%"
           pos="absolute"
@@ -26,7 +27,7 @@ export default function SearchResult({
           left={0}
           right={0}
           bg="orange"
-          href={`/watch/${videoId}`}
+          to={`/watch/${videoId}`}
           sx={{ cursor: "pointer", overflow: "hidden", borderRadius: 12 }}
         >
           <img
@@ -48,7 +49,8 @@ export default function SearchResult({
       <Flex sx={{ flex: 1 }} direction="column">
         {/* Title Wrapper */}
         <Flex>
-          <Box component="a" mr={8} color="#0f0f0f">
+          <Box mr={8} color="#0f0f0f">
+          {/* <Box component="a" mr={8} color="#0f0f0f"> */}
             <Text lineClamp={2} fw={400} size={18} lh="26px" mah={52}>
               {title}
             </Text>
