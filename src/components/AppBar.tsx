@@ -1,11 +1,10 @@
 import { Box, Button, Flex, Title, ScrollArea } from "@mantine/core";
-import { useMatch, useParams } from "react-router-dom";
+import { useMatch } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import MiniDrawer from "./drawer/MiniDrawer";
 import Drawer from "./drawer/Drawer";
 import Navbar from "./navbar/Navbar";
 import { useEffect, useRef, useState } from "react";
-import { setSearchPaginateLoading } from "../store/data/dataSlice";
 import { useGetSearchQuery } from "../services/search";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +17,6 @@ type Props = React.PropsWithChildren & {
   setIsDrawer: SetState;
   setIsSmall: SetState;
   setIsOpen: SetState;
-  socketRef: React.MutableRefObject<any>;
 };
 
 export default function AppBar({
@@ -30,7 +28,6 @@ export default function AppBar({
   setIsDrawer,
   setIsSmall,
   setIsOpen,
-  socketRef,
 }: Props): JSX.Element {
   const homeMatch = useMatch("");
   const videoMatch = useMatch("/watch/:slug");
@@ -157,7 +154,8 @@ export default function AppBar({
               ml={videoMatch ? 0 : { base: 0, sm: 72, lg: isOpen ? 240 : 72 }}
               w="100%"
               h="fit-content"
-              bg="green"
+              // BackgroundColorHere
+              // bg="green"
               ref={wrapperRef}
               justify="center"
             >

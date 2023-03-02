@@ -8,18 +8,16 @@ import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import AppBar from "./components/AppBar";
 import VideoScreen from "./components/VideoScreen";
-import Video from "./models/video";
 import { useAppDispatch } from "./app/hooks";
 
 // FINAL CHECKS:
-// - Changed nav links from "a" to "Link", need to double check styles.
+// - Need to double check styles on nav links (Changed from "a" to "Link").
 
 function App() {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(true);
   const [isDrawer, setIsDrawer] = useState(false);
   const [isSmall, setIsSmall] = useState(false);
-  const socketRef = useRef(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const minWidth1300 = useMediaQuery("(min-width: 1300px)");
@@ -44,6 +42,7 @@ function App() {
             lg: 1300,
             xl: 1400,
           },
+          fontFamily: '"Roboto","Arial",sans-serif'
         }}
       >
         <AppBar
@@ -54,13 +53,9 @@ function App() {
           setIsOpen={setIsOpen}
           setIsDrawer={setIsDrawer}
           setIsSmall={setIsSmall}
-          socketRef={socketRef}
         >
           <Routes>
-            <Route
-              path="/search/:id"
-              element={<SearchResults socketRef={socketRef} />}
-            />
+            <Route path="/search/:id" element={<SearchResults />} />
             <Route path="/watch/:id" element={<VideoScreen />} />
             <Route path="/" element={<Home isOpen={isOpen} />} />
             <Route path="*" element={<NotFound />} />

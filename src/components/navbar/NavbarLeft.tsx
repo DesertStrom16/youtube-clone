@@ -32,7 +32,16 @@ export default function NavbarLeft(props: Props): JSX.Element {
       mih="56px"
       sx={{ alignItems: "center" }}
     >
-      <Button ml="16px" styles={menuButtonStyles} onClick={menuClickHandler}>
+      <Button
+        ml="16px"
+        sx={{
+          "@media (max-width: 656px)": {
+            marginLeft: 8,
+          },
+        }}
+        styles={menuButtonStyles}
+        onClick={menuClickHandler}
+      >
         <IconMenu2 size={24} />
       </Button>
       <Flex
@@ -41,7 +50,7 @@ export default function NavbarLeft(props: Props): JSX.Element {
         justify="center"
         sx={{
           "@media (min-width: 876px)": {
-            paddingRight: 9
+            paddingRight: 9,
           },
         }}
       >

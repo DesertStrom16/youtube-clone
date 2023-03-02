@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import Video from "../../models/video";
+import { Video } from "../../types/video";
 // import { searchApi } from "../../services/search";
 import { testData } from "../../utils/dummyData";
 

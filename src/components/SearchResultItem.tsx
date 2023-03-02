@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
-import Video from "../models/video";
+import { Video } from "../types/video";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -13,6 +13,9 @@ export default function SearchResultItem({
   title,
   uploadDate,
   viewCount,
+  avatarUrl,
+  channel,
+  desc,
 }: Props): JSX.Element {
   return (
     <Flex mt={16} direction="row">
@@ -50,8 +53,15 @@ export default function SearchResultItem({
         {/* Title Wrapper */}
         <Flex>
           <Box mr={8} color="#0f0f0f">
-          {/* <Box component="a" mr={8} color="#0f0f0f"> */}
-            <Text lineClamp={2} fw={400} size={18} lh="26px" mah={52}>
+            {/* <Box component="a" mr={8} color="#0f0f0f"> */}
+            <Text
+              lineClamp={2}
+              fw={400}
+              size={18}
+              lh="26px"
+              mah={52}
+              color="#f1f1f1"
+            >
               {title}
             </Text>
           </Box>
@@ -67,6 +77,43 @@ export default function SearchResultItem({
             </span>
           )}
         </Flex>
+
+        <Flex py={12} direction="row" align="center">
+          <Box pr={8} lh="normal" sx={{ fontSize: 10 }}>
+            <Box
+              display="inline-block"
+              bg="transparent"
+              sx={{ borderRadius: "50%", overflow: "hidden" }}
+            >
+              <img style={{ display: "block", width: 24 }} src={avatarUrl} />
+            </Box>
+          </Box>
+          <Text
+            display="inline-block"
+            color="#aaa"
+            lh="18px"
+            fw={400}
+            sx={{ fontSize: 12 }}
+          >
+            {channel}
+          </Text>
+         
+        </Flex>
+        <Text
+            mah={36}
+            lh="18px"
+            fw={400}
+            lineClamp={2}
+            mb={8}
+            color='#aaa'
+            sx={{
+              textOverflow: "ellipsis",
+              whiteSpace: "normal",
+              fontSize: 12,
+            }}
+          >
+            {desc}
+          </Text>
       </Flex>
     </Flex>
   );

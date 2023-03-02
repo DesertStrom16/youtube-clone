@@ -43,9 +43,7 @@ export default function SearchBar(props: Props): JSX.Element {
   const searchSubmitHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       ref.current?.blur();
-      console.log(autoValue.trim(), "HERE");
-      console.log(encodeURI(autoValue).trim(), "HERE");
-      console.log(location?.trim(), "HERE");
+
       if ((location?.trim()) === encodeURI(autoValue).trim()) {
         console.log("REFETCHING");
         refetch();

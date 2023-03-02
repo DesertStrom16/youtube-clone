@@ -20,8 +20,8 @@ export default function Navbar(props: Props): JSX.Element {
       h="56px"
       pr="16px"
       pos="fixed"
-      align='center'
-      justify='space-between'
+      align="center"
+      justify="space-between"
       top={0}
       left={0}
       right={0}
@@ -33,6 +33,9 @@ export default function Navbar(props: Props): JSX.Element {
           : {
               zIndex: 2099,
             },
+        "@media (max-width: 656px)": {
+          paddingRight: 8,
+        },
       }}
     >
       <NavbarLeft bg="orange" menuClickHandler={menuClickHandler} />

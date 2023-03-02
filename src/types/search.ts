@@ -1,4 +1,4 @@
-import Video from "../models/video";
+import { Video } from "./video";
 
 export type GetSearch = {
   query: string;

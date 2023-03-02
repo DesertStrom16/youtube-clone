@@ -1,4 +1,4 @@
-import Video from "../models/video";
+import { Video } from "../types/video";
 import { testData } from "./dummyData";
 
 export const fetchVideos = async (): Promise<Video[]> => {
