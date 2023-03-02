@@ -93,7 +93,7 @@ export default function Drawer({
         >
           <Flex
             w="228px"
-            // FIXME: 1200px Temporary!
+            // TODO: 1200px Temporary!
             h="1200px"
             direction="column"
           >

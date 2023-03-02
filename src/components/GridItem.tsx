@@ -23,6 +23,7 @@ export default function GridItem({
   viewCount,
   length,
 }: Props): JSX.Element {
+
   return (
     <Flex
       h="fit-content"
@@ -68,7 +69,7 @@ export default function GridItem({
           left={0}
           bg="orange"
           to={`/watch/${videoId}`}
-          sx={{cursor: 'pointer'}}
+          sx={{ cursor: "pointer" }}
         >
           <img
             src={thumbnailUrl}

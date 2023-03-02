@@ -22,14 +22,14 @@ function App() {
   const socketRef = useRef(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const matches = useMediaQuery("(min-width: 1300px)");
+  const minWidth1300 = useMediaQuery("(min-width: 1300px)");
 
   useEffect(() => {
-    if (matches) {
+    if (minWidth1300) {
       setIsDrawer(false);
       setIsSmall(false);
     }
-  }, [matches]);
+  }, [minWidth1300]);
 
   return (
     <BrowserRouter>
@@ -50,7 +50,7 @@ function App() {
           isOpen={isOpen}
           isDrawer={isDrawer}
           isSmall={isSmall}
-          matches={matches}
+          minWidth1300={minWidth1300}
           setIsOpen={setIsOpen}
           setIsDrawer={setIsDrawer}
           setIsSmall={setIsSmall}

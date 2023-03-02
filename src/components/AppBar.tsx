@@ -14,7 +14,7 @@ type Props = React.PropsWithChildren & {
   isOpen: boolean;
   isSmall: boolean;
   isDrawer: boolean;
-  matches: boolean;
+  minWidth1300: boolean;
   setIsDrawer: SetState;
   setIsSmall: SetState;
   setIsOpen: SetState;
@@ -26,12 +26,14 @@ export default function AppBar({
   isOpen,
   isSmall,
   isDrawer,
-  matches,
+  minWidth1300,
   setIsDrawer,
   setIsSmall,
   setIsOpen,
   socketRef,
 }: Props): JSX.Element {
+  const homeMatch = useMatch("");
+  const videoMatch = useMatch("/watch/:slug");
   const searchMatch = useMatch("/search/:slug");
   let query = searchMatch?.pathname.replace("/search/", "").replace("/", "");
   const dispatch = useAppDispatch();
@@ -48,11 +50,28 @@ export default function AppBar({
     skip: !query || query === "",
   });
 
-  let match = useMatch("/watch/:slug");
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (homeMatch) {
+      console.log("HOMEPAGE");
+      setIsDrawer(false);
+      if (minWidth1300) {
+        setIsSmall(false);
+      }
+    }
+  }, [homeMatch]);
+
+  useEffect(() => {
+    if (videoMatch) {
+      console.log("VIDEOPAGE");
+      setIsDrawer(false);
+      setIsSmall(false);
+    }
+  }, [videoMatch]);
+
   const menuClickHandler = () => {
-    if (!matches || match) {
+    if (!minWidth1300 || videoMatch) {
       setIsDrawer(!isDrawer);
       setIsSmall(true);
     } else {
@@ -72,28 +91,8 @@ export default function AppBar({
       divHeight &&
       divHeight - window.innerHeight + 46 < y
     ) {
-      console.log("FIRE PAGINATE REQUEST", query);
-
-      // getContinuation({
-      //   client: searchData.client,
-      //   key: searchData.key,
-      //   token: searchData.tokens[0],
-      // });
-
-      // dispatch(setSearchPaginateLoading(true));
-
-      // // Emit socket event
-      // if (searchData && searchData.content && searchData.content.length > 0) {
-      //   const { token } = searchData.content[searchData.content.length - 1];
-      //   const { client, key } = searchData;
-
-      //   // Paginate infinite scroll
-      //   socketRef.current?.emit("getPaginateSearch", {
-      //     client: client,
-      //     token: token,
-      //     key: key,
-      //   });
-      // }
+      // Paginate onScroll Handler Here
+      // console.log("FIRE PAGINATE REQUEST", query);
     }
   };
 
@@ -133,7 +132,7 @@ export default function AppBar({
         maw="100vw"
         pos={{
           base: isDrawer ? "fixed" : "relative",
-          lg: isDrawer && match ? "fixed" : "relative",
+          lg: isDrawer && videoMatch ? "fixed" : "relative",
         }}
         pr={12}
         top={0}
@@ -145,17 +144,17 @@ export default function AppBar({
           <Navbar menuClickHandler={menuClickHandler} />
 
           <Flex h="100%">
-            <MiniDrawer isOpen={isOpen} isDisplayed={!match} />
+            <MiniDrawer isOpen={isOpen} isDisplayed={!videoMatch} />
             <Drawer
               menuClickHandler={menuClickHandler}
-              isOpen={match ? false : isOpen}
+              isOpen={videoMatch ? false : isOpen}
               isDrawer={isDrawer}
-              isSmall={match ? true : isSmall}
+              isSmall={isSmall}
             />
 
             <Flex
               mt={56}
-              ml={match ? 0 : { base: 0, sm: 72, lg: isOpen ? 240 : 72 }}
+              ml={videoMatch ? 0 : { base: 0, sm: 72, lg: isOpen ? 240 : 72 }}
               w="100%"
               h="fit-content"
               bg="green"

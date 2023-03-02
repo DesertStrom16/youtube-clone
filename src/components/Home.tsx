@@ -9,7 +9,7 @@ import Drawer from "./drawer/Drawer";
 import MiniDrawer from "./drawer/MiniDrawer";
 import GridItem from "./GridItem";
 
-// type SetState = React.Dispatch<React.SetStateAction<boolean>>;
+type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
 type Props = {
   isOpen: boolean;
