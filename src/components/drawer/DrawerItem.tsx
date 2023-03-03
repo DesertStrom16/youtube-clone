@@ -30,7 +30,7 @@ export default function DrawerItem({ text, icon, url }: Props): JSX.Element {
           bg="transparent"
         >
           <IconWrapper match={match}>{icon}</IconWrapper>
-          <Text fz={14} fw={600} ml={24} color="#FFFFFF">
+          <Text fz={14} fw={400} ml={24} lh='20px' color="#FFFFFF">
             {text}
           </Text>
         </Flex>

@@ -34,6 +34,7 @@ export default function NavbarLeft(props: Props): JSX.Element {
     >
       <Button
         ml="16px"
+        bg="transparent"
         sx={{
           "@media (max-width: 656px)": {
             marginLeft: 8,
@@ -42,7 +43,7 @@ export default function NavbarLeft(props: Props): JSX.Element {
         styles={menuButtonStyles}
         onClick={menuClickHandler}
       >
-        <IconMenu2 size={24} />
+        <IconMenu2 size={24} stroke={1.5} />
       </Button>
       <Flex
         w={120}

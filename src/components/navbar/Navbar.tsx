@@ -14,9 +14,7 @@ export default function Navbar(props: Props): JSX.Element {
 
   return (
     <Flex
-      bg="#fff"
-      // bg="blue"
-      w="calc(100% - 12px)"
+      w="calc(100% - 16px)"
       h="56px"
       pr="16px"
       pos="fixed"
@@ -26,6 +24,7 @@ export default function Navbar(props: Props): JSX.Element {
       left={0}
       right={0}
       bottom={0}
+      bg="#0f0f0f"
       sx={{
         zIndex: 2000,
         "@media (min-width: 1300px)": match
@@ -38,7 +37,11 @@ export default function Navbar(props: Props): JSX.Element {
         },
       }}
     >
-      <NavbarLeft bg="orange" menuClickHandler={menuClickHandler} />
+      <NavbarLeft
+        // BackgroundColorHere
+        // bg="orange"
+        menuClickHandler={menuClickHandler}
+      />
 
       <SearchBar />
       <Flex miw={225}></Flex>

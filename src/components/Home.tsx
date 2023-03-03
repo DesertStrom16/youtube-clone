@@ -43,7 +43,8 @@ export default function Home({ isOpen }: Props): JSX.Element {
       w="100%"
       h="fit-content"
       mt={24}
-      bg="pink"
+      // BackgroundColorHere
+      // bg="pink"
       justify="center"
       sx={{
         overflowX: "visible",
@@ -54,7 +55,8 @@ export default function Home({ isOpen }: Props): JSX.Element {
       }}
     >
       <Flex
-        bg="red"
+      // BackgroundColorHere
+        // bg="red"
         w="100%"
         h="fit-content"
         wrap="wrap"

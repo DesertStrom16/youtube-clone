@@ -11,7 +11,8 @@ export default function MiniDrawer({ isOpen, isDisplayed }: Props): JSX.Element 
   return (
     <Box
       h="100%"
-      bg="blue"
+      // BackgroundColorHere
+      // bg="blue"
       px="4px"
       pt="60px"
       w="72px"
@@ -23,11 +24,11 @@ export default function MiniDrawer({ isOpen, isDisplayed }: Props): JSX.Element 
       display={isDisplayed ? { base: "none", sm: "flex", lg: isOpen ? "none" : "flex" } : 'none'}
       sx={{ flexDirection: "column" }}
     >
-      <MiniDrawerItem text="Home" url="/" icon={<IconHome size={24} />} />
+      <MiniDrawerItem text="Home" url="/" icon={<IconHome size={24} stroke={1} />} />
       <MiniDrawerItem
         text="Shorts"
         url="/search-results"
-        icon={<IconVideo size={24} />}
+        icon={<IconVideo size={24} stroke={1} />}
       />
     </Box>
   );

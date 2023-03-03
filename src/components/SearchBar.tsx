@@ -1,8 +1,15 @@
-import { Autocomplete, AutocompleteItem, Box, Flex, Text } from "@mantine/core";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Box,
+  Flex,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useEffect, useRef, useState } from "react";
 import { useMatch, useNavigate } from "react-router-dom";
-import { IconX } from "@tabler/icons-react";
+import { IconX, IconSearch } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
   useGetSearchAutocompleteQuery,
@@ -44,7 +51,7 @@ export default function SearchBar(props: Props): JSX.Element {
     if (e.key === "Enter") {
       ref.current?.blur();
 
-      if ((location?.trim()) === encodeURI(autoValue).trim()) {
+      if (location?.trim() === encodeURI(autoValue).trim()) {
         console.log("REFETCHING");
         refetch();
       } else {
@@ -62,18 +69,47 @@ export default function SearchBar(props: Props): JSX.Element {
     <Flex sx={{ flex: "0 1 728px" }}>
       <Flex px={4} ml={40} h={40} w="100%">
         <Flex
+          pos="relative"
           sx={{
-            border: "1px solid #ccc",
+            border: "1px solid hsl(0,0%,18.82%)",
             borderRight: "none",
             borderRadius: "40px 0 0 40px",
-            boxShadow: "inset 0 1px 2px #eee",
+            boxShadow: "inset 0 1px 2px hsla(0,0,0,0)",
+            padding: "0 4px 0 16px",
+
+            "&:focus-within": {
+              border: "1px solid #1c62b9",
+              boxShadow: "inset 0 1px 2px rgb(0 0 0 / 30%)",
+              marginLeft: 0,
+              padding: "2px 4px 2px 48px",
+            },
+            "&:focus-within .search-icon-wrapper": {
+              width: 20,
+              height: 20,
+              padding: "0 12px 0 16px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+            },
           }}
+          bg="hsl(0,0%,7%)"
           w="100%"
           ml={32}
-          pl={16}
-          pr={4}
           align="center"
         >
+          <Box
+            className="search-icon-wrapper"
+            sx={{
+              display: "none",
+              boxSizing: "content-box",
+              position: "absolute",
+              left: 0,
+              padding: "0 10px",
+            }}
+          >
+            <IconSearch color="#fff" stroke={1} />
+          </Box>
+
           <Autocomplete
             ref={ref}
             value={autoValue}
@@ -89,23 +125,38 @@ export default function SearchBar(props: Props): JSX.Element {
                 display={isAutoEmpty ? "none" : "flex"}
                 sx={{ alignItems: "center" }}
               >
-                <IconX stroke={1} size={24} />
+                <IconX stroke={1} size={24} color="#f1f1f1" />
               </Box>
             }
             rightSectionWidth="24px"
             styles={() => ({
+              dropdown: {
+                marginTop: 3,
+                borderRadius: 12,
+              },
+              itemsWrapper: {
+                padding: "16px 0 18px 0",
+              },
+              item: {
+                // padding: '0 24px 0 16px'
+                paddingRight: 24,
+                paddingLeft: 16,
+              },
               input: {
                 lineHeight: "24px",
                 padding: "1px 0",
                 paddingRight: "24px",
+                width: "100%",
                 height: "fit-content",
                 minHeight: "0px",
                 border: 0,
-                caretColor: "#0f0f0f",
+                caretColor: "#f1f1f1",
                 fontSize: 16,
                 fontWeight: 400,
-                color: "hsl(0deg 0% 7%)",
+                color: "hsla(0, 100%, 100%, 0.88)",
                 background: "transparent",
+                outline: "none",
+                margin: 0,
 
                 "&::placeholder": {
                   color: "#888",
@@ -119,7 +170,22 @@ export default function SearchBar(props: Props): JSX.Element {
             }
           />
         </Flex>
+        <UnstyledButton
+          sx={{
+            border: "1px solid hsl(0,0%,18.82%)",
+            backgroundColor: "hsla(0,0%,100%,0.08)",
+            borderRadius: "0 40px 40px 0",
+            padding: "1px 6px",
+            height: 40,
+            width: 64,
+            minWidth: 64,
+            minHeight: 40,
+            textAlign: 'center'
+          }}
+        
+        ><IconSearch size={24} color='#f1f1f1' stroke={1} display='inline-flex' style={{verticalAlign: 'middle'}} /></UnstyledButton>
       </Flex>
+      <Flex miw={40} mih={40} ml={4}></Flex>
     </Flex>
   );
 }

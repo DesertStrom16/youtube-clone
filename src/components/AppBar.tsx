@@ -94,8 +94,11 @@ export default function AppBar({
   };
 
   return (
-    <ScrollArea
+    <ScrollArea.Autosize
+      maxHeight="100vh"
+      sx={{ flex: 1 }}
       style={{ height: "100%", width: "100%" }}
+      scrollbarSize={16}
       bg="#0f0f0f"
       scrollHideDelay={0}
       type="always"
@@ -108,9 +111,11 @@ export default function AppBar({
           "&:hover > .mantine-ScrollArea-thumb": {
             background: "#717171",
           },
+          padding: 0,
         },
         thumb: {
           background: "hsl(0,0%,67%)",
+          border: "4px solid #0f0f0f",
 
           "&:hover": {
             background: "#717171",
@@ -124,14 +129,14 @@ export default function AppBar({
     >
       <Flex
         bg="#0f0f0f"
-        mih="100vh"
-        h="100vh"
-        maw="100vw"
+        w="100%"
+        h="100%"
+        mih='100vh'
         pos={{
           base: isDrawer ? "fixed" : "relative",
           lg: isDrawer && videoMatch ? "fixed" : "relative",
         }}
-        pr={12}
+        pr={16}
         top={0}
         left={0}
         right={0}
@@ -164,6 +169,6 @@ export default function AppBar({
           </Flex>
         </Flex>
       </Flex>
-    </ScrollArea>
+    </ScrollArea.Autosize>
   );
 }

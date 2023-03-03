@@ -67,7 +67,6 @@ export default function GridItem({
           top={0}
           bottom={0}
           left={0}
-          bg="orange"
           to={`/watch/${videoId}`}
           sx={{ cursor: "pointer" }}
         >

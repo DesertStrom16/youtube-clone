@@ -29,7 +29,6 @@ export default function SearchResultItem({
           bottom={0}
           left={0}
           right={0}
-          bg="orange"
           to={`/watch/${videoId}`}
           sx={{ cursor: "pointer", overflow: "hidden", borderRadius: 12 }}
         >
@@ -65,7 +64,7 @@ export default function SearchResultItem({
               {title}
             </Text>
           </Box>
-          <Box w={40} h={24}></Box>
+          <Box w={40} miw={40} h={24}></Box>
         </Flex>
 
         {/* Sub-Title Wrapper */}

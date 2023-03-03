@@ -48,7 +48,9 @@ export default function Drawer({
       ></Box>
       <Flex
         h="100%"
-        bg="yellow"
+        // BackgroundColorHere
+        // bg="yellow"
+        bg="#0f0f0f"
         pos="fixed"
         top={0}
         bottom={0}
@@ -59,16 +61,21 @@ export default function Drawer({
           transitionDuration: isSmall ? "200ms" : "0ms",
           transform: isDrawer ? "translate3d(0,0,0)" : "translate3d(-100%,0,0)",
 
-          "@media (min-width: 1300px)": match ? {} : {
-            transitionDuration: "0ms",
-            transform: isOpen ? "translate3d(0,0,0)" : "translate3d(-100%,0,0)",
-          },
+          "@media (min-width: 1300px)": match
+            ? {}
+            : {
+                transitionDuration: "0ms",
+                transform: isOpen
+                  ? "translate3d(0,0,0)"
+                  : "translate3d(-100%,0,0)",
+              },
         }}
       >
         <Box mih="56px">
           <NavbarLeft
-            bg="red"
-            display={{ base: "flex", lg: match ? 'flex' : "none" }}
+            // BackgroundColorHere
+            // bg="red"
+            display={{ base: "flex", lg: match ? "flex" : "none" }}
             menuClickHandler={menuClickHandler}
           />
         </Box>
@@ -98,16 +105,20 @@ export default function Drawer({
             direction="column"
           >
             <ItemWrapper>
-              <DrawerItem text="Home" url="/" icon={<IconHome size={24} />} />
+              <DrawerItem
+                text="Home"
+                url="/"
+                icon={<IconHome size={24} stroke={1} />}
+              />
               <DrawerItem
                 text="Shorts"
                 url="/search-results"
-                icon={<IconVideo size={24} />}
+                icon={<IconVideo size={24} stroke={1} />}
               />
               <DrawerItem
                 text="Subscriptions"
                 url="/subscriptions"
-                icon={<IconFile size={24} />}
+                icon={<IconFile size={24} stroke={1} />}
               />
             </ItemWrapper>
           </Flex>

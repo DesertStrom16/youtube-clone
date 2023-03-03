@@ -32,7 +32,7 @@ export default function MiniDrawerItem({
         >
           <IconWrapper match={match}>{icon}</IconWrapper>
 
-          <Text fz={10} fw={400} mt={6} color="#FFFFFF">
+          <Text fz={10} fw={400} mt={6} mah={14} lh='14px' color="#FFFFFF">
             {text}
           </Text>
         </Flex>
