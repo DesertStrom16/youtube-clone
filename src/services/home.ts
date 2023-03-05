@@ -10,7 +10,6 @@ export const homeApi = createApi({
     getHome: build.query<GetHomeType, string>({
       query: () => "home/fetchHome",
       transformResponse: (response: GetHomeTypeResponse) => {
-        console.log("FIRING HOME TRANSFORM NOW");
         return { ...response, tokens: [response.content.token] };
       },
     }),

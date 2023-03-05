@@ -51,7 +51,6 @@ export default function AppBar({
 
   useEffect(() => {
     if (homeMatch) {
-      console.log("HOMEPAGE");
       setIsDrawer(false);
       if (minWidth1300) {
         setIsSmall(false);
@@ -61,7 +60,6 @@ export default function AppBar({
 
   useEffect(() => {
     if (videoMatch) {
-      console.log("VIDEOPAGE");
       setIsDrawer(false);
       setIsSmall(false);
     }

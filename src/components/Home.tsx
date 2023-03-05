@@ -9,6 +9,9 @@ import Drawer from "./drawer/Drawer";
 import MiniDrawer from "./drawer/MiniDrawer";
 import GridItem from "./GridItem";
 import { useGetHomeQuery } from "../services/home";
+import { mdMin, smMin, xsMin } from "../utils/breakpoints";
+import GridItemSkeleton from "./GridItemSkeleton";
+import GridContinuation from "./GridContinuation";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -17,9 +20,15 @@ type Props = {
 };
 
 export default function Home({ isOpen }: Props): JSX.Element {
+  const xlMin = isOpen ? 2303 : 2135;
+  const lgMin = isOpen ? 1968 : 1800;
+
   const dispatch = useAppDispatch();
-  // const videos = useAppSelector((state) => state.data.videos);
-  // const loading = useAppSelector((state) => state.data.loading);
+  const xsMinMatch = useMediaQuery(`(min-width: ${xsMin}px)`);
+  const smMinMatch = useMediaQuery(`(min-width: ${smMin}px)`);
+  const mdMinMatch = useMediaQuery(`(min-width: ${mdMin}px)`);
+  const lgMinMatch = useMediaQuery(`(min-width: ${lgMin}px)`);
+  const xlMinMatch = useMediaQuery(`(min-width: ${xlMin}px)`);
 
   const {
     data: homeData,
@@ -27,36 +36,55 @@ export default function Home({ isOpen }: Props): JSX.Element {
     isFetching,
     isError,
     //@ts-expect-error
-  } = useGetHomeQuery(null, {
-    // selectFromResult: ({ data }) => ({}),
-  });
+  } = useGetHomeQuery(null);
 
-  // useEffect(() => {
-  //   fetchVideosHandler();
-  // }, []);
+  const homeHasData =
+    homeData && homeData.content && homeData.content.content?.length > 0;
 
-  // const fetchVideosHandler = async () => {
-  //   dispatch(setLoading(true));
+  const numBlocks = xlMinMatch
+    ? 6
+    : lgMinMatch
+    ? 5
+    : mdMinMatch
+    ? 4
+    : smMinMatch
+    ? 3
+    : xsMinMatch
+    ? 2
+    : 1;
 
-  //   try {
-  //     let videos = await fetchVideos();
-
-  //     if (videos) {
-  //       dispatch(setVideos(videos));
-  //     }
-  //   } catch (e) {
-  //     dispatch(setLoading(false));
-  //   }
-  // };
+  const remainder =
+    homeHasData && xsMinMatch ? homeData.content.content.length % numBlocks : 0;
 
   const isInitialLoading = isLoading || isFetching;
 
-  const initialData = isInitialLoading ? <Loader /> : isError ? <Text>Error</Text> : homeData &&
-  homeData.content &&
-  homeData.content.content?.length > 0 &&
-  homeData.content.content.map((video, index) => (
-    <GridItem key={`${video.videoId}${index}`} isOpen={isOpen} dataLength={homeData.content.content.length} index={index} {...video} />
-  ));
+  const initialData = isInitialLoading ? (
+    <Loader />
+  ) : isError ? (
+    <Text>Error</Text>
+  ) : (
+    homeHasData &&
+    homeData.content.content.map((video, index) => {
+      if (
+        remainder &&
+        homeData.content.content.length - (index + 1) < remainder
+      ) {
+        console.log("aborted", index + 1);
+      } else {
+        return (
+          <GridItem
+            key={`${video.videoId}${index}`}
+            isOpen={isOpen}
+            dataLength={homeData.content.content.length}
+            index={index}
+            {...video}
+          />
+        );
+      }
+    })
+  );
+
+  // const skeletonData = homeHasData ?  : null;
 
   return (
     <Flex
@@ -75,7 +103,7 @@ export default function Home({ isOpen }: Props): JSX.Element {
       }}
     >
       <Flex
-      // BackgroundColorHere
+        // BackgroundColorHere
         // bg="red"
         w="100%"
         h="fit-content"
@@ -113,16 +141,10 @@ export default function Home({ isOpen }: Props): JSX.Element {
             maxWidth: "calc((360px + 16px) * 6)",
           },
         }}
-        
       >
         {initialData}
-        {/* {loading ? (
-          <Text>Loading...</Text>
-        ) : (
-          videos.map((video, index) => (
-            <GridItem key={`${video.videoId}${index}`} isOpen={isOpen} {...video} />
-          ))
-        )} */}
+
+        <GridContinuation isOpen={isOpen} numBlocks={numBlocks} />
       </Flex>
     </Flex>
   );

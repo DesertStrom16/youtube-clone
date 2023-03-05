@@ -4,6 +4,7 @@ import NavButton from "./navbar/NavButton";
 import "./GridItem.css";
 import { Link } from "react-router-dom";
 import { Video } from "../types/video";
+import { mdMin, smMin, xsMin } from "../utils/breakpoints";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -28,11 +29,6 @@ export default function GridItem({
   index
 }: Props): JSX.Element {
   const isSkeletonHandler = (numBlocks: number) => {
-   
-    if (numBlocks === 3) {
-      console.log(dataLength)
-      console.log(dataLength % numBlocks)
-    }
     if (
       dataLength % numBlocks !== 0 &&
       dataLength - index <= dataLength % numBlocks
@@ -43,18 +39,11 @@ export default function GridItem({
     }
   };
 
-  // const isSkeleton = isSkeletonHandler(numOfBlocks);
 
   // const xlMax = ;
   const xlMin = isOpen ? 2303 : 2135;
   // const lgMax = ;
   const lgMin = isOpen ? 1968 : 1800;
-  // const mdMax = ;
-  const mdMin = 1143;
-  // const smMax = ;
-  const smMin = 887;
-  // const xsMax = ;
-  const xsMin = 512;
 
   return (
     <Flex
@@ -104,7 +93,7 @@ export default function GridItem({
           to={`/watch/${videoId}`}
           sx={{ cursor: "pointer" }}
         >
-          <img
+          {/* <img
             src={thumbnailUrl}
             width="100%"
             height="100%"
@@ -115,7 +104,7 @@ export default function GridItem({
               minWidth: "1px",
               minHeight: "1px",
             }}
-          />
+          /> */}
         </Box>
       </div>
       <Flex
