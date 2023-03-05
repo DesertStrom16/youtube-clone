@@ -9,6 +9,8 @@ type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
 type Props = Video & {
   isOpen: boolean;
+  dataLength: number;
+  index: number;
 };
 
 // Unsure on :active styling, may revert back to mantine
@@ -22,7 +24,37 @@ export default function GridItem({
   videoId,
   viewCount,
   length,
+  dataLength,
+  index
 }: Props): JSX.Element {
+  const isSkeletonHandler = (numBlocks: number) => {
+   
+    if (numBlocks === 3) {
+      console.log(dataLength)
+      console.log(dataLength % numBlocks)
+    }
+    if (
+      dataLength % numBlocks !== 0 &&
+      dataLength - index <= dataLength % numBlocks
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // const isSkeleton = isSkeletonHandler(numOfBlocks);
+
+  // const xlMax = ;
+  const xlMin = isOpen ? 2303 : 2135;
+  // const lgMax = ;
+  const lgMin = isOpen ? 1968 : 1800;
+  // const mdMax = ;
+  const mdMin = 1143;
+  // const smMax = ;
+  const smMin = 887;
+  // const xsMax = ;
+  const xsMin = 512;
 
   return (
     <Flex
@@ -31,29 +63,31 @@ export default function GridItem({
       direction="column"
       maw={320}
       sx={{
-        "@media (min-width: 512px)": {
+        [`@media (min-width: ${xsMin}px)`]: {
+          // 2
           width: "calc(50% - 16px)",
         },
-        "@media (min-width: 887px)": {
+        [`@media (min-width: ${smMin}px)`]: {
+          // 3
           width: "calc((100% / 3) - 16px)",
         },
-        "@media (min-width: 1143px)": {
+        [`@media (min-width: ${mdMin}px)`]: {
+          // 4
           width: "calc(25% - 16px)",
         },
         [`@media (min-width: ${isOpen ? "calc(1463px + 168px)" : "1463px"})`]: {
           maxWidth: 360,
         },
-        // Sidebar opening in page after 1300px
-        // Makes counting # of items in row hard without js
-        // If drawer is open then its 1800px + (Drawer - MiniDrawer)
-        // So 1800px + (240 - 72);
-        // That'll dictate 4 vs 5 items without a ton of logic
-        [`@media (min-width: ${isOpen ? "1968px" : "1800px"})`]: {
+        [`@media (min-width: ${lgMin}px)`]: {
+          // 5
           width: "calc(20% - 16px)",
         },
-        [`@media (min-width: ${isOpen ? "2303px" : "2135px"})`]: {
+        [`@media (min-width: ${xlMin}px)`]: {
+          // 6
           width: "calc((100% / 6) - 16px)",
         },
+
+        
       }}
       mb={40}
       mx={8}
@@ -119,8 +153,8 @@ export default function GridItem({
           <Text
             mt={12}
             mb={4}
+            color="#f1f1f1"
             sx={{
-              fontFamily: "Roboto, Arial, sans-serif",
               fontSize: 14,
               lineHeight: "20px",
               maxHeight: "40px",
@@ -142,17 +176,25 @@ export default function GridItem({
             fw={400}
             lh="20px"
             sx={{ wordBreak: "break-word", fontSize: 14, whiteSpace: "pre" }}
-            color="#606060"
+            color="#aaa"
+            // color="#606060"
           >
             {channel}
           </Text>
           <Flex mah="40px">
-            <Text color="#606060" lh="20px" size={14} fw={400}>
+            <Text
+              // color="#606060"
+              color="#aaa"
+              lh="20px"
+              size={14}
+              fw={400}
+            >
               {viewCount}
             </Text>
             <Text
               className="dateWrapper"
-              color="#606060"
+              // color="#606060"
+              color="#aaa"
               lh="20px"
               size={14}
               fw={400}

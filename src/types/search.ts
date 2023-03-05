@@ -1,16 +1,11 @@
-import { Video } from "./video";
+import { GetHome, GetHomeTypeResponse } from "./home";
 
-export type GetSearch = {
+export type GetSearch = GetHome & {
   query: string;
-  token: string;
-  content: Video[];
 };
 
-export type GetSearchTypeResponse = {
-  key: string;
+export type GetSearchTypeResponse = GetHomeTypeResponse & {
   query: string;
-  client: any;
-  content: GetSearch[];
 };
 
 export type GetSearchType = GetSearchTypeResponse & {

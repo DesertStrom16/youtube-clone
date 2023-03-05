@@ -31,9 +31,8 @@ export default function SearchResults({}: Props): JSX.Element {
   const initialData =
     searchData &&
     searchData.content &&
-    searchData.content.length > 0 &&
-    searchData.content[0].content?.length > 0 &&
-    searchData.content[0].content.map((item, index) => (
+    searchData.content.content?.length > 0 &&
+    searchData.content.content.map((item, index) => (
       <SearchResultItem key={`${item.videoId}${index}`} {...item} />
     ));
 

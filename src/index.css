@@ -1,6 +1,17 @@
 body {
   margin: 0;
-  font-family: "Roboto","Arial",sans-serif!important;
+  font-family: "Roboto", "Arial", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-weight: 400;
+  src: url("../public/Roboto-Regular.ttf");
+}
+@font-face {
+  font-family: "Roboto";
+  font-weight: 500;
+  src: url("../public/Roboto-Medium.ttf");
 }

@@ -31,7 +31,7 @@ export const searchApi = createApi({
       query: (name) => "main/fetchSearch?q=" + name.replace(' ', '+'),
       transformResponse: (response: GetSearchTypeResponse) => {
         console.log("FIRING TRANSFORM NOW");
-        return { ...response, tokens: [response.content[0].token] };
+        return { ...response, tokens: [response.content.token] };
       },
     }),
     getSearchContinuation: build.query<GetSearch, SearchContinuation>({
