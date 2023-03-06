@@ -8,14 +8,8 @@ import type {
   GetSearch,
   GetSearchType,
   GetSearchTypeResponse,
+  SearchContinuation,
 } from "../types/search";
-
-type SearchContinuation = {
-  client: any;
-  token: string;
-  key: string;
-  query: string;
-};
 
 export const searchApi = createApi({
   reducerPath: "searchApi",

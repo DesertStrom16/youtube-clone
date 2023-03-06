@@ -14,3 +14,9 @@ export type GetHomeTypeResponse = {
 export type GetHomeType = GetHomeTypeResponse & {
   tokens: string[];
 };
+
+export type HomeContinuation = {
+  client: any;
+  token: string;
+  key: string;
+};

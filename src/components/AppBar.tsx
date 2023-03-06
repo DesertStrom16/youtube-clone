@@ -1,11 +1,10 @@
-import { Box, Button, Flex, Title, ScrollArea } from "@mantine/core";
+import { Box, Button, Flex, ScrollArea } from "@mantine/core";
 import { useMatch } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import MiniDrawer from "./drawer/MiniDrawer";
 import Drawer from "./drawer/Drawer";
 import Navbar from "./navbar/Navbar";
 import { useEffect, useRef, useState } from "react";
-import { useGetSearchQuery } from "../services/search";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -31,21 +30,7 @@ export default function AppBar({
 }: Props): JSX.Element {
   const homeMatch = useMatch("");
   const videoMatch = useMatch("/watch/:slug");
-  const searchMatch = useMatch("/search/:slug");
-  let query = searchMatch?.pathname.replace("/search/", "").replace("/", "");
   const dispatch = useAppDispatch();
-
-  const searchPaginateLoading = useAppSelector(
-    (state) => state.data.searchPaginateLoading
-  );
-  const searchPaginateError = useAppSelector(
-    (state) => state.data.searchPaginateError
-  );
-
-  //@ts-expect-error
-  const { data: searchData } = useGetSearchQuery(query, {
-    skip: !query || query === "",
-  });
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -74,23 +59,6 @@ export default function AppBar({
     }
   };
 
-  const handleScrollSearch = ({ x, y }: { x: number; y: number }) => {
-    let divHeight = wrapperRef.current?.getBoundingClientRect().height;
-
-    // 46: 56px for navbar minus a 10px buffer
-    if (
-      searchData &&
-      !searchPaginateLoading &&
-      !searchPaginateError &&
-      y > 0 &&
-      divHeight &&
-      divHeight - window.innerHeight + 46 < y
-    ) {
-      // Paginate onScroll Handler Here
-      // console.log("FIRE PAGINATE REQUEST", query);
-    }
-  };
-
   return (
     <ScrollArea.Autosize
       maxHeight="100vh"
@@ -100,7 +68,6 @@ export default function AppBar({
       bg="#0f0f0f"
       scrollHideDelay={0}
       type="always"
-      onScrollPositionChange={searchMatch ? handleScrollSearch : undefined}
       styles={() => ({
         scrollbar: {
           "&, &:hover": {

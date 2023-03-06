@@ -35,8 +35,7 @@ export default function Home({ isOpen }: Props): JSX.Element {
     isLoading,
     isFetching,
     isError,
-    //@ts-expect-error
-  } = useGetHomeQuery(null);
+  } = useGetHomeQuery("");
 
   const homeHasData =
     homeData && homeData.content && homeData.content.content?.length > 0;
@@ -57,34 +56,6 @@ export default function Home({ isOpen }: Props): JSX.Element {
     homeHasData && xsMinMatch ? homeData.content.content.length % numBlocks : 0;
 
   const isInitialLoading = isLoading || isFetching;
-
-  const initialData = isInitialLoading ? (
-    <Loader />
-  ) : isError ? (
-    <Text>Error</Text>
-  ) : (
-    homeHasData &&
-    homeData.content.content.map((video, index) => {
-      if (
-        remainder &&
-        homeData.content.content.length - (index + 1) < remainder
-      ) {
-        console.log("aborted", index + 1);
-      } else {
-        return (
-          <GridItem
-            key={`${video.videoId}${index}`}
-            isOpen={isOpen}
-            dataLength={homeData.content.content.length}
-            index={index}
-            {...video}
-          />
-        );
-      }
-    })
-  );
-
-  // const skeletonData = homeHasData ?  : null;
 
   return (
     <Flex
@@ -142,9 +113,45 @@ export default function Home({ isOpen }: Props): JSX.Element {
           },
         }}
       >
-        {initialData}
-
-        <GridContinuation isOpen={isOpen} numBlocks={numBlocks} />
+        {isInitialLoading ? (
+          <Loader />
+        ) : isError ? (
+          <Text>Error</Text>
+        ) : (
+          homeHasData &&
+          homeData.content.content.map((video, index) => {
+            if (
+              remainder &&
+              homeData.content.content.length - (index + 1) < remainder
+            ) {
+              console.log("aborted", index + 1);
+            } else {
+              return (
+                <GridItem
+                  key={`${video.videoId}${index}`}
+                  isOpen={isOpen}
+                  dataLength={homeData.content.content.length}
+                  index={index}
+                  {...video}
+                />
+              );
+            }
+          })
+        )}
+        {!isInitialLoading &&
+          !isError &&
+          homeData?.tokens.map((item, index) => (
+            <GridContinuation
+              isOpen={isOpen}
+              numBlocks={numBlocks}
+              token={item}
+              index={index}
+              dataLength={homeData.tokens.length - 1}
+              client={homeData.client}
+              key={`${item}${index}`}
+              requestKey={homeData.key}
+            />
+          ))}
       </Flex>
     </Flex>
   );

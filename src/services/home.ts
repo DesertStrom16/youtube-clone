@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { serverUrl } from "../utils/env";
-import { GetHomeType, GetHomeTypeResponse } from "../types/home";
+import { GetHomeType, GetHomeTypeResponse, HomeContinuation } from "../types/home";
+import { GetHome } from "../types/home";
 
 export const homeApi = createApi({
   reducerPath: "homeApi",
@@ -13,7 +14,30 @@ export const homeApi = createApi({
         return { ...response, tokens: [response.content.token] };
       },
     }),
+    getHomeContinuation: build.query<GetHome, HomeContinuation>({
+      query: (body) => ({
+        url: `home/postHomeContinuation`,
+        method: "POST",
+        body: body,
+      }),
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+        try {
+          const { data: continuationItem } = await queryFulfilled;
+
+          const patchResult = dispatch(
+            homeApi.util.updateQueryData(
+              "getHome",
+              '',
+              (draft) => {
+                draft.tokens.push(continuationItem.token);
+              }
+            )
+          );
+        } catch {}
+      },
+    }),
   }),
 });
 
-export const { useGetHomeQuery } = homeApi;
+export const { useGetHomeQuery, useGetHomeContinuationQuery } = homeApi;
+// /home/postHomeContinuation

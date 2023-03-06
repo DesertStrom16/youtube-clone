@@ -52,8 +52,10 @@ export default function SearchResultWrapper({
   }, []);
 
   const handleIntersect = (entries: any, observer: any) => {
-    console.log("INTERSECT");
-    console.log(entries);
+    console.log(entries[0].isIntersecting)
+    if (entries[0].isIntersecting) {
+      console.log("INTERSECT");
+    }
   };
 
   const loadMoreHandler = () => {
