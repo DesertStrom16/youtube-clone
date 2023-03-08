@@ -26,7 +26,7 @@ export default function GridItem({
   viewCount,
   length,
   dataLength,
-  index
+  index,
 }: Props): JSX.Element {
   const isSkeletonHandler = (numBlocks: number) => {
     if (
@@ -38,7 +38,6 @@ export default function GridItem({
       return false;
     }
   };
-
 
   // const xlMax = ;
   const xlMin = isOpen ? 2303 : 2135;
@@ -75,8 +74,6 @@ export default function GridItem({
           // 6
           width: "calc((100% / 6) - 16px)",
         },
-
-        
       }}
       mb={40}
       mx={8}
@@ -164,19 +161,47 @@ export default function GridItem({
             href=""
             fw={400}
             lh="20px"
-            sx={{ wordBreak: "break-word", fontSize: 14, whiteSpace: "pre" }}
+            sx={{
+              wordBreak: "break-word",
+              fontSize: 12,
+              whiteSpace: "pre",
+              [`@media (min-width: ${
+                isOpen ? "calc(1463px + 168px)" : "1463px"
+              })`]: {
+                fontSize: 14,
+              },
+            }}
             color="#aaa"
             // color="#606060"
           >
             {channel}
           </Text>
-          <Flex mah="40px">
+          <Flex
+            sx={{
+              maxHeight: 36,
+
+              [`@media (min-width: ${
+                isOpen ? "calc(1631px + 168px)" : "1631px"
+              })`]: {
+                maxHeight: 40,
+              },
+            }}
+          >
             <Text
               // color="#606060"
               color="#aaa"
-              lh="20px"
-              size={14}
               fw={400}
+              sx={{
+                fontSize: 12,
+                lineHeight: "18px",
+
+                [`@media (min-width: ${
+                  isOpen ? "calc(1631px + 168px)" : "1631px"
+                })`]: {
+                  fontSize: 14,
+                  lineHeight: "20px",
+                },
+              }}
             >
               {viewCount}
             </Text>
@@ -184,9 +209,18 @@ export default function GridItem({
               className="dateWrapper"
               // color="#606060"
               color="#aaa"
-              lh="20px"
-              size={14}
               fw={400}
+              sx={{
+                fontSize: 12,
+                lineHeight: "18px",
+
+                [`@media (min-width: ${
+                  isOpen ? "calc(1631px + 168px)" : "1631px"
+                })`]: {
+                  fontSize: 14,
+                  lineHeight: "20px",
+                },
+              }}
             >
               {uploadDate}
             </Text>

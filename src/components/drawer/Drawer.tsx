@@ -77,6 +77,7 @@ export default function Drawer({
             // bg="red"
             display={{ base: "flex", lg: match ? "flex" : "none" }}
             menuClickHandler={menuClickHandler}
+            isDrawer={isDrawer}
           />
         </Box>
 

@@ -3,6 +3,8 @@ import { IconMenu2 } from "@tabler/icons-react";
 import { useMatch } from "react-router-dom";
 import NavbarLeft from "./NavbarLeft";
 import SearchBar from "../SearchBar";
+import { useMediaQuery } from "@mantine/hooks";
+import { useEffect, useState } from "react";
 
 type Props = {
   menuClickHandler: () => void;
@@ -11,6 +13,14 @@ type Props = {
 export default function Navbar(props: Props): JSX.Element {
   const { menuClickHandler } = props;
   let match = useMatch("/watch/:slug");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const maxWidthBreakpoint = useMediaQuery(`(max-width: 656px)`);
+
+  useEffect(() => {
+    if (!maxWidthBreakpoint) {
+      setSearchOpen(false);
+    }
+  }, [maxWidthBreakpoint]);
 
   return (
     <Flex
@@ -41,10 +51,11 @@ export default function Navbar(props: Props): JSX.Element {
         // BackgroundColorHere
         // bg="orange"
         menuClickHandler={menuClickHandler}
+        searchOpen={searchOpen}
+        setSearchOpen={setSearchOpen}
       />
 
-      <SearchBar />
-      <Flex miw={225}></Flex>
+      <SearchBar searchOpen={searchOpen} setSearchOpen={setSearchOpen} />
     </Flex>
   );
 }
