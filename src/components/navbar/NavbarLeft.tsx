@@ -111,23 +111,29 @@ export default function NavbarLeft(props: Props): JSX.Element {
           display: searchOpen ? "none" : "block",
         }}
       >
+        <Box h='100%' sx={{
+            "@media (min-width: 876px)": {
+              width: 129,
+              minWidth: 129,
+            },
+          }}>
         <Flex
           h="100%"
           w={110}
           miw={110}
           align="center"
-          justify="flex-end"
+          justify="center"
           sx={{
             "@media (min-width: 876px)": {
-              width: 129,
-              minWidth: 129,
+              width: 120,
+              minWidth: 120,
             },
           }}
         >
           <Title size="h3" color="#FFFFFF" lh="normal">
             YT-Clone
           </Title>
-        </Flex>
+        </Flex></Box>
       </Link>
     </Box>
   );

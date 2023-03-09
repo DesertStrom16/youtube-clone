@@ -2,6 +2,7 @@ import { Box, Button, Flex, Text } from "@mantine/core";
 import { useParams } from "react-router-dom";
 import ReactPlayer from "react-player/youtube";
 import { useGetRecommendedQuery } from "../services/watch";
+import VideoScreenItem from "./VideoScreenItem";
 
 type Props = {};
 
@@ -13,26 +14,27 @@ export default function VideoScreen({}: Props): JSX.Element {
     skip: !id,
   });
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <Flex
       w="100%"
-      // maw='100vw'
       sx={{
         flexDirection: "column",
+        maxWidth: "calc(1280px + 402px + (3 * 24px))",
 
         "@media (min-width: 1015px)": {
           flexDirection: "row",
         },
       }}
     >
-      <Flex ml={24} pt={24} pr={24} w="100%">
+      <Flex ml={24} pt={24} pr={24} sx={{ flexGrow: 1 }} direction='column'>
         <Flex
           pos="relative"
           pt="56.25%"
           w="100%"
           bg="red"
+          mah={0}
           sx={{
             minWidth: "calc(240px * (16 / 9))",
             maxWidth: "calc((100vh - (56px + 24px + 36px)) * (16/9))",
@@ -49,6 +51,7 @@ export default function VideoScreen({}: Props): JSX.Element {
             width="100%"
             height="100%"
             controls={true}
+            onReady={() => console.log("Player Ready")}
             style={{
               position: "absolute",
               top: 0,
@@ -58,6 +61,16 @@ export default function VideoScreen({}: Props): JSX.Element {
             }}
             url={`https://www.youtube.com/watch?v=${id}`}
           />
+        </Flex>
+        <Flex mt={12}>
+          <Text
+            lh="28px"
+            color="rgb(241,241,241)"
+            fw={600}
+            sx={{ fontSize: 20, fontFamily: "Youtube Sans", wordBreak: 'break-word' }}
+          >
+            {data?.watchTitle}
+          </Text>
         </Flex>
       </Flex>
 
@@ -69,31 +82,13 @@ export default function VideoScreen({}: Props): JSX.Element {
             width: "100%",
             paddingTop: 24,
             paddingRight: 24,
+            boxSizing: "content-box",
           },
         }}
       >
-        <Flex mb={8} w="100%">
-          <Box
-            h={94}
-            w={168}
-            miw={168}
-            mr={8}
-            sx={{ position: "relative" }}
-          ></Box>
-          <Flex w="100%" pr={24}>
-            <Text
-              color="#f1f1f1"
-              size={14}
-              lh="20px"
-              mah={40}
-              lineClamp={2}
-              fw={500}
-              sx={{ textOverflow: "ellipsis" }}
-            >
-              Sound City
-            </Text>
-          </Flex>
-        </Flex>
+        {data && data.content.content.length > 0
+          ? data.content.content.map((item) => <VideoScreenItem {...item} />)
+          : null}
       </Box>
     </Flex>
   );

@@ -5,6 +5,8 @@ import "./GridItem.css";
 import { Link } from "react-router-dom";
 import { Video } from "../types/video";
 import { mdMin, smMin, xsMin } from "../utils/breakpoints";
+import GridItemTitle from "./grid-item/GridItemTitle";
+import GridItemChannel from "./grid-item/GridItemChannel";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -14,7 +16,6 @@ type Props = Video & {
   index: number;
 };
 
-// Unsure on :active styling, may revert back to mantine
 export default function GridItem({
   isOpen,
   title,
@@ -28,20 +29,7 @@ export default function GridItem({
   dataLength,
   index,
 }: Props): JSX.Element {
-  const isSkeletonHandler = (numBlocks: number) => {
-    if (
-      dataLength % numBlocks !== 0 &&
-      dataLength - index <= dataLength % numBlocks
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  // const xlMax = ;
   const xlMin = isOpen ? 2303 : 2135;
-  // const lgMax = ;
   const lgMin = isOpen ? 1968 : 1800;
 
   return (
@@ -135,47 +123,9 @@ export default function GridItem({
           </Box>
         </Box>
 
-        <Flex direction="column" pr={24}>
-          <Text
-            mt={12}
-            mb={4}
-            color="#f1f1f1"
-            sx={{
-              fontSize: 14,
-              lineHeight: "20px",
-              maxHeight: "40px",
-
-              "@media (min-width: 1464px)": {
-                fontSize: 16,
-                lineHeight: "22px",
-                maxHeight: "44px",
-              },
-            }}
-            lineClamp={2}
-            fw={500}
-          >
-            {title}
-          </Text>
-          <Text
-            component="a"
-            href=""
-            fw={400}
-            lh="20px"
-            sx={{
-              wordBreak: "break-word",
-              fontSize: 12,
-              whiteSpace: "pre",
-              [`@media (min-width: ${
-                isOpen ? "calc(1463px + 168px)" : "1463px"
-              })`]: {
-                fontSize: 14,
-              },
-            }}
-            color="#aaa"
-            // color="#606060"
-          >
-            {channel}
-          </Text>
+        <Flex direction="column" pr={24} sx={{ overflowX: 'hidden',}}>
+          <GridItemTitle title={title} />
+          <GridItemChannel channel={channel} isOpen={isOpen} />
           <Flex
             sx={{
               maxHeight: 36,
@@ -206,7 +156,14 @@ export default function GridItem({
               {viewCount}
             </Text>
             <Text
-              className="dateWrapper"
+              className={
+                !uploadDate ||
+                !viewCount ||
+                uploadDate === "" ||
+                viewCount === ""
+                  ? undefined
+                  : "dateWrapper"
+              }
               // color="#606060"
               color="#aaa"
               fw={400}

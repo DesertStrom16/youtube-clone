@@ -13,6 +13,7 @@ export type GetHomeTypeResponse = {
 
 export type GetHomeType = GetHomeTypeResponse & {
   tokens: string[];
+  overallLength: number;
 };
 
 export type HomeContinuation = {

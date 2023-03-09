@@ -172,7 +172,7 @@ export default function SearchBar({
               placeholder="Search"
               h="fit-content"
               w="100%"
-              rightSection={<IconX stroke={1} size={24} color="#f1f1f1" />}
+              rightSection={<IconX stroke={1} size={25} color="#f1f1f1" />}
               rightSectionWidth="24px"
               styles={() => ({
                 dropdown: {

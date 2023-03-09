@@ -15,6 +15,8 @@ type Props = {
   dataLength: number;
   client: any;
   requestKey: string;
+  xsMinMatch: boolean;
+  overallLength: number;
 };
 
 export default function GridContinuation({
@@ -25,6 +27,8 @@ export default function GridContinuation({
   dataLength,
   requestKey,
   client,
+  xsMinMatch,
+  overallLength,
 }: Props): JSX.Element {
   const dispatch = useAppDispatch();
   const [fetchData, setFetchData] = useState(true);
@@ -47,6 +51,8 @@ export default function GridContinuation({
   };
 
   const hasData = data && data.content && data.content.length > 0;
+
+  const remainder = hasData && xsMinMatch ? overallLength % numBlocks : 0;
 
   return (
     <>
@@ -90,24 +96,41 @@ export default function GridContinuation({
           )}
         </>
       ) : null}
-      {data && data.content && data.content.length > 0 ? (
-        data.content.map((item, index) => (
-          <GridItem
-            key={`${item.videoId}${index}`}
-            isOpen={isOpen}
-            dataLength={dataLength}
-            index={index}
-            {...item}
-          />
-        ))
-      ) : isQueryLoading ? (
-        <Loader />
-      ) : isError ? (
-        <Text>Error</Text>
+      {hasData ? (
+        data.content.map((item, i) => {
+          if (
+            remainder &&
+            index === dataLength - 1 &&
+            overallLength - (overallLength - data.content.length + i + 1) <
+              remainder
+          ) {
+            console.log(
+              `Aborted Continuation: ${index}: overall, `,
+              overallLength - data.content.length + i
+            );
+          } else {
+            return (
+              <GridItem
+                key={`${item.videoId}${i}`}
+                isOpen={isOpen}
+                dataLength={dataLength}
+                index={i}
+                {...item}
+              />
+            );
+          }
+        })
+      ) : isQueryLoading || isError ? (
+        <Flex w="100%" justify="center" align="center" mt={5} mb={30}>
+          {isQueryLoading ? <Loader /> : <Text color="#f1f1f1">Error</Text>}
+        </Flex>
       ) : (
         <Button
           w="20%"
+          mt={5}
+          mb={30}
           mx="40%"
+          fw={500}
           sx={{ alignSelf: "center" }}
           children="Load More"
           onClick={loadMoreHandler}

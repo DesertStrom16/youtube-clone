@@ -6,7 +6,6 @@ type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
 type Props = Video & {};
 
-// Unsure on :active styling, may revert back to mantine
 export default function SearchResultItem({
   videoId,
   thumbnailUrl,

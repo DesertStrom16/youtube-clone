@@ -12,6 +12,7 @@ import { useGetHomeQuery } from "../services/home";
 import { mdMin, smMin, xsMin } from "../utils/breakpoints";
 import GridItemSkeleton from "./GridItemSkeleton";
 import GridContinuation from "./GridContinuation";
+import HomeLoadingSkeleton from "./HomeLoadingSkeleton";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -114,17 +115,17 @@ export default function Home({ isOpen }: Props): JSX.Element {
         }}
       >
         {isInitialLoading ? (
-          <Loader />
+          <HomeLoadingSkeleton isOpen={isOpen} numBlocks={numBlocks} />
         ) : isError ? (
           <Text>Error</Text>
         ) : (
           homeHasData &&
           homeData.content.content.map((video, index) => {
             if (
-              remainder &&
+              remainder && homeData.tokens.length === 1 &&
               homeData.content.content.length - (index + 1) < remainder
             ) {
-              console.log("aborted", index + 1);
+              console.log("aborted Main Home", index + 1);
             } else {
               return (
                 <GridItem
@@ -138,10 +139,10 @@ export default function Home({ isOpen }: Props): JSX.Element {
             }
           })
         )}
-        {!isInitialLoading &&
+        {homeHasData && !isInitialLoading &&
           !isError &&
-          homeData?.tokens.map((item, index) => (
-            <GridContinuation
+          homeData?.tokens.map((item, index) => {
+            return <GridContinuation
               isOpen={isOpen}
               numBlocks={numBlocks}
               token={item}
@@ -150,8 +151,10 @@ export default function Home({ isOpen }: Props): JSX.Element {
               client={homeData.client}
               key={`${item}${index}`}
               requestKey={homeData.key}
+              xsMinMatch={xsMinMatch}
+              overallLength={homeData.overallLength}
             />
-          ))}
+          })}
       </Flex>
     </Flex>
   );

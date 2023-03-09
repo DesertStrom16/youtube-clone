@@ -52,17 +52,17 @@ export default function SearchResults({}: Props): JSX.Element {
     ));
 
   return (
-      <Flex py={16} px={24} justify="center" maw={1144} w='100%'>
-        {loading ? (
-          <Loader />
-        ) : isError ? (
-          <Text color='#f1f1f1'>ERROR</Text>
-        ) : (
-          <Flex maw={1096} direction="column" sx={{flexGrow: 1}}>
-            {initialData}
-            {followOnData}
-          </Flex>
-        )}
-      </Flex>
+    <Flex py={16} px={24} justify="center" maw={1144} w="100%">
+      {loading || isError ? (
+        <Flex h={45} justify="center" align="center">
+          {loading ? <Loader /> : <Text color="#f1f1f1">ERROR</Text>}
+        </Flex>
+      ) : (
+        <Flex maw={1096} direction="column" sx={{ flexGrow: 1 }}>
+          {initialData}
+          {followOnData}
+        </Flex>
+      )}
+    </Flex>
   );
 }

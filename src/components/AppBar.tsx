@@ -67,6 +67,7 @@ export default function AppBar({
       scrollbarSize={16}
       bg="#0f0f0f"
       scrollHideDelay={0}
+      
       type="always"
       styles={() => ({
         scrollbar: {

@@ -11,7 +11,7 @@ export const homeApi = createApi({
     getHome: build.query<GetHomeType, string>({
       query: () => "home/fetchHome",
       transformResponse: (response: GetHomeTypeResponse) => {
-        return { ...response, tokens: [response.content.token] };
+        return { ...response, tokens: [response.content.token], overallLength: response.content.content.length || 0, };
       },
     }),
     getHomeContinuation: build.query<GetHome, HomeContinuation>({
@@ -30,6 +30,7 @@ export const homeApi = createApi({
               '',
               (draft) => {
                 draft.tokens.push(continuationItem.token);
+                draft.overallLength = draft.overallLength + continuationItem.content.length;
               }
             )
           );
@@ -40,4 +41,3 @@ export const homeApi = createApi({
 });
 
 export const { useGetHomeQuery, useGetHomeContinuationQuery } = homeApi;
-// /home/postHomeContinuation

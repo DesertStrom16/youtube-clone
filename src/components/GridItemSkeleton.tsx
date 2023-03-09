@@ -12,7 +12,6 @@ type Props = {
   isOpen: boolean;
 };
 
-// Unsure on :active styling, may revert back to mantine
 export default function GridItemSkeleton({ isOpen }: Props): JSX.Element {
   const xlMin = isOpen ? 2303 : 2135;
   const lgMin = isOpen ? 1968 : 1800;
