@@ -14,13 +14,15 @@ export default function GridItemChannel({
       lh="20px"
       sx={{
         wordBreak: "break-word",
-        fontSize: 12,
+        fontSize: 14,
+        // fontSize: 12,
         whiteSpace: "pre",
         textOverflow: 'ellipsis',
+        overflow: 'hidden',
 
-        [`@media (min-width: ${isOpen ? "calc(1463px + 168px)" : "1463px"})`]: {
-          fontSize: 14,
-        },
+        // [`@media (min-width: ${isOpen ? "calc(1463px + 168px)" : "1463px"})`]: {
+        //   fontSize: 14,
+        // },
       }}
       color="#aaa"
       // color="#606060"

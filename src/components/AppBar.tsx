@@ -67,7 +67,6 @@ export default function AppBar({
       scrollbarSize={16}
       bg="#0f0f0f"
       scrollHideDelay={0}
-      
       type="always"
       styles={() => ({
         scrollbar: {
@@ -96,6 +95,7 @@ export default function AppBar({
       <Flex
         bg="#0f0f0f"
         w="100%"
+        maw='100vw'
         h="100%"
         mih='100vh'
         pos={{

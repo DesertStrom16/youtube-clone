@@ -142,15 +142,16 @@ export default function GridItem({
               color="#aaa"
               fw={400}
               sx={{
-                fontSize: 12,
+                fontSize: 14,
+                // fontSize: 12,
                 lineHeight: "18px",
 
-                [`@media (min-width: ${
-                  isOpen ? "calc(1631px + 168px)" : "1631px"
-                })`]: {
-                  fontSize: 14,
-                  lineHeight: "20px",
-                },
+                // [`@media (min-width: ${
+                //   isOpen ? "calc(1631px + 168px)" : "1631px"
+                // })`]: {
+                //   fontSize: 14,
+                //   lineHeight: "20px",
+                // },
               }}
             >
               {viewCount}
@@ -168,15 +169,16 @@ export default function GridItem({
               color="#aaa"
               fw={400}
               sx={{
-                fontSize: 12,
+                fontSize: 14,
+                // fontSize: 12,
                 lineHeight: "18px",
 
-                [`@media (min-width: ${
-                  isOpen ? "calc(1631px + 168px)" : "1631px"
-                })`]: {
-                  fontSize: 14,
-                  lineHeight: "20px",
-                },
+                // [`@media (min-width: ${
+                //   isOpen ? "calc(1631px + 168px)" : "1631px"
+                // })`]: {
+                //   fontSize: 14,
+                //   lineHeight: "20px",
+                // },
               }}
             >
               {uploadDate}

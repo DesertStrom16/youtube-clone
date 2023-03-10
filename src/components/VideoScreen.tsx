@@ -28,7 +28,7 @@ export default function VideoScreen({}: Props): JSX.Element {
         },
       }}
     >
-      <Flex ml={24} pt={24} pr={24} sx={{ flexGrow: 1 }} direction='column'>
+      <Flex ml={24} pt={24} pr={24} sx={{ flexGrow: 1 }} direction="column">
         <Flex
           pos="relative"
           pt="56.25%"
@@ -36,7 +36,6 @@ export default function VideoScreen({}: Props): JSX.Element {
           bg="red"
           mah={0}
           sx={{
-            minWidth: "calc(240px * (16 / 9))",
             maxWidth: "calc((100vh - (56px + 24px + 36px)) * (16/9))",
 
             "@media (min-width: 1015px)": {
@@ -67,7 +66,11 @@ export default function VideoScreen({}: Props): JSX.Element {
             lh="28px"
             color="rgb(241,241,241)"
             fw={600}
-            sx={{ fontSize: 20, fontFamily: "Youtube Sans", wordBreak: 'break-word' }}
+            sx={{
+              fontSize: 20,
+              fontFamily: "Youtube Sans",
+              wordBreak: "break-word",
+            }}
           >
             {data?.watchTitle}
           </Text>
@@ -76,13 +79,17 @@ export default function VideoScreen({}: Props): JSX.Element {
 
       <Box
         sx={{
+          paddingRight: 24,
+          marginLeft: 24,
+          paddingTop: 48,
+
           "@media (min-width: 1015px)": {
             minWidth: 300,
             maxWidth: 402,
-            width: "100%",
             paddingTop: 24,
             paddingRight: 24,
-            boxSizing: "content-box",
+            marginLeft: 0,
+            // overflow: 'hidden'
           },
         }}
       >
