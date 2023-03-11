@@ -33,7 +33,7 @@ export default function VideoScreen({}: Props): JSX.Element {
           pos="relative"
           pt="56.25%"
           w="100%"
-          bg="red"
+          bg='rgb(0,0,0)'
           mah={0}
           sx={{
             maxWidth: "calc((100vh - (56px + 24px + 36px)) * (16/9))",
@@ -86,6 +86,7 @@ export default function VideoScreen({}: Props): JSX.Element {
           "@media (min-width: 1015px)": {
             minWidth: 300,
             maxWidth: 402,
+            width: '100%',
             paddingTop: 24,
             paddingRight: 24,
             marginLeft: 0,

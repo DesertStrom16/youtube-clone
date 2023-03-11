@@ -45,6 +45,7 @@ export default function SearchBar({
   const [autoValue, setAutoValue] = useState(location || "");
   const [autoValueDebounced] = useDebouncedValue(autoValue, 200);
   const isAutoEmpty = autoValue.trim() === "";
+  //   breakpoint for full width search bar: 656px
 
   useEffect(() => {
     if (slug && slug !== "" && slug !== autoValue) {
@@ -67,18 +68,22 @@ export default function SearchBar({
     skip: autoValueDebounced.trim() === "",
   });
 
-  //   breakpoint for full width search bar: 656px
+  const submitHandler = () => {
+    ref.current?.blur();
 
-  const searchSubmitHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      ref.current?.blur();
-
+    if (!isAutoEmpty) {
       if (location?.trim() === encodeURI(autoValue).trim()) {
         console.log("REFETCHING");
         refetch();
       } else {
         navigate(`/search/${encodeURI(autoValue)}`);
       }
+    }
+  };
+
+  const searchSubmitHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      submitHandler();
     }
   };
 
@@ -89,9 +94,12 @@ export default function SearchBar({
 
   const openSearchHandler = () => {
     setSearchOpen(true);
-  }
+  };
 
-  const searchButtonHandler = () => {};
+  const clearSearchHandler = () => {
+    setAutoValue("");
+    ref.current?.focus();
+  };
 
   return (
     <>
@@ -172,14 +180,39 @@ export default function SearchBar({
               placeholder="Search"
               h="fit-content"
               w="100%"
-              rightSection={<IconX stroke={1} size={25} color="#f1f1f1" />}
+              rightSection={
+                <UnstyledButton
+                  miw={40}
+                  w={40}
+                  mih={40}
+                  h={40}
+                  onClick={clearSearchHandler}
+                  sx={{
+                    borderRadius: 20,
+                    textAlign: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+
+                    "&:hover": {
+                      backgroundColor: "rgba(255,255,255,.1)",
+                    },
+                    "&:active": {
+                      backgroundColor: "rgba(255,255,255,.2)",
+                    },
+                  }}
+                  bg="transparent"
+                >
+                  <IconX stroke={1} size={25} color="#f1f1f1" />
+                </UnstyledButton>
+              }
               rightSectionWidth="24px"
               styles={() => ({
                 dropdown: {
-                  width: 'calc(100%)!important',
+                  width: "calc(100%)!important",
                   marginTop: 3,
                   borderRadius: 12,
-                  marginLeft: -21
+                  marginLeft: -21,
                 },
                 itemsWrapper: {
                   padding: "16px 0 18px 0",
@@ -216,14 +249,16 @@ export default function SearchBar({
                 },
               })}
               data={
-                typeof autoData === "object" && autoData.length > 0
+                typeof autoData === "object" &&
+                autoData.length > 0 &&
+                !isAutoEmpty
                   ? autoData
                   : []
               }
             />
           </Flex>
           <UnstyledButton
-            onClick={searchButtonHandler}
+            onClick={submitHandler}
             sx={{
               border: "1px solid hsl(0,0%,18.82%)",
               backgroundColor: "hsla(0,0%,100%,0.08)",
@@ -297,9 +332,9 @@ export default function SearchBar({
               backgroundColor: "#212121",
             },
 
-            '& path:first-of-type': {
-              fill: '#fff'
-            }
+            "& path:first-of-type": {
+              fill: "#fff",
+            },
           }}
         >
           <IconMicrophone size={22} color="#fff" stroke={1} />
@@ -314,7 +349,7 @@ export default function SearchBar({
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: 'flex-end',
+          justifyContent: "flex-end",
 
           "@media (max-width: 656px)": {
             minWidth: 141.31,
@@ -341,7 +376,7 @@ export default function SearchBar({
             },
 
             "@media (max-width: 656px)": {
-             marginRight: 0
+              marginRight: 0,
             },
           }}
           bg="transparent"

@@ -11,14 +11,12 @@ export default function GridItemChannel({
       component="a"
       href=""
       fw={400}
+      lineClamp={1}
       lh="20px"
       sx={{
         wordBreak: "break-word",
         fontSize: 14,
         // fontSize: 12,
-        whiteSpace: "pre",
-        textOverflow: 'ellipsis',
-        overflow: 'hidden',
 
         // [`@media (min-width: ${isOpen ? "calc(1463px + 168px)" : "1463px"})`]: {
         //   fontSize: 14,

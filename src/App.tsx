@@ -42,7 +42,7 @@ function App() {
             lg: 1300,
             xl: 1400,
           },
-          fontFamily: '"Roboto","Arial",sans-serif'
+          fontFamily: '"Roboto","Arial",sans-serif',
         }}
       >
         <AppBar
@@ -56,7 +56,9 @@ function App() {
         >
           <Routes>
             <Route path="/search/:id" element={<SearchResults />} />
+            <Route path="/search/" element={<NotFound />} />
             <Route path="/watch/:id" element={<VideoScreen />} />
+            <Route path="/watch/" element={<NotFound />} />
             <Route path="/" element={<Home isOpen={isOpen} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

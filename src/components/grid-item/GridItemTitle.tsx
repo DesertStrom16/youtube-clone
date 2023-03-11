@@ -12,6 +12,7 @@ export default function GridItemTitle({ title }: Props): JSX.Element {
         fontSize: 14,
         lineHeight: "20px",
         maxHeight: "40px",
+        wordBreak: 'break-word',
 
         "@media (min-width: 1464px)": {
           fontSize: 16,

@@ -123,7 +123,7 @@ export default function GridItem({
           </Box>
         </Box>
 
-        <Flex direction="column" pr={24} sx={{ overflowX: 'hidden',}}>
+        <Flex direction="column" pr={24} sx={{ overflowX: "hidden" }}>
           <GridItemTitle title={title} />
           <GridItemChannel channel={channel} isOpen={isOpen} />
           <Flex
@@ -137,51 +137,56 @@ export default function GridItem({
               },
             }}
           >
-            <Text
-              // color="#606060"
-              color="#aaa"
-              fw={400}
-              sx={{
-                fontSize: 14,
-                // fontSize: 12,
-                lineHeight: "18px",
+            <Text lh='20px' mah={40} lineClamp={2} maw='100%' display='flex' sx={{flexWrap: 'wrap'}}>
+              <Text
+                component="span"
+                display='inline-block'
+                color="#aaa"
+                fw={400}
+                sx={{
+                  fontSize: 14,
+                  // fontSize: 12,
+                  lineHeight: "18px",
 
-                // [`@media (min-width: ${
-                //   isOpen ? "calc(1631px + 168px)" : "1631px"
-                // })`]: {
-                //   fontSize: 14,
-                //   lineHeight: "20px",
-                // },
-              }}
-            >
-              {viewCount}
-            </Text>
-            <Text
-              className={
-                !uploadDate ||
-                !viewCount ||
-                uploadDate === "" ||
-                viewCount === ""
-                  ? undefined
-                  : "dateWrapper"
-              }
-              // color="#606060"
-              color="#aaa"
-              fw={400}
-              sx={{
-                fontSize: 14,
-                // fontSize: 12,
-                lineHeight: "18px",
+                  // [`@media (min-width: ${
+                  //   isOpen ? "calc(1631px + 168px)" : "1631px"
+                  // })`]: {
+                  //   fontSize: 14,
+                  //   lineHeight: "20px",
+                  // },
+                }}
+              >
+                {viewCount}
+              </Text>
+              <Text
+                component="span"
+                display='inline-block'
+                className={
+                  !uploadDate ||
+                  !viewCount ||
+                  uploadDate === "" ||
+                  viewCount === ""
+                    ? undefined
+                    : "dateWrapper"
+                }
+                // color="#606060"
+                color="#aaa"
+                fw={400}
+                sx={{
+                  fontSize: 14,
+                  // fontSize: 12,
+                  lineHeight: "18px",
 
-                // [`@media (min-width: ${
-                //   isOpen ? "calc(1631px + 168px)" : "1631px"
-                // })`]: {
-                //   fontSize: 14,
-                //   lineHeight: "20px",
-                // },
-              }}
-            >
-              {uploadDate}
+                  // [`@media (min-width: ${
+                  //   isOpen ? "calc(1631px + 168px)" : "1631px"
+                  // })`]: {
+                  //   fontSize: 14,
+                  //   lineHeight: "20px",
+                  // },
+                }}
+              >
+                {uploadDate}
+              </Text>
             </Text>
           </Flex>
         </Flex>
