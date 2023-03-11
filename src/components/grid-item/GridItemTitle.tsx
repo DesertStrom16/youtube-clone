@@ -9,16 +9,19 @@ export default function GridItemTitle({ title }: Props): JSX.Element {
       mb={4}
       color="#f1f1f1"
       sx={{
-        fontSize: 14,
-        lineHeight: "20px",
-        maxHeight: "40px",
+        // fontSize: 14,
+        // lineHeight: "20px",
+        // maxHeight: "40px",
+        fontSize: 16,
+        lineHeight: "22px",
+        maxHeight: "44px",
         wordBreak: 'break-word',
 
-        "@media (min-width: 1464px)": {
-          fontSize: 16,
-          lineHeight: "22px",
-          maxHeight: "44px",
-        },
+        // "@media (min-width: 1464px)": {
+        //   fontSize: 16,
+        //   lineHeight: "22px",
+        //   maxHeight: "44px",
+        // },
       }}
       lineClamp={2}
       fw={500}

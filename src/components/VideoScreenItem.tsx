@@ -10,12 +10,57 @@ export default function VideoScreenItem({
   channel,
   viewCount,
   uploadDate,
-  videoId
+  videoId,
+  thumbnailUrl,
 }: Props) {
   return (
-    <Link to={'/watch/' + videoId} style={{display: 'flex', marginBottom: 8, width: '100%', color: 'transparent', fontSize: undefined, textDecoration: 'none'}}>
-      <Box h={94} w={168} miw={168} mr={8} sx={{ position: "relative" }}></Box>
-      <Flex w="100%" pr={24} direction={"column"}>
+    <Flex mb={8} w="100%">
+      <Box
+        h={94}
+        w={168}
+        miw={168}
+        mr={8}
+        sx={{
+          position: "relative",
+        }}
+      >
+        <Link
+          to={"/watch/" + videoId}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderRadius: 8,
+            overflow: "hidden",
+          }}
+        >
+          <img
+            style={{
+              objectFit: "cover",
+              width: "100%",
+              height: "100%",
+              backgroundColor: "transparent",
+            }}
+            src={thumbnailUrl}
+          />
+        </Link>
+      </Box>
+      <Box
+        w="100%"
+        pr={24}
+        h="fit-content"
+        sx={{
+          color: "transparent",
+          fontSize: undefined,
+          textDecoration: "none",
+          display: "flex",
+          flexDirection: 'column'
+        }}
+        component={Link}
+        to={"/watch/" + videoId}
+      >
         <Text
           color="#f1f1f1"
           size={14}
@@ -26,7 +71,7 @@ export default function VideoScreenItem({
           mb={4}
           // sx={{
           //   "@media (min-width: 1015px)": {
-              
+
           //   },
           // }}
         >
@@ -54,7 +99,7 @@ export default function VideoScreenItem({
           lineClamp={1}
           color="rgb(170,170,170)"
         >
-           <span className="date-wrapper">{viewCount}</span>
+          <span className="date-wrapper">{viewCount}</span>
           <span
             className={
               "date-wrapper" +
@@ -68,9 +113,8 @@ export default function VideoScreenItem({
           >
             {uploadDate}
           </span>
-         
         </Text>
-      </Flex>
-    </Link>
+      </Box>
+    </Flex>
   );
 }

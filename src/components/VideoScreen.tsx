@@ -3,18 +3,18 @@ import { useParams } from "react-router-dom";
 import ReactPlayer from "react-player/youtube";
 import { useGetRecommendedQuery } from "../services/watch";
 import VideoScreenItem from "./VideoScreenItem";
+import { useEffect, useRef } from "react";
 
 type Props = {};
 
 export default function VideoScreen({}: Props): JSX.Element {
   const { id } = useParams();
+  const playerRef = useRef<any>(null);
 
   // @ts-expect-error
   const { data, isLoading, isFetching, isError } = useGetRecommendedQuery(id, {
     skip: !id,
   });
-
-  // console.log(data);
 
   return (
     <Flex
@@ -33,7 +33,7 @@ export default function VideoScreen({}: Props): JSX.Element {
           pos="relative"
           pt="56.25%"
           w="100%"
-          bg='rgb(0,0,0)'
+          bg="rgb(0,0,0)"
           mah={0}
           sx={{
             maxWidth: "calc((100vh - (56px + 24px + 36px)) * (16/9))",
@@ -49,8 +49,20 @@ export default function VideoScreen({}: Props): JSX.Element {
           <ReactPlayer
             width="100%"
             height="100%"
+            ref={playerRef}
             controls={true}
-            onReady={() => console.log("Player Ready")}
+            playing={true}
+            config={{
+              // @ts-expect-error
+              youtube: {
+                playerVars: { autoplay: 1 },
+                // If video fails to play with sound, set mute and start again.
+                onUnstarted: () => {
+                  playerRef?.current?.player.player.player.mute();
+                  playerRef?.current?.player.player.player.playVideo();
+                }
+              },
+            }}
             style={{
               position: "absolute",
               top: 0,
@@ -86,7 +98,7 @@ export default function VideoScreen({}: Props): JSX.Element {
           "@media (min-width: 1015px)": {
             minWidth: 300,
             maxWidth: 402,
-            width: '100%',
+            width: "100%",
             paddingTop: 24,
             paddingRight: 24,
             marginLeft: 0,
@@ -95,7 +107,9 @@ export default function VideoScreen({}: Props): JSX.Element {
         }}
       >
         {data && data.content.content.length > 0
-          ? data.content.content.map((item) => <VideoScreenItem {...item} />)
+          ? data.content.content.map((item, index) => (
+              <VideoScreenItem key={`${item.videoId}${index}`} {...item} />
+            ))
           : null}
       </Box>
     </Flex>

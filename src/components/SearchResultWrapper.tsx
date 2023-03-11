@@ -79,7 +79,7 @@ export default function SearchResultWrapper({
         <Loader sx={{ alignSelf: "center" }} />
       ) : isError ? (
         // Add Refetch Button
-        <Text sx={{ alignSelf: "center" }}>Error</Text>
+        <Text color='#FFFFFF' sx={{ alignSelf: "center" }}>Error</Text>
       ) : data && data.content.length > 0 ? (
         data?.content.map((item, index) => (
           <SearchResultItem key={`${item.videoId}${index}`} {...item} />

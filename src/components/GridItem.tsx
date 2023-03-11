@@ -7,6 +7,7 @@ import { Video } from "../types/video";
 import { mdMin, smMin, xsMin } from "../utils/breakpoints";
 import GridItemTitle from "./grid-item/GridItemTitle";
 import GridItemChannel from "./grid-item/GridItemChannel";
+import { areImagesDisabled } from "../utils/env";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -78,7 +79,7 @@ export default function GridItem({
           to={`/watch/${videoId}`}
           sx={{ cursor: "pointer" }}
         >
-          {/* <img
+          {!areImagesDisabled && <img
             src={thumbnailUrl}
             width="100%"
             height="100%"
@@ -89,7 +90,7 @@ export default function GridItem({
               minWidth: "1px",
               minHeight: "1px",
             }}
-          /> */}
+          />}
         </Box>
       </div>
       <Flex

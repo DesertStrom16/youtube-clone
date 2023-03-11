@@ -47,6 +47,17 @@ export default function SearchResultItem({
       </div>
 
       {/* Text Outer Wrapper */}
+      <Link
+        to={"/watch/" + videoId}
+        style={{
+          display: 'flex',
+          flex: 1,
+          height: 'fit-content',
+          color: "transparent",
+          fontSize: undefined,
+          textDecoration: "none",
+        }}
+      >
       <Flex sx={{ flex: 1 }} direction="column">
         {/* Title Wrapper */}
         <Flex>
@@ -112,7 +123,7 @@ export default function SearchResultItem({
           >
             {desc}
           </Text>
-      </Flex>
+      </Flex></Link>
     </Flex>
   );
 }

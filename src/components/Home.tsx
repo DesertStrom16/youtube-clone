@@ -117,12 +117,17 @@ export default function Home({ isOpen }: Props): JSX.Element {
         {isInitialLoading ? (
           <HomeLoadingSkeleton isOpen={isOpen} numBlocks={numBlocks} />
         ) : isError ? (
-          <Text>Error</Text>
+          <Flex w="100%" justify="center">
+            <Text color="#FFFFFF" sx={{ fontSize: 16 }}>
+              Error Occured
+            </Text>
+          </Flex>
         ) : (
           homeHasData &&
           homeData.content.content.map((video, index) => {
             if (
-              remainder && homeData.tokens.length === 1 &&
+              remainder &&
+              homeData.tokens.length === 1 &&
               homeData.content.content.length - (index + 1) < remainder
             ) {
               console.log("aborted Main Home", index + 1);
@@ -139,21 +144,24 @@ export default function Home({ isOpen }: Props): JSX.Element {
             }
           })
         )}
-        {homeHasData && !isInitialLoading &&
+        {homeHasData &&
+          !isInitialLoading &&
           !isError &&
           homeData?.tokens.map((item, index) => {
-            return <GridContinuation
-              isOpen={isOpen}
-              numBlocks={numBlocks}
-              token={item}
-              index={index}
-              dataLength={homeData.tokens.length - 1}
-              client={homeData.client}
-              key={`${item}${index}`}
-              requestKey={homeData.key}
-              xsMinMatch={xsMinMatch}
-              overallLength={homeData.overallLength}
-            />
+            return (
+              <GridContinuation
+                isOpen={isOpen}
+                numBlocks={numBlocks}
+                token={item}
+                index={index}
+                dataLength={homeData.tokens.length - 1}
+                client={homeData.client}
+                key={`${item}${index}`}
+                requestKey={homeData.key}
+                xsMinMatch={xsMinMatch}
+                overallLength={homeData.overallLength}
+              />
+            );
           })}
       </Flex>
     </Flex>
