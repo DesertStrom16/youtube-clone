@@ -1,12 +1,7 @@
 import { Box, Button, Flex, Loader, ScrollArea, Text } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { setVideos, setLoading } from "../store/data/dataSlice";
-import { fetchVideos } from "../utils/API";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMediaQuery } from "@mantine/hooks";
-import Navbar from "./navbar/Navbar";
-import Drawer from "./drawer/Drawer";
-import MiniDrawer from "./drawer/MiniDrawer";
 import GridItem from "./GridItem";
 import { useGetHomeQuery } from "../services/home";
 import { mdMin, smMin, xsMin } from "../utils/breakpoints";
@@ -164,6 +159,8 @@ export default function Home({ isOpen }: Props): JSX.Element {
             );
           })}
       </Flex>
+
+      {/* <Box h={2000}></Box> */}
     </Flex>
   );
 }

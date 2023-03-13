@@ -1,8 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {
-  setSearchPaginateError,
-  setSearchPaginateLoading,
-} from "../store/data/dataSlice";
 import { serverUrl } from "../utils/env";
 import type {
   GetSearch,

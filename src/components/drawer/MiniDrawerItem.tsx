@@ -16,6 +16,10 @@ export default function MiniDrawerItem({
     <Box
       sx={{
         borderRadius: "10px",
+
+        "@media (pointer:coarse)": {
+          width: '50%'
+        },
       }}
     >
       <NavButton url={url}>
@@ -29,10 +33,28 @@ export default function MiniDrawerItem({
           justify="center"
           align="center"
           bg="transparent"
+          sx={{
+            "@media (pointer:coarse)": {
+              padding: 0,
+            },
+          }}
         >
           <IconWrapper match={match}>{icon}</IconWrapper>
 
-          <Text fz={10} fw={400} mt={6} mah={14} lh='14px' color="#FFFFFF">
+          <Text
+            fz={10}
+            fw={400}
+            mt={6}
+            mah={14}
+            lh="14px"
+            color="#FFFFFF"
+            sx={{
+              "@media (pointer:coarse)": {
+                margin: 0,
+                fontSize: 11
+              },
+            }}
+          >
             {text}
           </Text>
         </Flex>

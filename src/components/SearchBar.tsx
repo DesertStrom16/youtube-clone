@@ -22,9 +22,7 @@ import {
   useGetSearchAutocompleteQuery,
   useGetSearchQuery,
 } from "../services/search";
-import { setVideos, setLoading } from "../store/data/dataSlice";
 import "./SearchBar.css";
-// import "./SearchResults.css";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 

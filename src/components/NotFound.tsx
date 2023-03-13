@@ -1,6 +1,5 @@
 import { Flex, Text } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { setVideos, setLoading } from "../store/data/dataSlice";
 
 type Props = {};
 

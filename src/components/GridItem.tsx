@@ -79,18 +79,39 @@ export default function GridItem({
           to={`/watch/${videoId}`}
           sx={{ cursor: "pointer" }}
         >
-          {!areImagesDisabled && <img
-            src={thumbnailUrl}
-            width="100%"
-            height="100%"
-            style={{
-              background: "transparent",
-              objectFit: "cover",
-              display: "inline-block",
-              minWidth: "1px",
-              minHeight: "1px",
-            }}
-          />}
+          {!areImagesDisabled && (
+            <img
+              src={thumbnailUrl}
+              width="100%"
+              height="100%"
+              style={{
+                background: "transparent",
+                objectFit: "cover",
+                display: "inline-block",
+                minWidth: "1px",
+                minHeight: "1px",
+              }}
+            />
+          )}
+        </Box>
+        <Box
+          pos="absolute"
+          bottom={0}
+          right={0}
+          m={4}
+          p="3px 4px"
+          bg="rgba(0,0,0,0.8)"
+          sx={{ borderRadius: 4 }}
+        >
+          <Text
+            fw={500}
+            sx={{ fontSize: 12, letterSpacing: 0.35 }}
+            color="#fff"
+            lh="12px"
+            mah={12}
+          >
+            {length}
+          </Text>
         </Box>
       </div>
       <Flex
@@ -138,10 +159,17 @@ export default function GridItem({
               },
             }}
           >
-            <Text lh='20px' mah={40} lineClamp={2} maw='100%' display='flex' sx={{flexWrap: 'wrap'}}>
+            <Text
+              lh="20px"
+              mah={40}
+              lineClamp={2}
+              maw="100%"
+              display="flex"
+              sx={{ flexWrap: "wrap" }}
+            >
               <Text
                 component="span"
-                display='inline-block'
+                display="inline-block"
                 color="#aaa"
                 fw={400}
                 sx={{
@@ -161,7 +189,7 @@ export default function GridItem({
               </Text>
               <Text
                 component="span"
-                display='inline-block'
+                display="inline-block"
                 className={
                   !uploadDate ||
                   !viewCount ||

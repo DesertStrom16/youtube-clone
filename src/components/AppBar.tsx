@@ -1,10 +1,12 @@
-import { Box, Button, Flex, ScrollArea } from "@mantine/core";
+import { Box, Button, Flex } from "@mantine/core";
 import { useMatch } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import MiniDrawer from "./drawer/MiniDrawer";
 import Drawer from "./drawer/Drawer";
 import Navbar from "./navbar/Navbar";
 import { useEffect, useRef, useState } from "react";
+import { useMediaQuery } from '@mantine/hooks';
+import ScrollBarWrapper from "./ScrollBarWrapper";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -28,9 +30,10 @@ export default function AppBar({
   setIsSmall,
   setIsOpen,
 }: Props): JSX.Element {
+  const dispatch = useAppDispatch();
   const homeMatch = useMatch("");
   const videoMatch = useMatch("/watch/:slug");
-  const dispatch = useAppDispatch();
+  // const isTouchScreen = useMediaQuery('(pointer:coarse)');
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -60,38 +63,7 @@ export default function AppBar({
   };
 
   return (
-    <ScrollArea.Autosize
-      maxHeight="100vh"
-      sx={{ flex: 1 }}
-      style={{ height: "100%", width: "100%" }}
-      scrollbarSize={16}
-      bg="#0f0f0f"
-      scrollHideDelay={0}
-      type="always"
-      styles={() => ({
-        scrollbar: {
-          "&, &:hover": {
-            background: "transparent",
-          },
-          "&:hover > .mantine-ScrollArea-thumb": {
-            background: "#717171",
-          },
-          padding: 0,
-        },
-        thumb: {
-          background: "hsl(0,0%,67%)",
-          border: "4px solid #0f0f0f",
-
-          "&:hover": {
-            background: "#717171",
-          },
-        },
-        corner: {
-          background: "transparent",
-          height: "0px",
-        },
-      })}
-    >
+    <ScrollBarWrapper>
       <Flex
         bg="#0f0f0f"
         w="100%"
@@ -113,6 +85,7 @@ export default function AppBar({
 
           <Flex h="100%">
             <MiniDrawer isOpen={isOpen} isDisplayed={!videoMatch} />
+            
             <Drawer
               menuClickHandler={menuClickHandler}
               isOpen={videoMatch ? false : isOpen}
@@ -135,6 +108,6 @@ export default function AppBar({
           </Flex>
         </Flex>
       </Flex>
-    </ScrollArea.Autosize>
+      </ScrollBarWrapper>
   );
 }

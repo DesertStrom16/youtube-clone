@@ -1,12 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { searchApi } from "../services/search";
-import dataSlice from "../store/data/dataSlice";
 import { homeApi } from "../services/home";
 import { watchApi } from "../services/watch";
 
 export const store = configureStore({
   reducer: {
-    data: dataSlice,
     [searchApi.reducerPath]: searchApi.reducer,
     [homeApi.reducerPath]: homeApi.reducer,
     [watchApi.reducerPath]: watchApi.reducer,
