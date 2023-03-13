@@ -45,6 +45,10 @@ export default function Navbar(props: Props): JSX.Element {
         "@media (max-width: 656px)": {
           paddingRight: 8,
         },
+
+        "@media (pointer:coarse)": {
+          width: '100%'
+        }
       }}
     >
       <NavbarLeft

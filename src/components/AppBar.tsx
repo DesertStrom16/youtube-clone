@@ -79,6 +79,12 @@ export default function AppBar({
         left={0}
         right={0}
         bottom={0}
+
+        sx={{
+          "@media (pointer:coarse)": {
+            padding: 0
+          }
+        }}
       >
         <Flex w="100%" h="100%" direction="column" pos="relative">
           <Navbar menuClickHandler={menuClickHandler} />

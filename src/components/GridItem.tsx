@@ -36,13 +36,23 @@ export default function GridItem({
   return (
     <Flex
       h="fit-content"
-      w="calc(100% - 16px)"
+      w="100%"
       direction="column"
-      maw={320}
+      mb={24}
       sx={{
+        "@media (pointer:fine) or (pointer:none)": {
+          maxWidth: 320,
+          width: "calc(100% - 16px)",
+          marginLeft: 8,
+          marginRight: 8,
+          marginBottom: 40,
+        },
         [`@media (min-width: ${xsMin}px)`]: {
           // 2
           width: "calc(50% - 16px)",
+          maxWidth: 320,
+          marginLeft: 8,
+          marginRight: 8,
         },
         [`@media (min-width: ${smMin}px)`]: {
           // 3
@@ -64,10 +74,20 @@ export default function GridItem({
           width: "calc((100% / 6) - 16px)",
         },
       }}
-      mb={40}
-      mx={8}
     >
-      <div className="image-wrapper">
+      <Box
+        className="image-wrapper"
+        sx={{
+          borderRadius: 12,
+
+          '@media (pointer: coarse)': {
+            borderRadius: 0,
+          },
+          [`(min-width: ${xsMin}px)`]: {
+            borderRadius: 12,
+          },
+        }}
+      >
         <Box
           component={Link}
           w="100%"
@@ -94,26 +114,34 @@ export default function GridItem({
             />
           )}
         </Box>
-        <Box
-          pos="absolute"
-          bottom={0}
-          right={0}
-          m={4}
-          p="3px 4px"
-          bg="rgba(0,0,0,0.8)"
-          sx={{ borderRadius: 4 }}
-        >
-          <Text
-            fw={500}
-            sx={{ fontSize: 12, letterSpacing: 0.35 }}
-            color="#fff"
-            lh="12px"
-            mah={12}
+        {length.trim() !== "" && (
+          <Box
+            pos="absolute"
+            bottom={0}
+            right={0}
+            m={4}
+            p="3px 4px"
+            bg="rgba(0,0,0,0.8)"
+            sx={{
+              borderRadius: 4,
+              "@media (pointer: coarse)": {
+                margin: 5,
+                padding: "1px 4px",
+              },
+            }}
           >
-            {length}
-          </Text>
-        </Box>
-      </div>
+            <Text
+              fw={500}
+              sx={{ fontSize: 12, letterSpacing: 0.35 }}
+              color="#fff"
+              lh="12px"
+              mah={12}
+            >
+              {length}
+            </Text>
+          </Box>
+        )}
+      </Box>
       <Flex
         direction="row"
         sx={{
@@ -121,6 +149,10 @@ export default function GridItem({
           cursor: "pointer",
           "@media (min-width: 392px)": {
             margin: 0,
+          },
+
+          "@media (pointer: coarse)": {
+            marginLeft: 12,
           },
         }}
         // Redirect here

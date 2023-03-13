@@ -27,6 +27,15 @@ export default function NavButton({ children, url }: Props): JSX.Element {
           backgroundColor: "rgba(255,255,255,.2)",
           transition: "background 0s ease",
         },
+
+        "@media (pointer:coarse)": {
+          "&:hover": {
+            backgroundColor: 'transparent'
+          },
+          "&:active": {
+            backgroundColor: "transparent",
+          },
+        },
       }}
     >
       {children}

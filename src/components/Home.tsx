@@ -20,6 +20,7 @@ export default function Home({ isOpen }: Props): JSX.Element {
   const lgMin = isOpen ? 1968 : 1800;
 
   const dispatch = useAppDispatch();
+  const isTouchScreen = useMediaQuery("(pointer:coarse)");
   const xsMinMatch = useMediaQuery(`(min-width: ${xsMin}px)`);
   const smMinMatch = useMediaQuery(`(min-width: ${smMin}px)`);
   const mdMinMatch = useMediaQuery(`(min-width: ${mdMin}px)`);
@@ -76,10 +77,12 @@ export default function Home({ isOpen }: Props): JSX.Element {
         h="fit-content"
         wrap="wrap"
         sx={{
-          maxWidth: "calc(320px + 16px)",
           justifyContent: "center",
 
-          "@media (max-width: 600px)": {
+          "@media (pointer:fine) or (pointer:none)": {
+            maxWidth: "calc(320px + 16px)",
+          },
+          "@media (max-width: 600px) and ((pointer:fine) or (pointer:none))": {
             // Removes side margins to fit more on small screens
             margin: "0 -8px",
             width: "calc(100% + 16px)",

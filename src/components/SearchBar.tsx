@@ -402,7 +402,13 @@ export default function SearchBar({
           <Text
             color="#3ea6ff"
             fw={500}
-            sx={{ fontSize: 14, letterSpacing: 0.5 }}
+            sx={{
+              fontSize: 14,
+              letterSpacing: 0.5,
+              "@media (pointer: coarse)": {
+                fontSize: 13,
+              },
+            }}
           >
             Sign in
           </Text>
