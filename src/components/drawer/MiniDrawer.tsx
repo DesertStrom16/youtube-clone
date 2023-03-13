@@ -40,7 +40,8 @@ export default function MiniDrawer({
           bottom: 0,
           padding: 0,
           boxSizing: "content-box",
-          backgroundColor: 'rgb(15,15,15)'
+          backgroundColor: 'rgb(15,15,15)',
+          zIndex: 1900,
         },
       }}
     >
