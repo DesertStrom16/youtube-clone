@@ -4,6 +4,8 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { useGetSearchContinuationQuery } from "../services/search";
 import SearchResultItem from "./SearchResultItem";
 import "./SearchResults.css";
+import GridItemBase from "./grid-item/GridItemBase";
+import { useMediaQuery } from "@mantine/hooks";
 
 type Props = {
   token: string;
@@ -24,6 +26,7 @@ export default function SearchResultWrapper({
 }: Props): JSX.Element {
   const [fetchData, setFetchData] = useState(true);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const isTouchScreen = useMediaQuery("(pointer:coarse)");
 
   const { data, isLoading, isFetching, isError } =
     useGetSearchContinuationQuery(
@@ -52,7 +55,7 @@ export default function SearchResultWrapper({
   }, []);
 
   const handleIntersect = (entries: any, observer: any) => {
-    console.log(entries[0].isIntersecting)
+    console.log(entries[0].isIntersecting);
     if (entries[0].isIntersecting) {
       console.log("INTERSECT");
     }
@@ -79,11 +82,17 @@ export default function SearchResultWrapper({
         <Loader sx={{ alignSelf: "center" }} />
       ) : isError ? (
         // Add Refetch Button
-        <Text color='#FFFFFF' sx={{ alignSelf: "center" }}>Error</Text>
+        <Text color="#FFFFFF" sx={{ alignSelf: "center" }}>
+          Error
+        </Text>
       ) : data && data.content.length > 0 ? (
-        data?.content.map((item, index) => (
-          <SearchResultItem key={`${item.videoId}${index}`} {...item} />
-        ))
+        data?.content.map((item, index) =>
+          isTouchScreen ? (
+            <GridItemBase key={`${item.videoId}${index}`} {...item} />
+          ) : (
+            <SearchResultItem key={`${item.videoId}${index}`} {...item} />
+          )
+        )
       ) : (
         <Button
           w="20%"

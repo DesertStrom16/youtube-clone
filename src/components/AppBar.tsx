@@ -7,6 +7,7 @@ import Navbar from "./navbar/Navbar";
 import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from '@mantine/hooks';
 import ScrollBarWrapper from "./ScrollBarWrapper";
+import VideoScreenMobile from "./VideoScreenMobile";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -33,7 +34,7 @@ export default function AppBar({
   const dispatch = useAppDispatch();
   const homeMatch = useMatch("");
   const videoMatch = useMatch("/watch/:slug");
-  // const isTouchScreen = useMediaQuery('(pointer:coarse)');
+  const isTouchScreen = useMediaQuery('(pointer:coarse)');
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -114,6 +115,7 @@ export default function AppBar({
           </Flex>
         </Flex>
       </Flex>
+      {/* <VideoScreenMobile  /> */}
       </ScrollBarWrapper>
   );
 }

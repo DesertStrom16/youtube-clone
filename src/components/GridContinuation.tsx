@@ -113,8 +113,6 @@ export default function GridContinuation({
               <GridItem
                 key={`${item.videoId}${i}`}
                 isOpen={isOpen}
-                dataLength={dataLength}
-                index={i}
                 {...item}
               />
             );

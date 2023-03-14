@@ -6,11 +6,14 @@ import { useGetSearchQuery } from "../services/search";
 import SearchResultItem from "./SearchResultItem";
 import "./SearchResults.css";
 import SearchResultWrapper from "./SearchResultWrapper";
+import { useMediaQuery } from "@mantine/hooks";
+import GridItemBase from "./grid-item/GridItemBase";
 
 type Props = {};
 
 export default function SearchResults({}: Props): JSX.Element {
   const searchMatch = useMatch("/search/:slug");
+  const isTouchScreen = useMediaQuery("(pointer:coarse)");
   let location = searchMatch?.pathname.replace("/search/", "").replace("/", "");
 
   const {
@@ -21,20 +24,21 @@ export default function SearchResults({}: Props): JSX.Element {
     //@ts-expect-error
   } = useGetSearchQuery(location, {
     skip: !location,
-    // selectFromResult: ({ data }) => ({}),
   });
 
   const loading = isLoading || isFetching;
-
-  console.log(searchData);
 
   const initialData =
     searchData &&
     searchData.content &&
     searchData.content.content?.length > 0 &&
-    searchData.content.content.map((item, index) => (
-      <SearchResultItem key={`${item.videoId}${index}`} {...item} />
-    ));
+    searchData.content.content.map((item, index) =>
+      isTouchScreen ? (
+        <GridItemBase key={`${item.videoId}${index}`} {...item} />
+      ) : (
+        <SearchResultItem key={`${item.videoId}${index}`} {...item} />
+      )
+    );
 
   const followOnData =
     searchData &&
@@ -52,7 +56,18 @@ export default function SearchResults({}: Props): JSX.Element {
     ));
 
   return (
-    <Flex py={16} px={24} justify="center" maw={1144} w="100%">
+    <Flex
+      py={16}
+      px={24}
+      justify="center"
+      maw={1144}
+      w="100%"
+      sx={{
+        "@media (pointer:coarse)": {
+          padding: 0,
+        },
+      }}
+    >
       {loading || isError ? (
         <Flex h={45} justify="center" align="center">
           {loading ? <Loader /> : <Text color="#f1f1f1">ERROR</Text>}

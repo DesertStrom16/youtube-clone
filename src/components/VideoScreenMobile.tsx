@@ -44,12 +44,13 @@ export default function VideoScreenMobile({}: Props): JSX.Element {
     <animated.div
       ref={ref}
       style={{
-        width: 200,
-        height: 200,
+        width: '100%',
+        height: '100%',
         backgroundColor: "red",
         touchAction: "none",
         position: "absolute",
         top: 0,
+        zIndex: 2400,
         ...style,
       }}
     ></animated.div>

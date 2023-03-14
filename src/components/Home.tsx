@@ -134,8 +134,6 @@ export default function Home({ isOpen }: Props): JSX.Element {
                 <GridItem
                   key={`${video.videoId}${index}`}
                   isOpen={isOpen}
-                  dataLength={homeData.content.content.length}
-                  index={index}
                   {...video}
                 />
               );

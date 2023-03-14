@@ -8,38 +8,22 @@ import { mdMin, smMin, xsMin } from "../utils/breakpoints";
 import GridItemTitle from "./grid-item/GridItemTitle";
 import GridItemChannel from "./grid-item/GridItemChannel";
 import { areImagesDisabled } from "../utils/env";
+import GridItemBase from "./grid-item/GridItemBase";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
 type Props = Video & {
   isOpen: boolean;
-  dataLength: number;
-  index: number;
 };
 
-export default function GridItem({
-  isOpen,
-  title,
-  avatarUrl,
-  channel,
-  thumbnailUrl,
-  uploadDate,
-  videoId,
-  viewCount,
-  length,
-  dataLength,
-  index,
-}: Props): JSX.Element {
+export default function GridItem({ isOpen, ...videoData }: Props): JSX.Element {
   const xlMin = isOpen ? 2303 : 2135;
   const lgMin = isOpen ? 1968 : 1800;
 
   return (
-    <Flex
-      h="fit-content"
-      w="100%"
-      direction="column"
-      mb={24}
-      sx={{
+    <GridItemBase
+      {...videoData}
+      wrapperProps={{
         "@media (pointer:fine) or (pointer:none)": {
           maxWidth: 320,
           width: "calc(100% - 16px)",
@@ -74,184 +58,11 @@ export default function GridItem({
           width: "calc((100% / 6) - 16px)",
         },
       }}
-    >
-      <Box
-        className="image-wrapper"
-        sx={{
-          borderRadius: 12,
-
-          '@media (pointer: coarse)': {
-            borderRadius: 0,
-          },
-          [`(min-width: ${xsMin}px)`]: {
-            borderRadius: 12,
-          },
-        }}
-      >
-        <Box
-          component={Link}
-          w="100%"
-          h="100%"
-          pos="absolute"
-          top={0}
-          bottom={0}
-          left={0}
-          to={`/watch/${videoId}`}
-          sx={{ cursor: "pointer" }}
-        >
-          {!areImagesDisabled && (
-            <img
-              src={thumbnailUrl}
-              width="100%"
-              height="100%"
-              style={{
-                background: "transparent",
-                objectFit: "cover",
-                display: "inline-block",
-                minWidth: "1px",
-                minHeight: "1px",
-              }}
-            />
-          )}
-        </Box>
-        {length.trim() !== "" && (
-          <Box
-            pos="absolute"
-            bottom={0}
-            right={0}
-            m={4}
-            p="3px 4px"
-            bg="rgba(0,0,0,0.8)"
-            sx={{
-              borderRadius: 4,
-              "@media (pointer: coarse)": {
-                margin: 5,
-                padding: "1px 4px",
-              },
-            }}
-          >
-            <Text
-              fw={500}
-              sx={{ fontSize: 12, letterSpacing: 0.35 }}
-              color="#fff"
-              lh="12px"
-              mah={12}
-            >
-              {length}
-            </Text>
-          </Box>
-        )}
-      </Box>
-      <Flex
-        direction="row"
-        sx={{
-          margin: "0px 12px",
-          cursor: "pointer",
-          "@media (min-width: 392px)": {
-            margin: 0,
-          },
-
-          "@media (pointer: coarse)": {
-            marginLeft: 12,
-          },
-        }}
-        // Redirect here
-        onClick={() => {}}
-      >
-        <Box
-          h={36}
-          component="a"
-          href={""}
-          mt={12}
-          mr={12}
-          display="inline-block"
-          sx={{ cursor: "pointer" }}
-        >
-          <Box
-            bg="rgba(0,0,0,0.1)"
-            w={36}
-            h={36}
-            sx={{ overflow: "hidden", borderRadius: "50%" }}
-          >
-            <img src={avatarUrl} width={36} style={{ overflow: "clip" }} />
-          </Box>
-        </Box>
-
-        <Flex direction="column" pr={24} sx={{ overflowX: "hidden" }}>
-          <GridItemTitle title={title} />
-          <GridItemChannel channel={channel} isOpen={isOpen} />
-          <Flex
-            sx={{
-              maxHeight: 36,
-
-              [`@media (min-width: ${
-                isOpen ? "calc(1631px + 168px)" : "1631px"
-              })`]: {
-                maxHeight: 40,
-              },
-            }}
-          >
-            <Text
-              lh="20px"
-              mah={40}
-              lineClamp={2}
-              maw="100%"
-              display="flex"
-              sx={{ flexWrap: "wrap" }}
-            >
-              <Text
-                component="span"
-                display="inline-block"
-                color="#aaa"
-                fw={400}
-                sx={{
-                  fontSize: 14,
-                  // fontSize: 12,
-                  lineHeight: "18px",
-
-                  // [`@media (min-width: ${
-                  //   isOpen ? "calc(1631px + 168px)" : "1631px"
-                  // })`]: {
-                  //   fontSize: 14,
-                  //   lineHeight: "20px",
-                  // },
-                }}
-              >
-                {viewCount}
-              </Text>
-              <Text
-                component="span"
-                display="inline-block"
-                className={
-                  !uploadDate ||
-                  !viewCount ||
-                  uploadDate === "" ||
-                  viewCount === ""
-                    ? undefined
-                    : "dateWrapper"
-                }
-                // color="#606060"
-                color="#aaa"
-                fw={400}
-                sx={{
-                  fontSize: 14,
-                  // fontSize: 12,
-                  lineHeight: "18px",
-
-                  // [`@media (min-width: ${
-                  //   isOpen ? "calc(1631px + 168px)" : "1631px"
-                  // })`]: {
-                  //   fontSize: 14,
-                  //   lineHeight: "20px",
-                  // },
-                }}
-              >
-                {uploadDate}
-              </Text>
-            </Text>
-          </Flex>
-        </Flex>
-      </Flex>
-    </Flex>
+      viewCountWrapper={{
+        [`@media (min-width: ${isOpen ? "calc(1631px + 168px)" : "1631px"})`]: {
+          maxHeight: 40,
+        },
+      }}
+    />
   );
 }

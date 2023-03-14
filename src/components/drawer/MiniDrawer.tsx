@@ -41,7 +41,7 @@ export default function MiniDrawer({
           padding: 0,
           boxSizing: "content-box",
           backgroundColor: 'rgb(15,15,15)',
-          zIndex: 1900,
+          zIndex: 2500,
         },
       }}
     >

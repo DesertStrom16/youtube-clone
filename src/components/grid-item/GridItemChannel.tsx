@@ -1,10 +1,9 @@
 import { Text } from "@mantine/core";
 
-type Props = { channel: string; isOpen: boolean };
+type Props = { channel: string };
 
 export default function GridItemChannel({
   channel,
-  isOpen,
 }: Props): JSX.Element {
   return (
     <Text
