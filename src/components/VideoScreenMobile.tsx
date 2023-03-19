@@ -1,58 +1,86 @@
 import { useState, useEffect, useRef } from "react";
+import { useViewportSize } from "@mantine/hooks";
+import { Box, Button, Flex } from "@mantine/core";
 import { useSpring, animated } from "@react-spring/web";
-import { createUseGesture, dragAction, useDrag } from "@use-gesture/react";
+import { useDrag } from "@use-gesture/react";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
 type Props = {};
 
 export default function VideoScreenMobile({}: Props): JSX.Element {
+  const { height } = useViewportSize();
+  const openRef = useRef<{ state: "open" | "closed" | "closed-off-screen" }>({
+    state: "open",
+  });
+
+  const [{ y }, api] = useSpring(() => ({ y: 0 }));
+
+  const halfHeight = height / 2;
+
   useEffect(() => {
-    const handler = (e: Event) => e.preventDefault();
-    document.addEventListener("gesturestart", handler);
-    document.addEventListener("gesturechange", handler);
-    document.addEventListener("gestureend", handler);
-    return () => {
-      document.removeEventListener("gesturestart", handler);
-      document.removeEventListener("gesturechange", handler);
-      document.removeEventListener("gestureend", handler);
-    };
-  }, []);
-
-  const useGesture = createUseGesture([dragAction]);
-
-  const [style, api] = useSpring(() => ({
-    x: 0,
-    y: 0,
-  }));
-  const ref = useRef<HTMLDivElement>(null);
-
-  useGesture(
-    {
-      onDrag: ({ pinching, cancel, offset: [x, y], ...rest }) => {
-        if (pinching) return cancel();
-        api.start({ x, y, immediate: true });
-      },
-    },
-    {
-      target: ref,
-      drag: { from: () => [style.x.get(), style.y.get()] },
+    if (height > 0) {
+      if (openRef.current.state === "closed") {
+        console.log("Firing Correction")
+        api.start({ y: height - 100, immediate: true });
+      }
     }
+  }, [height]);
+
+  const bind = useDrag(
+    ({ down, offset: [, oy], velocity: [, vy], direction: [, dy] }) => {
+      if (down) {
+        api.start({ y: oy, immediate: true });
+      } else {
+        if ((oy < halfHeight && vy <= 0.3) || (vy > 0.7 && dy < 0)) {
+          console.log("FIRE", y.get());
+          api.start({
+            y: 0,
+            immediate: false,
+            onResolve: () => {
+              if (y.get() > 0) {
+                console.log("Caught");
+              } else {
+                console.log("Done");
+                openRef.current.state = "open";
+              }
+            },
+          });
+        } else {
+          api.start({
+            y: height - 100,
+            immediate: false,
+            onResolve: () => {
+              if (height - 100 > y.get()) {
+                console.log("Caught");
+              } else {
+                console.log("Done");
+                openRef.current.state = "closed";
+              }
+            },
+          });
+        }
+      }
+    },
+    { from: () => [0, y.get()] }
   );
 
   return (
     <animated.div
-      ref={ref}
+      {...bind()}
       style={{
-        width: '100%',
-        height: '100%',
-        backgroundColor: "red",
+        y,
         touchAction: "none",
-        position: "absolute",
         top: 0,
+        left: 0,
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        background: "green",
         zIndex: 2400,
-        ...style,
       }}
-    ></animated.div>
+    >
+      <Flex>Hey There</Flex>
+    </animated.div>
   );
 }

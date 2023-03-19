@@ -115,7 +115,7 @@ export default function AppBar({
           </Flex>
         </Flex>
       </Flex>
-      {/* <VideoScreenMobile  /> */}
+      <VideoScreenMobile />
       </ScrollBarWrapper>
   );
 }
