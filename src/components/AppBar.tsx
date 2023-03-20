@@ -5,7 +5,7 @@ import MiniDrawer from "./drawer/MiniDrawer";
 import Drawer from "./drawer/Drawer";
 import Navbar from "./navbar/Navbar";
 import { useEffect, useRef, useState } from "react";
-import { useMediaQuery } from '@mantine/hooks';
+import { useMediaQuery } from "@mantine/hooks";
 import ScrollBarWrapper from "./ScrollBarWrapper";
 import VideoScreenMobile from "./VideoScreenMobile";
 
@@ -34,7 +34,8 @@ export default function AppBar({
   const dispatch = useAppDispatch();
   const homeMatch = useMatch("");
   const videoMatch = useMatch("/watch/:slug");
-  const isTouchScreen = useMediaQuery('(pointer:coarse)');
+  const isTouchScreen = useMediaQuery("(pointer:coarse)");
+  const [showVid, setShowVid] = useState(false);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -68,9 +69,9 @@ export default function AppBar({
       <Flex
         bg="#0f0f0f"
         w="100%"
-        maw='100vw'
+        maw="100vw"
         h="100%"
-        mih='100vh'
+        mih="100vh"
         pos={{
           base: isDrawer ? "fixed" : "relative",
           lg: isDrawer && videoMatch ? "fixed" : "relative",
@@ -80,11 +81,10 @@ export default function AppBar({
         left={0}
         right={0}
         bottom={0}
-
         sx={{
           "@media (pointer:coarse)": {
-            padding: 0
-          }
+            padding: 0,
+          },
         }}
       >
         <Flex w="100%" h="100%" direction="column" pos="relative">
@@ -92,7 +92,7 @@ export default function AppBar({
 
           <Flex h="100%">
             <MiniDrawer isOpen={isOpen} isDisplayed={!videoMatch} />
-            
+
             <Drawer
               menuClickHandler={menuClickHandler}
               isOpen={videoMatch ? false : isOpen}
@@ -109,13 +109,14 @@ export default function AppBar({
               // bg="green"
               ref={wrapperRef}
               justify="center"
+              onClick={() => setShowVid(!showVid)}
             >
               {children}
             </Flex>
           </Flex>
         </Flex>
       </Flex>
-      <VideoScreenMobile />
-      </ScrollBarWrapper>
+      {showVid && <VideoScreenMobile fromInitValue={700} />}
+    </ScrollBarWrapper>
   );
 }
