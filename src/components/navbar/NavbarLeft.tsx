@@ -76,13 +76,17 @@ export default function NavbarLeft(props: Props): JSX.Element {
         miw={40}
         h={40}
         mih={40}
-        display={searchOpen ? "none" : "flex"}
         bg="transparent"
         sx={{
           borderRadius: 20,
           justifyContent: "center",
           alignItems: "center",
           marginLeft: 16,
+          display: searchOpen ? "none" : "flex",
+
+          "@media (pointer:coarse)": {
+            display: 'none',
+          },
 
           "&:hover": {
             backgroundColor: isDrawer ? "transparent" : "rgba(255,255,255,.1)",
@@ -124,6 +128,12 @@ export default function NavbarLeft(props: Props): JSX.Element {
           align="center"
           justify="center"
           sx={{
+            marginLeft: 0,
+
+            "@media (pointer:coarse)": {
+              marginLeft: 20,
+            },
+            
             "@media (min-width: 876px)": {
               width: 120,
               minWidth: 120,

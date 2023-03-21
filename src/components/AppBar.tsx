@@ -34,7 +34,6 @@ export default function AppBar({
   const dispatch = useAppDispatch();
   const homeMatch = useMatch("");
   const videoMatch = useMatch("/watch/:slug");
-  const isTouchScreen = useMediaQuery("(pointer:coarse)");
   const [showVid, setShowVid] = useState(false);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -109,7 +108,12 @@ export default function AppBar({
               // bg="green"
               ref={wrapperRef}
               justify="center"
-              onClick={() => setShowVid(!showVid)}
+
+              sx={{
+                "@media (pointer:coarse)": {
+                  marginLeft: 0
+                },
+              }}
             >
               {children}
             </Flex>

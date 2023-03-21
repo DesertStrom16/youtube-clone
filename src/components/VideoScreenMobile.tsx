@@ -3,7 +3,6 @@ import { useViewportSize } from "@mantine/hooks";
 import { Box, Button, Flex } from "@mantine/core";
 import { useSpring, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
-import VideoScreenInner from "./VideoScreenInner";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -81,7 +80,7 @@ export default function VideoScreenMobile({fromInitValue}: Props): JSX.Element {
         zIndex: 2400,
       }}
     >
-      <VideoScreenInner id={'ZtJcfMnhZ0Y'} />
+      {/* <VideoScreenInner id={'ZtJcfMnhZ0Y'} /> */}
     </animated.div>
   );
 }

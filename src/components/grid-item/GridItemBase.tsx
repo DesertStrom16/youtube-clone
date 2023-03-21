@@ -42,7 +42,7 @@ export default function GridItemBase({
           "@media (pointer: coarse)": {
             borderRadius: 0,
           },
-          [`(min-width: ${xsMin}px)`]: {
+          [`@media (min-width: ${xsMin}px)`]: {
             borderRadius: 12,
           },
         }}
