@@ -1,10 +1,10 @@
 import { Box, Button, Flex, Loader, Text } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { useGetSearchContinuationQuery } from "../services/search";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useGetSearchContinuationQuery } from "../../services/search";
 import SearchResultItem from "./SearchResultItem";
 import "./SearchResults.css";
-import GridItemBase from "./grid-item/GridItemBase";
+import GridItemBase from "../grid-item/GridItemBase";
 import { useMediaQuery } from "@mantine/hooks";
 
 type Props = {

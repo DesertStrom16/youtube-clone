@@ -21,7 +21,8 @@ export default function Drawer({
   let match = useMatch("/watch/:slug");
 
   return (
-    <Flex>
+    <Flex
+    >
       <Box
         pos="absolute"
         top={0}

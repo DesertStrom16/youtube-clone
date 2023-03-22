@@ -17,11 +17,11 @@ import {
   IconDotsVertical,
   IconUserCircle,
 } from "@tabler/icons-react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   useGetSearchAutocompleteQuery,
   useGetSearchQuery,
-} from "../services/search";
+} from "../../services/search";
 import "./SearchBar.css";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;

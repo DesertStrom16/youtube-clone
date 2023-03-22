@@ -1,10 +1,10 @@
 import { Box, Button, Flex, Text, UnstyledButton } from "@mantine/core";
-import IconWrapper from "./IconWrapper";
-import NavButton from "./navbar/NavButton";
+import IconWrapper from "../IconWrapper";
+import NavButton from "../navbar/NavButton";
 import "./GridItem.css";
 import { Link } from "react-router-dom";
-import { Video } from "../types/video";
-import { mdMin, smMin, xsMin } from "../utils/breakpoints";
+import { Video } from "../../types/video";
+import { mdMin, smMin, xsMin } from "../../utils/breakpoints";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 

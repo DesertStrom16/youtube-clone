@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import ScrollBarWrapper from "./ScrollBarWrapper";
 import VideoScreenMobile from "./VideoScreenMobile";
+import useIsTouchscreen from "../hooks/use-is-touchscreen";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -34,6 +35,8 @@ export default function AppBar({
   const dispatch = useAppDispatch();
   const homeMatch = useMatch("");
   const videoMatch = useMatch("/watch/:slug");
+  const isTouchScreen = useIsTouchscreen();
+  const activeVideoId = useAppSelector(state => state.data.activeVideoId)
   const [showVid, setShowVid] = useState(false);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -53,7 +56,7 @@ export default function AppBar({
       setIsSmall(false);
     }
   }, [videoMatch]);
-
+ 
   const menuClickHandler = () => {
     if (!minWidth1300 || videoMatch) {
       setIsDrawer(!isDrawer);
@@ -92,12 +95,14 @@ export default function AppBar({
           <Flex h="100%">
             <MiniDrawer isOpen={isOpen} isDisplayed={!videoMatch} />
 
-            <Drawer
-              menuClickHandler={menuClickHandler}
-              isOpen={videoMatch ? false : isOpen}
-              isDrawer={isDrawer}
-              isSmall={isSmall}
-            />
+            {isTouchScreen === undefined ? null : isTouchScreen ? null : (
+              <Drawer
+                menuClickHandler={menuClickHandler}
+                isOpen={videoMatch ? false : isOpen}
+                isDrawer={isDrawer}
+                isSmall={isSmall}
+              />
+            )}
 
             <Flex
               mt={56}
@@ -108,10 +113,9 @@ export default function AppBar({
               // bg="green"
               ref={wrapperRef}
               justify="center"
-
               sx={{
                 "@media (pointer:coarse)": {
-                  marginLeft: 0
+                  marginLeft: 0,
                 },
               }}
             >
@@ -120,7 +124,7 @@ export default function AppBar({
           </Flex>
         </Flex>
       </Flex>
-      {showVid && <VideoScreenMobile fromInitValue={700} />}
+      {activeVideoId && <VideoScreenMobile fromInitValue={148} />}
     </ScrollBarWrapper>
   );
 }

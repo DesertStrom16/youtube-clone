@@ -2,7 +2,7 @@ import { Box, Button, Flex, Title, Drawer } from "@mantine/core";
 import { IconMenu2 } from "@tabler/icons-react";
 import { useMatch } from "react-router-dom";
 import NavbarLeft from "./NavbarLeft";
-import SearchBar from "../SearchBar";
+import SearchBar from "../search/SearchBar";
 import { useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 

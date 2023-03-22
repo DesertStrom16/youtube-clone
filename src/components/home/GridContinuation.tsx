@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Loader, Text } from "@mantine/core";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import GridItemSkeleton from "./GridItemSkeleton";
-import { useGetHomeContinuationQuery } from "../services/home";
+import { useGetHomeContinuationQuery } from "../../services/home";
 import { useState } from "react";
 import GridItem from "./GridItem";
 

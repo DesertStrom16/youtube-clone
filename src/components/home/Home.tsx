@@ -1,10 +1,10 @@
 import { Box, Button, Flex, Loader, ScrollArea, Text } from "@mantine/core";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useState, useEffect, useRef } from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import GridItem from "./GridItem";
-import { useGetHomeQuery } from "../services/home";
-import { mdMin, smMin, xsMin } from "../utils/breakpoints";
+import { useGetHomeQuery } from "../../services/home";
+import { mdMin, smMin, xsMin } from "../../utils/breakpoints";
 import GridItemSkeleton from "./GridItemSkeleton";
 import GridContinuation from "./GridContinuation";
 import HomeLoadingSkeleton from "./HomeLoadingSkeleton";

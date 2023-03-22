@@ -12,6 +12,10 @@ import { areImagesDisabled } from "../../utils/env";
 import GridItemTitle from "./GridItemTitle";
 import GridItemChannel from "./GridItemChannel";
 import { xsMin } from "../../utils/breakpoints";
+import useIsTouchscreen from "../../hooks/use-is-touchscreen";
+import { useAppDispatch } from "../../app/hooks";
+import { setActiveVideo } from "../../store/dataSlice";
+import { MouseEvent, useRef } from "react";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -32,8 +36,41 @@ export default function GridItemBase({
   wrapperProps,
   viewCountWrapper,
 }: Props): JSX.Element {
+  const dispatch = useAppDispatch();
+  const isTouchScreen = useIsTouchscreen();
+  const ref = useRef<HTMLDivElement>(null);
+
+  const clickHandler = (e: MouseEvent<HTMLElement>) => {
+    console.log("HELLO?");
+
+    const pos = ref.current?.getBoundingClientRect();
+    let finalPos;
+    if (pos) {
+      finalPos = pos.y + pos?.height; 
+      console.log(pos.y)
+    }
+
+    console.log(finalPos)
+    console.log(window.innerHeight)
+
+    // Probably not needed? Didn't affect a tags so more than likely it's doing nothing.
+    e.stopPropagation();
+    dispatch(setActiveVideo({activeVideoId: videoId, openPosition: finalPos}));
+  };
+
+  const imgProps = isTouchScreen ? {} : { to: `/watch/${videoId}` };
   return (
-    <Flex h="fit-content" w="100%" direction="column" mb={24} sx={wrapperProps}>
+    <Flex
+    ref={ref}
+      direction="column"
+      h="fit-content"
+      w="100%"
+      mb={24}
+      sx={{
+        ...wrapperProps,
+      }}
+      onClick={clickHandler}
+    >
       <Box
         className="image-wrapper"
         sx={{
@@ -48,15 +85,16 @@ export default function GridItemBase({
         }}
       >
         <Box
-          component={Link}
           w="100%"
           h="100%"
           pos="absolute"
           top={0}
           bottom={0}
           left={0}
-          to={`/watch/${videoId}`}
           sx={{ cursor: "pointer" }}
+          //@ts-ignore
+          component={isTouchScreen ? Box : Link}
+          {...imgProps}
         >
           {!areImagesDisabled && (
             <img
@@ -140,7 +178,7 @@ export default function GridItemBase({
           <Flex
             sx={{
               maxHeight: 36,
-              ...viewCountWrapper
+              ...viewCountWrapper,
             }}
           >
             <Text

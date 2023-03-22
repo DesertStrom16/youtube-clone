@@ -6,15 +6,21 @@ import { useDrag } from "@use-gesture/react";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
-type Props = {fromInitValue: number};
+type Props = { fromInitValue: number };
 
-export default function VideoScreenMobile({fromInitValue}: Props): JSX.Element {
+export default function VideoScreenMobile({
+  fromInitValue,
+}: Props): JSX.Element {
   const { height } = useViewportSize();
   const openRef = useRef<{ state: "open" | "closed" }>({
     state: "open",
   });
 
-  const [{ y }, api] = useSpring(() => ({ to: {y: 0}, from: {y: fromInitValue} }));
+  const [{ y }, api] = useSpring(() => ({
+    to: { y: 0 },
+    from: { y: window.innerHeight - 100 },
+    config: {duration: 21000}
+  }));
 
   const halfHeight = height / 2;
 

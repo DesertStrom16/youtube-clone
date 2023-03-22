@@ -1,8 +1,8 @@
 import "./App.css";
 import { MantineProvider } from "@mantine/core";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Home from "./components/Home";
-import SearchResults from "./components/SearchResults";
+import Home from "./components/home/Home";
+import SearchResults from "./components/search/SearchResults";
 import NotFound from "./components/NotFound";
 import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";

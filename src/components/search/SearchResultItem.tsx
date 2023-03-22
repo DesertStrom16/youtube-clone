@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
-import { Video } from "../types/video";
+import { Video } from "../../types/video";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
