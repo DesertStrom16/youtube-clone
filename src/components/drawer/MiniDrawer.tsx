@@ -1,6 +1,7 @@
 import { Box, Flex } from "@mantine/core";
 import { IconHome, IconVideo } from "@tabler/icons-react";
 import MiniDrawerItem from "./MiniDrawerItem";
+import useIsTouchscreen from "../../hooks/use-is-touchscreen";
 
 type Props = {
   isOpen: boolean;
@@ -11,6 +12,8 @@ export default function MiniDrawer({
   isOpen,
   isDisplayed,
 }: Props): JSX.Element {
+  const isTouchScreen = useIsTouchscreen();
+
   return (
     <Box
       h="100%"
@@ -23,7 +26,7 @@ export default function MiniDrawer({
       top={0}
       left={0}
       display={
-        isDisplayed
+        (isTouchScreen === undefined || !isTouchScreen) && isDisplayed
           ? { base: "none", sm: "flex", lg: isOpen ? "none" : "flex" }
           : "none"
       }
@@ -40,7 +43,7 @@ export default function MiniDrawer({
           bottom: 0,
           padding: 0,
           boxSizing: "content-box",
-          backgroundColor: 'rgb(15,15,15)',
+          backgroundColor: "rgb(15,15,15)",
           zIndex: 2500,
         },
       }}

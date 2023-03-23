@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type StringOrNull = string | null;
-
 type DataState = {
-  activeVideoId: StringOrNull;
+  activeVideoId: string | undefined;
   openPosition?: number | undefined;
+  isRedirect?: boolean | undefined;
 };
 
 const initialState: DataState = {
-  activeVideoId: null,
+  activeVideoId: undefined,
   openPosition: undefined,
+  isRedirect: false,
 };
 
 export const dataSlice = createSlice({
@@ -20,11 +20,13 @@ export const dataSlice = createSlice({
       state,
       action: PayloadAction<{
         activeVideoId: DataState["activeVideoId"];
-        openPosition: DataState["openPosition"];
+        openPosition?: DataState["openPosition"];
+        isRedirect?: DataState["isRedirect"];
       }>
     ) => {
       state.activeVideoId = action.payload.activeVideoId;
       state.openPosition = action.payload.openPosition || undefined;
+      state.isRedirect = action.payload.isRedirect || undefined;
     },
   },
 });

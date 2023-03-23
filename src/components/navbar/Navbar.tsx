@@ -5,6 +5,9 @@ import NavbarLeft from "./NavbarLeft";
 import SearchBar from "../search/SearchBar";
 import { useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
+import useIsTouchscreen from "../../hooks/use-is-touchscreen";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setActiveVideo } from "../../store/dataSlice";
 
 type Props = {
   menuClickHandler: () => void;
@@ -12,8 +15,12 @@ type Props = {
 
 export default function Navbar(props: Props): JSX.Element {
   const { menuClickHandler } = props;
+  const dispatch = useAppDispatch();
   let match = useMatch("/watch/:slug");
   const [searchOpen, setSearchOpen] = useState(false);
+  const isTouchScreen = useIsTouchscreen();
+  const activeVideoId = useAppSelector((state) => state.data.activeVideoId);
+  const isRedirect = useAppSelector((state) => state.data.isRedirect);
   const maxWidthBreakpoint = useMediaQuery(`(max-width: 656px)`);
 
   useEffect(() => {
@@ -21,6 +28,12 @@ export default function Navbar(props: Props): JSX.Element {
       setSearchOpen(false);
     }
   }, [maxWidthBreakpoint]);
+
+  useEffect(() => {
+    if (!isTouchScreen && activeVideoId) {
+      dispatch(setActiveVideo({ activeVideoId: undefined }));
+    }
+  }, [isTouchScreen, activeVideoId]);
 
   return (
     <Flex
@@ -47,8 +60,8 @@ export default function Navbar(props: Props): JSX.Element {
         },
 
         "@media (pointer:coarse)": {
-          width: '100%'
-        }
+          width: "100%",
+        },
       }}
     >
       <NavbarLeft

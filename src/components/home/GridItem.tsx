@@ -5,10 +5,10 @@ import "./GridItem.css";
 import { Link } from "react-router-dom";
 import { Video } from "../../types/video";
 import { mdMin, smMin, xsMin } from "../../utils/breakpoints";
-import GridItemTitle from "../grid-item/GridItemTitle";
-import GridItemChannel from "../grid-item/GridItemChannel";
+import GridItemTitle from "./GridItemTitle";
+import GridItemChannel from "./GridItemChannel";
 import { areImagesDisabled } from "../../utils/env";
-import GridItemBase from "../grid-item/GridItemBase";
+import GridItemBase from "./GridItemBase";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 

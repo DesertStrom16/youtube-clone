@@ -47,7 +47,7 @@ export default function ScrollBarWrapper({ children }: Props): JSX.Element {
         },
       })}
     >
-      {children}
+    {children}
     </ScrollArea.Autosize>
   );
 }

@@ -26,7 +26,8 @@ export default function GridItemTitle({ title }: Props): JSX.Element {
       lineClamp={2}
       fw={500}
     >
-      {title}
+      Lorum Ispum
+      {/* {title} */}
     </Text>
   );
 }

@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { Video } from "../../types/video";
+import useIsTouchscreen from "../../hooks/use-is-touchscreen";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -16,11 +17,16 @@ export default function SearchResultItem({
   channel,
   desc,
 }: Props): JSX.Element {
+  const isTouchScreen = useIsTouchscreen();
+  const altProps = isTouchScreen ? {} : { to: `/watch/${videoId}` };
+
   return (
     <Flex mt={16} direction="row">
       <div className="thumbnail-wrapper">
         <Box
-          component={Link}
+          //@ts-ignore
+          component={isTouchScreen ? Box : Link}
+          {...altProps}
           w="100%"
           h="100%"
           pos="absolute"
@@ -28,7 +34,6 @@ export default function SearchResultItem({
           bottom={0}
           left={0}
           right={0}
-          to={`/watch/${videoId}`}
           sx={{ cursor: "pointer", overflow: "hidden", borderRadius: 12 }}
         >
           <img
@@ -48,73 +53,74 @@ export default function SearchResultItem({
 
       {/* Text Outer Wrapper */}
       <Link
-        to={"/watch/" + videoId}
+        //@ts-ignore
+        component={isTouchScreen ? Box : Link}
+        {...altProps}
         style={{
-          display: 'flex',
+          display: "flex",
           flex: 1,
-          height: 'fit-content',
+          height: "fit-content",
           color: "transparent",
           fontSize: undefined,
           textDecoration: "none",
         }}
       >
-      <Flex sx={{ flex: 1 }} direction="column">
-        {/* Title Wrapper */}
-        <Flex>
-          <Box mr={8} color="#0f0f0f">
-            {/* <Box component="a" mr={8} color="#0f0f0f"> */}
-            <Text
-              lineClamp={2}
-              fw={400}
-              size={18}
-              lh="26px"
-              mah={52}
-              color="#f1f1f1"
-            >
-              {title}
-            </Text>
-          </Box>
-          <Box w={40} miw={40} h={24}></Box>
-        </Flex>
-
-        {/* Sub-Title Wrapper */}
-        <Flex direction="row" wrap="wrap" mah={36} sx={{ lineClamp: 2 }}>
-          <span className="view-count-upload-date">{viewCount}</span>
-          {uploadDate.trim() !== "" && (
-            <span className="view-count-upload-date with-dot">
-              {uploadDate}
-            </span>
-          )}
-        </Flex>
-
-        <Flex py={12} direction="row" align="center">
-          <Box pr={8} lh="normal" sx={{ fontSize: 10 }}>
-            <Box
-              display="inline-block"
-              bg="transparent"
-              sx={{ borderRadius: "50%", overflow: "hidden" }}
-            >
-              <img style={{ display: "block", width: 24 }} src={avatarUrl} />
+        <Flex sx={{ flex: 1 }} direction="column">
+          {/* Title Wrapper */}
+          <Flex>
+            <Box mr={8} color="#0f0f0f">
+              {/* <Box component="a" mr={8} color="#0f0f0f"> */}
+              <Text
+                lineClamp={2}
+                fw={400}
+                size={18}
+                lh="26px"
+                mah={52}
+                color="#f1f1f1"
+              >
+                {title}
+              </Text>
             </Box>
-          </Box>
+            <Box w={40} miw={40} h={24}></Box>
+          </Flex>
+
+          {/* Sub-Title Wrapper */}
+          <Flex direction="row" wrap="wrap" mah={36} sx={{ lineClamp: 2 }}>
+            <span className="view-count-upload-date">{viewCount}</span>
+            {uploadDate.trim() !== "" && (
+              <span className="view-count-upload-date with-dot">
+                {uploadDate}
+              </span>
+            )}
+          </Flex>
+
+          <Flex py={12} direction="row" align="center">
+            <Box pr={8} lh="normal" sx={{ fontSize: 10 }}>
+              <Box
+                display="inline-block"
+                bg="transparent"
+                sx={{ borderRadius: "50%", overflow: "hidden" }}
+              >
+                <img style={{ display: "block", width: 24 }} src={avatarUrl} />
+              </Box>
+            </Box>
+            <Text
+              display="inline-block"
+              color="#aaa"
+              lh="18px"
+              fw={400}
+              sx={{ fontSize: 12 }}
+            >
+              {channel}
+            </Text>
+          </Flex>
           <Text
-            display="inline-block"
-            color="#aaa"
-            lh="18px"
-            fw={400}
-            sx={{ fontSize: 12 }}
-          >
-            {channel}
-          </Text>
-         
-        </Flex>
-        <Text
             mah={36}
             lh="18px"
             fw={400}
             lineClamp={2}
             mb={8}
-            color='#aaa'
+            color="#aaa"
             sx={{
               textOverflow: "ellipsis",
               whiteSpace: "normal",
@@ -123,7 +129,8 @@ export default function SearchResultItem({
           >
             {desc}
           </Text>
-      </Flex></Link>
+        </Flex>
+      </Link>
     </Flex>
   );
 }

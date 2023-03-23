@@ -41,7 +41,6 @@ export default function GridItemBase({
   const ref = useRef<HTMLDivElement>(null);
 
   const clickHandler = (e: MouseEvent<HTMLElement>) => {
-    console.log("HELLO?");
 
     const pos = ref.current?.getBoundingClientRect();
     let finalPos;
@@ -50,12 +49,7 @@ export default function GridItemBase({
       console.log(pos.y)
     }
 
-    console.log(finalPos)
-    console.log(window.innerHeight)
-
-    // Probably not needed? Didn't affect a tags so more than likely it's doing nothing.
-    e.stopPropagation();
-    dispatch(setActiveVideo({activeVideoId: videoId, openPosition: finalPos}));
+    dispatch(setActiveVideo({activeVideoId: videoId, openPosition: isTouchScreen ? finalPos : undefined}));
   };
 
   const imgProps = isTouchScreen ? {} : { to: `/watch/${videoId}` };
@@ -69,7 +63,7 @@ export default function GridItemBase({
       sx={{
         ...wrapperProps,
       }}
-      onClick={clickHandler}
+      onClick={isTouchScreen ? clickHandler : undefined}
     >
       <Box
         className="image-wrapper"

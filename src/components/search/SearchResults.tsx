@@ -7,13 +7,14 @@ import SearchResultItem from "./SearchResultItem";
 import "./SearchResults.css";
 import SearchResultWrapper from "./SearchResultWrapper";
 import { useMediaQuery } from "@mantine/hooks";
-import GridItemBase from "../grid-item/GridItemBase";
+import GridItemBase from "../home/GridItemBase";
 
 type Props = {};
 
 export default function SearchResults({}: Props): JSX.Element {
   const searchMatch = useMatch("/search/:slug");
   const isTouchScreen = useMediaQuery("(pointer:coarse)");
+  const minWidthBreak = useMediaQuery("(min-width: 656px)");
   let location = searchMatch?.pathname.replace("/search/", "").replace("/", "");
 
   const {
@@ -33,7 +34,7 @@ export default function SearchResults({}: Props): JSX.Element {
     searchData.content &&
     searchData.content.content?.length > 0 &&
     searchData.content.content.map((item, index) =>
-      isTouchScreen ? (
+      isTouchScreen && !minWidthBreak ? (
         <GridItemBase key={`${item.videoId}${index}`} {...item} />
       ) : (
         <SearchResultItem key={`${item.videoId}${index}`} {...item} />

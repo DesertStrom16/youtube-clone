@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useGetSearchContinuationQuery } from "../../services/search";
 import SearchResultItem from "./SearchResultItem";
 import "./SearchResults.css";
-import GridItemBase from "../grid-item/GridItemBase";
+import GridItemBase from "../home/GridItemBase";
 import { useMediaQuery } from "@mantine/hooks";
 
 type Props = {
