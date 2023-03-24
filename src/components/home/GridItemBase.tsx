@@ -41,21 +41,20 @@ export default function GridItemBase({
   const ref = useRef<HTMLDivElement>(null);
 
   const clickHandler = (e: MouseEvent<HTMLElement>) => {
+    const pos = ref.current?.getBoundingClientRect().y;
 
-    const pos = ref.current?.getBoundingClientRect();
-    let finalPos;
-    if (pos) {
-      finalPos = pos.y + pos?.height; 
-      console.log(pos.y)
-    }
-
-    dispatch(setActiveVideo({activeVideoId: videoId, openPosition: isTouchScreen ? finalPos : undefined}));
+    dispatch(
+      setActiveVideo({
+        activeVideoId: videoId,
+        openPosition: isTouchScreen ? pos : undefined,
+      })
+    );
   };
 
   const imgProps = isTouchScreen ? {} : { to: `/watch/${videoId}` };
   return (
     <Flex
-    ref={ref}
+      ref={ref}
       direction="column"
       h="fit-content"
       w="100%"

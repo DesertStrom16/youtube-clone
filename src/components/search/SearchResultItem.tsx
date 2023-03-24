@@ -52,7 +52,7 @@ export default function SearchResultItem({
       </div>
 
       {/* Text Outer Wrapper */}
-      <Link
+      <Box
         //@ts-ignore
         component={isTouchScreen ? Box : Link}
         {...altProps}
@@ -130,7 +130,7 @@ export default function SearchResultItem({
             {desc}
           </Text>
         </Flex>
-      </Link>
+      </Box>
     </Flex>
   );
 }

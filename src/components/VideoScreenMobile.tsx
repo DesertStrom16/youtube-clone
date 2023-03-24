@@ -3,15 +3,17 @@ import { useViewportSize } from "@mantine/hooks";
 import { Box, Button, Flex } from "@mantine/core";
 import { useSpring, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
-import { useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setActiveVideo } from "../store/dataSlice";
+import VideoScreenInner from "./VideoScreenInner";
 
 type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 
-type Props = {};
+type Props = { id: string };
 
-export default function VideoScreenMobile({}: Props): JSX.Element {
+export default function VideoScreenMobile({ id }: Props): JSX.Element {
   const { height } = useViewportSize();
+  const dispatch = useAppDispatch();
   const openPosition = useAppSelector((state) => state.data.openPosition);
   const activeVideoId = useAppSelector((state) => state.data.activeVideoId);
   const isRedirect = useAppSelector((state) => state.data.isRedirect);
@@ -48,12 +50,6 @@ export default function VideoScreenMobile({}: Props): JSX.Element {
       });
     }
   }, [openPosition, activeVideoId]);
-
-  useEffect(() => {
-    if (isRedirect) {
-      setActiveVideo({ activeVideoId: activeVideoId, isRedirect: false });
-    }
-  }, [isRedirect]);
 
   useEffect(() => {
     if (height > 0) {
@@ -108,7 +104,7 @@ export default function VideoScreenMobile({}: Props): JSX.Element {
         }
       }
     },
-    { from: () => [0, y.get()] }
+    { from: () => [0, y.get()], bounds: { top: 0, bottom: height - 100 } }
   );
 
   return (
@@ -127,7 +123,7 @@ export default function VideoScreenMobile({}: Props): JSX.Element {
         zIndex: 2400,
       }}
     >
-      {/* <VideoScreenInner id={'ZtJcfMnhZ0Y'} /> */}
+      <VideoScreenInner id={id} videoWrapperProps={{padding: 0, margin: 0}} />
     </animated.div>
   );
 }

@@ -1,8 +1,11 @@
 import { ScrollArea } from "@mantine/core";
+import useIsTouchscreen from "../hooks/use-is-touchscreen";
 
 type Props = React.PropsWithChildren & {};
 
 export default function ScrollBarWrapper({ children }: Props): JSX.Element {
+const isTouchScreen = useIsTouchscreen();
+
   return (
     <ScrollArea.Autosize
       maxHeight="100vh"
@@ -11,7 +14,7 @@ export default function ScrollBarWrapper({ children }: Props): JSX.Element {
       // scrollbarSize={16}
       bg="#0f0f0f"
       scrollHideDelay={0}
-      type="always"
+      type={isTouchScreen ? 'scroll' : "always"}
       styles={() => ({
         scrollbar: {
           width: "16px!important",

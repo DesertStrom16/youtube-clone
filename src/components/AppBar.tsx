@@ -124,7 +124,7 @@ export default function AppBar({
           </Flex>
         </Flex>
       </Flex>
-      {isTouchScreen && activeVideoId && <VideoScreenMobile />}
+      {isTouchScreen && activeVideoId && <VideoScreenMobile id={activeVideoId} />}
     </ScrollBarWrapper>
   );
 }

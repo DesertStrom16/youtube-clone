@@ -1,15 +1,23 @@
-import { Box, Button, Flex, Text } from "@mantine/core";
+import { Box, Button, Flex, FlexProps, Text } from "@mantine/core";
 import ReactPlayer from "react-player/youtube";
 import { useGetRecommendedQuery } from "../services/watch";
 import VideoScreenItem from "./VideoScreenItem";
 import { useEffect, useRef } from "react";
 
-type Props = {id: string | undefined};
+type Props = {
+  id: string | undefined;
+  wrapperProps?: FlexProps["sx"];
+  videoWrapperProps?: FlexProps["sx"];
+};
 
-export default function VideoScreenInner({id}: Props): JSX.Element {
+export default function VideoScreenInner({
+  id,
+  wrapperProps = {},
+  videoWrapperProps = {},
+}: Props): JSX.Element {
   const playerRef = useRef<any>(null);
 
-    // @ts-expect-error
+  // @ts-expect-error
   const { data, isLoading, isFetching, isError } = useGetRecommendedQuery(id, {
     skip: !id,
   });
@@ -24,9 +32,17 @@ export default function VideoScreenInner({id}: Props): JSX.Element {
         "@media (min-width: 1015px)": {
           flexDirection: "row",
         },
+
+        ...wrapperProps,
       }}
     >
-      <Flex ml={24} pt={24} pr={24} sx={{ flexGrow: 1 }} direction="column">
+      <Flex
+        ml={24}
+        pt={24}
+        pr={24}
+        sx={{ flexGrow: 1, ...videoWrapperProps }}
+        direction="column"
+      >
         <Flex
           pos="relative"
           pt="56.25%"
@@ -58,7 +74,7 @@ export default function VideoScreenInner({id}: Props): JSX.Element {
                 onUnstarted: () => {
                   playerRef?.current?.player.player.player.mute();
                   playerRef?.current?.player.player.player.playVideo();
-                }
+                },
               },
             }}
             style={{
