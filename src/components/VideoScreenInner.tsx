@@ -8,15 +8,17 @@ type Props = {
   id: string | undefined;
   wrapperProps?: FlexProps["sx"];
   videoWrapperProps?: FlexProps["sx"];
+  videoBlockerRef?: any;
 };
 
 export default function VideoScreenInner({
   id,
   wrapperProps = {},
   videoWrapperProps = {},
+  videoBlockerRef,
 }: Props): JSX.Element {
   const playerRef = useRef<any>(null);
-
+  
   // @ts-expect-error
   const { data, isLoading, isFetching, isError } = useGetRecommendedQuery(id, {
     skip: !id,
@@ -86,6 +88,16 @@ export default function VideoScreenInner({
             }}
             url={`https://www.youtube.com/watch?v=${id}`}
           />
+          {videoBlockerRef && <Box
+          ref={videoBlockerRef}
+          bg='red'
+            w="100%"
+            h="100%"
+            pos="absolute"
+            top={0}
+            left={0}
+            sx={{ display: "flex" }}
+          ></Box>}
         </Flex>
         <Flex mt={12}>
           <Text

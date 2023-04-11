@@ -12,7 +12,7 @@ type SetState = React.Dispatch<React.SetStateAction<boolean>>;
 type Props = { id: string };
 
 export default function VideoScreenMobile({ id }: Props): JSX.Element {
-  const { height } = useViewportSize();
+  const { height, width } = useViewportSize();
   const dispatch = useAppDispatch();
   const openPosition = useAppSelector((state) => state.data.openPosition);
   const activeVideoId = useAppSelector((state) => state.data.activeVideoId);
@@ -20,6 +20,7 @@ export default function VideoScreenMobile({ id }: Props): JSX.Element {
   const openRef = useRef<{ state: "open" | "closed" }>({
     state: "open",
   });
+  const videoBlockerRef = useRef<any>();
 
   const [{ y }, api] = useSpring(() => ({
     to: { y: isRedirect ? window.innerHeight - 100 : 0 },
@@ -28,6 +29,7 @@ export default function VideoScreenMobile({ id }: Props): JSX.Element {
         ? window.innerHeight
         : openPosition || window.innerHeight - 100,
     },
+    // Need it here I think
     onResolve: () => (isRedirect ? (openRef.current.state = "closed") : null),
     // delay: 10000
   }));
@@ -47,6 +49,12 @@ export default function VideoScreenMobile({ id }: Props): JSX.Element {
         from: { y: openPos || window.innerHeight - 100 },
         immediate: false,
         config: { duration: 200 },
+        onResolve: () => {
+          if (videoBlockerRef.current) {
+            videoBlockerRef.current.style.display = 'none'
+          }
+          
+        }
       });
     }
   }, [openPosition, activeVideoId]);
@@ -78,6 +86,9 @@ export default function VideoScreenMobile({ id }: Props): JSX.Element {
               if (y.get() <= 0) {
                 console.log("Done");
                 openRef.current.state = "open";
+                if (videoBlockerRef.current) {
+                  videoBlockerRef.current.style.display = 'none'
+                }
               } else {
                 console.log("Caught");
               }
@@ -95,6 +106,9 @@ export default function VideoScreenMobile({ id }: Props): JSX.Element {
                 if (height - 100 <= y.get()) {
                   console.log("Done");
                   openRef.current.state = "closed";
+                  if (videoBlockerRef.current) {
+                    videoBlockerRef.current.style.display = 'flex'
+                  }
                 } else {
                   console.log("Caught");
                 }
@@ -106,6 +120,9 @@ export default function VideoScreenMobile({ id }: Props): JSX.Element {
     },
     { from: () => [0, y.get()], bounds: { top: 0, bottom: height - 100 } }
   );
+
+  // Bottom height - tab height = min video height
+  const minimizedVideoHeight = (100 - 48.67) / (width * 0.5625);
 
   return (
     <animated.div
@@ -123,7 +140,28 @@ export default function VideoScreenMobile({ id }: Props): JSX.Element {
         zIndex: 2400,
       }}
     >
-      <VideoScreenInner id={id} videoWrapperProps={{padding: 0, margin: 0}} />
+      <animated.div
+        {...bind()}
+        style={{
+          scaleY: y.to([0, height - 100], [1, minimizedVideoHeight]),
+          transformOrigin: "top",
+          touchAction: "none",
+          width: "100%",
+          height: 0,
+          background: "green",
+          zIndex: 2400,
+        }}
+      ></animated.div>
+      <VideoScreenInner
+        id={id}
+        videoBlockerRef={videoBlockerRef}
+        videoWrapperProps={{
+          "@media (max-width: 1014px)": {
+            padding: 0,
+            margin: 0,
+          },
+        }}
+      />
     </animated.div>
   );
 }
