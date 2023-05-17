@@ -39,11 +39,11 @@ export default function GridItemBase({
         sx={{
           borderRadius: 12,
 
-          "@media (pointer: coarse)": {
-            borderRadius: 0,
-          },
           [`(min-width: ${xsMin}px)`]: {
             borderRadius: 12,
+          },
+          "@media (pointer: coarse)": {
+            borderRadius: 0,
           },
         }}
       >
