@@ -2,8 +2,8 @@ import { LocalStorageOptions } from "../types/general";
 
 export const setObject = async (key: LocalStorageOptions, payload: any) => {
   try {
-    const tempUser = JSON.stringify(payload);
-    await localStorage.setItem(key, tempUser);
+    const data = JSON.stringify(payload);
+    await localStorage.setItem(key, data);
   } catch (e) {
     // saving error
     console.log(e);

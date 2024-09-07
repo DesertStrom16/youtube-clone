@@ -1,20 +1,32 @@
 import { Box, Button, Flex, Text } from "@mantine/core";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ReactPlayer from "react-player/youtube";
+import { areImagesDisabled } from "../utils/env";
 import { useGetRecommendedQuery } from "../services/watch";
 import VideoScreenItem from "./VideoScreenItem";
-import { useEffect, useRef } from "react";
+import React, { Fragment, useEffect, useRef } from "react";
+import useIsMobileDevice from "../hooks/use-is-mobile-device";
+import ChannelAndSubComp from "./video-screen/ChannelAndSubComp";
 
 type Props = {};
 
 export default function VideoScreen({}: Props): JSX.Element {
   const { id } = useParams();
   const playerRef = useRef<any>(null);
+  const isMobileDevice = useIsMobileDevice();
 
   // @ts-expect-error
-  const { data, isLoading, isFetching, isError } = useGetRecommendedQuery(id, {
+  const { data, isLoading, isFetching, isError, isSuccess } = useGetRecommendedQuery(id, {
     skip: !id,
   });
+
+  const allDataLoaded =
+    data?.channelCannonicalURL &&
+    data?.channelThumbnail.length > 0 &&
+    data?.channelTitle &&
+    data?.channelSubCount;
+
+  // console.log(data);
 
   return (
     <Flex
@@ -57,10 +69,11 @@ export default function VideoScreen({}: Props): JSX.Element {
               youtube: {
                 playerVars: { autoplay: 1 },
                 // If video fails to play with sound, set mute and start again.
+                // Still doesn't work on modern browsers, maybe think of something else?
                 onUnstarted: () => {
                   playerRef?.current?.player.player.player.mute();
                   playerRef?.current?.player.player.player.playVideo();
-                }
+                },
               },
             }}
             style={{
@@ -73,20 +86,54 @@ export default function VideoScreen({}: Props): JSX.Element {
             url={`https://www.youtube.com/watch?v=${id}`}
           />
         </Flex>
-        <Flex mt={12}>
-          <Text
-            lh="28px"
-            color="rgb(241,241,241)"
-            fw={600}
-            sx={{
-              fontSize: 20,
-              fontFamily: "Youtube Sans",
-              wordBreak: "break-word",
-            }}
-          >
-            {data?.watchTitle}
-          </Text>
-        </Flex>
+
+        {/* Mobile/touchscreen only for now. Desktop/cursor is purely title. */}
+        {isMobileDevice ? (
+          <Flex direction='column' style={allDataLoaded ? {} : {display: 'none'}}>
+            {/* Video Title */}
+            <Flex mt={12} mb={3} style={{flexDirection: 'column'}}>
+              <Text
+                lh="26px"
+                color="rgb(241,241,241)"
+                fw={600}
+                sx={{
+                  fontSize: 18,
+                  fontFamily: "Youtube Sans",
+                  wordBreak: "break-word",
+                }}
+              >
+                {data?.watchTitle}
+              </Text>
+              <Text
+                lh="16px"
+                color="rgb(170,170,170)"
+                style={{
+                  fontSize: 12,
+                }}
+              >
+                {data?.videoViewCount}{" · "}{data?.videoDateText}
+              </Text>
+            </Flex>
+
+            {/* Channel Avatar, Name, Sub Count, and Subscribe Button Container */}
+            <ChannelAndSubComp />
+          </Flex>
+        ) : (
+          <Flex mt={12}>
+            <Text
+              lh="28px"
+              color="rgb(241,241,241)"
+              fw={600}
+              sx={{
+                fontSize: 20,
+                fontFamily: "Youtube Sans",
+                wordBreak: "break-word",
+              }}
+            >
+              {data?.watchTitle}
+            </Text>
+          </Flex>
+        )}
       </Flex>
 
       <Box

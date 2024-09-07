@@ -10,7 +10,14 @@ import { GetHomeTypeResponse } from "../types/home";
 
 type WatchVideo = {
   watchTitle: string;
-}
+  channelCannonicalURL: string;
+  videoDescription: string;
+  channelSubCount: string;
+  channelTitle: string;
+  channelThumbnail: { url: string; height: number; width: number }[];
+  videoDateText: string;
+  videoViewCount: string;
+};
 
 export const watchApi = createApi({
   reducerPath: "watchApi",

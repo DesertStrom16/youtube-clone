@@ -1,5 +1,5 @@
 import { Box, Flex } from "@mantine/core";
-import { IconHome, IconVideo } from "@tabler/icons-react";
+import { IconFile, IconHome, IconVideo } from "@tabler/icons-react";
 import MiniDrawerItem from "./MiniDrawerItem";
 
 type Props = {
@@ -54,6 +54,11 @@ export default function MiniDrawer({
         text="Shorts"
         url="/search-results"
         icon={<IconVideo size={24} stroke={1} />}
+      />
+      <MiniDrawerItem
+        text="Subscriptions"
+        url="/subscriptions"
+        icon={<IconFile size={24} stroke={1} />}
       />
     </Box>
   );

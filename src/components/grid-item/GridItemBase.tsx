@@ -70,6 +70,7 @@ export default function GridItemBase({
                 minWidth: "1px",
                 minHeight: "1px",
               }}
+              alt=""
             />
           )}
         </Box>
@@ -130,7 +131,12 @@ export default function GridItemBase({
             h={36}
             sx={{ overflow: "hidden", borderRadius: "50%" }}
           >
-            <img src={avatarUrl} width={36} style={{ overflow: "clip" }} />
+            <img
+              src={avatarUrl}
+              alt=""
+              width={36}
+              style={{ overflow: "clip" }}
+            />
           </Box>
         </Box>
 
@@ -140,7 +146,7 @@ export default function GridItemBase({
           <Flex
             sx={{
               maxHeight: 36,
-              ...viewCountWrapper
+              ...viewCountWrapper,
             }}
           >
             <Text

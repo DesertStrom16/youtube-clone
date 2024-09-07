@@ -9,9 +9,13 @@ import { useMediaQuery } from "@mantine/hooks";
 import AppBar from "./components/AppBar";
 import VideoScreen from "./components/VideoScreen";
 import { useAppDispatch } from "./app/hooks";
+import Subscriptions from "./routes/Subscriptions";
+import { initialChannelSubs } from "./features/storage";
+import { getObject } from "./utils/localStorage";
 
-// FINAL CHECKS:
+// TODO
 // - Need to double check styles on nav links (Changed from "a" to "Link").
+// - Add descriptions to components.
 
 function App() {
   const dispatch = useAppDispatch();
@@ -23,11 +27,26 @@ function App() {
   const minWidth1300 = useMediaQuery("(min-width: 1300px)");
 
   useEffect(() => {
+    localStorageSubsHandler();
+  }, []);
+
+  useEffect(() => {
     if (minWidth1300) {
       setIsDrawer(false);
       setIsSmall(false);
     }
   }, [minWidth1300]);
+
+  const localStorageSubsHandler = async () => {
+    await getObject("@SUBS").then(async (subsLocalStorage) => {
+      //   No type checking here
+      if (subsLocalStorage && subsLocalStorage.length > 0) {
+        dispatch(initialChannelSubs(subsLocalStorage));
+      } else {
+        // Error
+      }
+    });
+  };
 
   return (
     <BrowserRouter>
@@ -59,6 +78,7 @@ function App() {
             <Route path="/search/" element={<NotFound />} />
             <Route path="/watch/:id" element={<VideoScreen />} />
             <Route path="/watch/" element={<NotFound />} />
+            <Route path="/subscriptions/" element={<Subscriptions />} />
             <Route path="/" element={<Home isOpen={isOpen} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

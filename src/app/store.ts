@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { searchApi } from "../services/search";
 import { homeApi } from "../services/home";
 import { watchApi } from "../services/watch";
+import storage from "../features/storage";
 
 export const store = configureStore({
   reducer: {
     [searchApi.reducerPath]: searchApi.reducer,
     [homeApi.reducerPath]: homeApi.reducer,
     [watchApi.reducerPath]: watchApi.reducer,
+    storage: storage
   },
 
   middleware: (getDefaultMiddleware) =>

@@ -24,7 +24,7 @@ export default function SearchResultWrapper({
   length,
   id,
 }: Props): JSX.Element {
-  const [fetchData, setFetchData] = useState(true);
+  const [fetchData, setFetchDataDisabled] = useState(true);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const isTouchScreen = useMediaQuery("(pointer:coarse)");
 
@@ -62,7 +62,7 @@ export default function SearchResultWrapper({
   };
 
   const loadMoreHandler = () => {
-    setFetchData(false);
+    setFetchDataDisabled(false);
   };
 
   const isContinuationLoading = isLoading || isFetching;

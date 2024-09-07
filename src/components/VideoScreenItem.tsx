@@ -2,6 +2,7 @@ import { Box, Flex, Text } from "@mantine/core";
 import { Video } from "../types/video";
 import "./VideoScreenItem.css";
 import { Link } from "react-router-dom";
+import { areImagesDisabled } from "../utils/env";
 
 type Props = Video & {};
 
@@ -36,15 +37,27 @@ export default function VideoScreenItem({
             overflow: "hidden",
           }}
         >
-          <img
-            style={{
-              objectFit: "cover",
-              width: "100%",
-              height: "100%",
-              backgroundColor: "transparent",
-            }}
-            src={thumbnailUrl}
-          />
+          {!areImagesDisabled ? (
+            <img
+              style={{
+                objectFit: "cover",
+                width: "100%",
+                height: "100%",
+                backgroundColor: "transparent",
+              }}
+              src={thumbnailUrl}
+              alt='Video Thumbnail'
+            />
+          ) : (
+            <Flex
+              style={{
+                objectFit: "cover",
+                width: "100%",
+                height: "100%",
+                backgroundColor: "transparent",
+              }}
+            ></Flex>
+          )}
         </Link>
       </Box>
       <Box
@@ -56,7 +69,7 @@ export default function VideoScreenItem({
           fontSize: undefined,
           textDecoration: "none",
           display: "flex",
-          flexDirection: 'column'
+          flexDirection: "column",
         }}
         component={Link}
         to={"/watch/" + videoId}
