@@ -34,7 +34,6 @@ export default function AppBar({
   const dispatch = useAppDispatch();
   const homeMatch = useMatch("");
   const videoMatch = useMatch("/watch/:slug");
-  const isTouchScreen = useMediaQuery('(pointer:coarse)');
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 

@@ -7,12 +7,12 @@ import VideoScreenItem from "./VideoScreenItem";
 import React, { Fragment, useEffect, useRef } from "react";
 import useIsMobileDevice from "../hooks/use-is-mobile-device";
 import ChannelAndSubComp from "./video-screen/ChannelAndSubComp";
+import VideoPlayer from "./video-screen/VideoPlayer";
 
 type Props = {};
 
 export default function VideoScreen({}: Props): JSX.Element {
   const { id } = useParams();
-  const playerRef = useRef<any>(null);
   const isMobileDevice = useIsMobileDevice();
 
   // @ts-expect-error
@@ -20,13 +20,23 @@ export default function VideoScreen({}: Props): JSX.Element {
     skip: !id,
   });
 
+  useEffect(() => {
+    window.addEventListener("resize", reportWindowSize);
+
+    return () => {
+      window.removeEventListener("resize", reportWindowSize);
+    }
+  }, [])
+
   const allDataLoaded =
     data?.channelCannonicalURL &&
     data?.channelThumbnail.length > 0 &&
     data?.channelTitle &&
     data?.channelSubCount;
 
-  // console.log(data);
+    const reportWindowSize = (event: any) => {
+      console.log(event.currentTarget.innerWidth + " x " + event.currentTarget.innerHeight)
+    }
 
   return (
     <Flex
@@ -40,7 +50,7 @@ export default function VideoScreen({}: Props): JSX.Element {
         },
       }}
     >
-      <Flex ml={24} pt={24} pr={24} sx={{ flexGrow: 1 }} direction="column">
+      <Flex style={isMobileDevice ? {padding: 0} : {padding: '24px 24px 0'}} sx={{ flexGrow: 1 }} direction="column">
         <Flex
           pos="relative"
           pt="56.25%"
@@ -48,6 +58,8 @@ export default function VideoScreen({}: Props): JSX.Element {
           bg="rgb(0,0,0)"
           mah={0}
           sx={{
+            // TODO
+            // These max widths need to be rechecked. They may not be needed/can be done better.
             maxWidth: "calc((100vh - (56px + 24px + 36px)) * (16/9))",
 
             "@media (min-width: 1015px)": {
@@ -58,47 +70,21 @@ export default function VideoScreen({}: Props): JSX.Element {
             },
           }}
         >
-          <ReactPlayer
-            width="100%"
-            height="100%"
-            ref={playerRef}
-            controls={true}
-            playing={true}
-            config={{
-              // @ts-expect-error
-              youtube: {
-                playerVars: { autoplay: 1 },
-                // If video fails to play with sound, set mute and start again.
-                // Still doesn't work on modern browsers, maybe think of something else?
-                onUnstarted: () => {
-                  playerRef?.current?.player.player.player.mute();
-                  playerRef?.current?.player.player.player.playVideo();
-                },
-              },
-            }}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-            }}
-            url={`https://www.youtube.com/watch?v=${id}`}
-          />
+          <VideoPlayer />
         </Flex>
 
         {/* Mobile/touchscreen only for now. Desktop/cursor is purely title. */}
         {isMobileDevice ? (
-          <Flex direction='column' style={allDataLoaded ? {} : {display: 'none'}}>
+          <Flex direction='column' px={16} style={allDataLoaded ? {} : {display: 'none'}}>
             {/* Video Title */}
             <Flex mt={12} mb={3} style={{flexDirection: 'column'}}>
               <Text
                 lh="26px"
                 color="rgb(241,241,241)"
-                fw={600}
+                fw={500}
                 sx={{
                   fontSize: 18,
-                  fontFamily: "Youtube Sans",
+                  // fontFamily: "Youtube Sans",
                   wordBreak: "break-word",
                 }}
               >
