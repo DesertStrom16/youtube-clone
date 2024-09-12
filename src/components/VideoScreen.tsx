@@ -20,23 +20,25 @@ export default function VideoScreen({}: Props): JSX.Element {
     skip: !id,
   });
 
-  useEffect(() => {
-    window.addEventListener("resize", reportWindowSize);
-
-    return () => {
-      window.removeEventListener("resize", reportWindowSize);
-    }
-  }, [])
-
+  
   const allDataLoaded =
     data?.channelCannonicalURL &&
     data?.channelThumbnail.length > 0 &&
     data?.channelTitle &&
     data?.channelSubCount;
 
-    const reportWindowSize = (event: any) => {
-      console.log(event.currentTarget.innerWidth + " x " + event.currentTarget.innerHeight)
-    }
+  // TODO - This is for device orientation
+  // useEffect(() => {
+  //   window.addEventListener("resize", reportWindowSize);
+
+  //   return () => {
+  //     window.removeEventListener("resize", reportWindowSize);
+  //   }
+  // }, [])
+
+  // const reportWindowSize = (event: any) => {
+  //   console.log(event.currentTarget.innerWidth + " x " + event.currentTarget.innerHeight)
+  // }
 
   return (
     <Flex

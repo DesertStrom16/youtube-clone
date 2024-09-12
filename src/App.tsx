@@ -42,8 +42,6 @@ function App() {
       //   No type checking here
       if (subsLocalStorage && subsLocalStorage.length > 0) {
         dispatch(initialChannelSubs(subsLocalStorage));
-      } else {
-        // Error
       }
     });
   };

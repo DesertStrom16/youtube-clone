@@ -12,13 +12,8 @@ export const channelApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: serverUrl }),
   tagTypes: ["Channel"],
   endpoints: (build) => ({
-    // getSearchAutocomplete: build.query<string[], string>({
-    //   query: (name) => "main/fetchAutoSearch?q=" + name,
-    //   transformResponse: (response: { data: string[] }, meta, arg) =>
-    //     response.data,
-    // }),
     getChannel: build.query<GetSearchType, string>({
-      query: (name) => "channel/fetchChannel?q=" + name.replace(' ', '+'),
+      query: (name) => "channel/fetchChannel?q=" + name,
       transformResponse: (response: GetSearchTypeResponse) => {
         return { ...response, tokens: [response.content.token] };
       },

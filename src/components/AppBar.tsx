@@ -33,6 +33,7 @@ export default function AppBar({
 }: Props): JSX.Element {
   const dispatch = useAppDispatch();
   const homeMatch = useMatch("");
+  const subsMatch = useMatch("/subscriptions");
   const videoMatch = useMatch("/watch/:slug");
 
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -107,7 +108,7 @@ export default function AppBar({
               // BackgroundColorHere
               // bg="green"
               ref={wrapperRef}
-              justify="center"
+              justify={subsMatch ? 'flex-start' : "center"}
             >
               {children}
             </Flex>
